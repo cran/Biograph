@@ -1,48 +1,48 @@
 Remove.intrastate <-
-function (survey)
+function (Bdata)
 {
 # Check whether intrastate transitions have been removed. 
-  if (is.null(attr(survey,"trans")))   # attribute trans is missing
-    {  stop ("Attribute 'trans' is missing from Biograph object. First run Parameters and add attribute.",quote=FALSE)	
+  if (is.null(attr(Bdata,"trans")))   # attribute trans is missing
+    {    stop ("Attribute 'trans' is missing from Biograph object. First run Parameters and add attribute.",quote=FALSE)	
     }
-  z<- !is.na(diag(attr(survey,"trans")))
+  z<- !is.na(diag(attr(Bdata,"trans")))
   if (!TRUE %in%z) # all diagonal elements are NA
  {   print ("No intra-state transitions present in the data.",quote=FALSE)
- 	 zz <- Parameters (survey)
-     return (list(D=survey,
-              par=zz))
+ 	 zz <- transitions (Bdata)
+     return (list(D=Bdata,
+                  par=zz))
   }  else
  { #  REMOVE INTRASTATE TRANSITIONS 
  	print (". . . . . .   Removes intrastate transitions . . . .",quote=FALSE) 
- 	 locpat <- locpath(survey) 
- 	 nsample <- nrow(survey)
-     nn<- ncol(survey)-locpat
+ 	 locpat <- locpath(Bdata) 
+ 	 nsample <- nrow(Bdata)
+     nn<- ncol(Bdata)-locpat
      z<- array(NA,dim=c(nsample,nn))
      for (k in 2:(nn+1))
-     {z[,k-1]<- ifelse (substr(survey$path,k,k)!="" & substr(survey$path,k,k)==substr(survey$path,k-1,k-1),k-1,NA)
+     {z[,k-1]<- ifelse (substr(Bdata$path,k,k)!="" & substr(Bdata$path,k,k)==substr(Bdata$path,k-1,k-1),k-1,NA)
       }
-      pp <- survey$path
+      pp <- Bdata$path
       for(k in 2:(nn+1))
-      { substr(pp,k,k) <- ifelse (substr(survey$path,k,k)!="" & substr(survey$path,k,k)==substr(survey$path,k-1,k-1)," ",substr(survey$path,k,k))
+      { substr(pp,k,k) <- ifelse (substr(Bdata$path,k,k)!="" & substr(Bdata$path,k,k)==substr(Bdata$path,k-1,k-1)," ",substr(Bdata$path,k,k))
       }
       for (i in 1:nsample)
       { pp[i]<- string.blank.omit(pp[i])
       }
-      dates <- survey[,(locpat+1):ncol(survey)]
+      dates <- Bdata[,(locpat+1):ncol(Bdata)]
       for (j in 1:nn)
       { dates[!is.na(z[,j]),j]<- NA}
       dd <- apply(dates,1,function(x) sort(x,na.last=TRUE))
       dates <- t(dd)
- print (". . . . Intrastate transitions removed. Running Parameters . . . . ",quote=FALSE)
- survey2 <- survey
- survey2$path <- pp
- survey2$ns <- nchar(survey2$path)
- survey2[,(locpat+1):ncol(survey2)] <- dates  
- z <- Parameters (survey2)
- attr(survey2,"trans") <- z$tmat
+ print (". . . . Intrastate transitions removed. Recalculating transitions . . . . ",quote=FALSE)
+ Bdata2 <- Bdata
+ Bdata2$path <- pp
+ Bdata2$ns <- nchar(Bdata2$path)
+ Bdata2[,(locpat+1):ncol(Bdata2)] <- dates  
+ z <- transitions (Bdata2)
+ attr(Bdata2,"trans") <- z$tmat
+ attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
  print ("A new Biograph object without intrastate transitions is returned.",quote=FALSE)
- return (list(D=survey2,
+ return (list(D=Bdata2,
               par=z))
  }
  }
-

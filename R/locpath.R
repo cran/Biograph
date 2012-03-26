@@ -1,5 +1,4 @@
 locpath <-
-function(survey) 
-  {loc <- which(survey[1,] == survey[1,"path"],arr.ind=TRUE)[2]
+function(Bdata) 
+  {loc <- which (colnames(Bdata)=="path",arr.ind=TRUE)
   return (loc)}
-

@@ -1,18 +1,16 @@
 \name{YearTrans}
 \alias{YearTrans}
-\title{Years at transition}
-\description{Converts dates at transition to years at transition. Year is given as real number, i.e. with fraction of year.}
-\usage{YearTrans(survey)}
+\title{Converts dates at transition to years at transition}
+\description{Converts dates at transition to decimal years at transition (years and fraction of year) }
+\usage{YearTrans(Bdata)}
 \arguments{
-  \item{survey}{Input data}
+  \item{Bdata}{Biograph object}
 }
-\value{Years at transition
-	}
-\seealso{CMC.years}
+\value{For each subject, years at transition}
+\seealso{CMC.as.years and AgeTrans}
 \author{Frans Willekens}
-\note{For each subject under observation, the years are given for birth, entry into observation, censoring and for the sequence of transitions is same as in Biograph object.}
+\note{For each subject under observation, the years of the following events are given: birth, entry into observation, end of observation, each transition.}
 \examples{
   data(GLHS)
-  z <- Parameters(GLHS)
   yeartrans <- YearTrans(GLHS)
 }

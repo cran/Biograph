@@ -9,4 +9,3 @@ function (string)   # D:\Data\DEA HRS\HRS data and analysis\Analysis\R MR\
     for (k in 1:numchar) str_char[k] <- substr(string,k,k)
     return  (str_char)
 }
-

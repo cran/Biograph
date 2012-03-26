@@ -1,29 +1,46 @@
-StateSpace <-
-function (survey) 
-{  d <- unique (as.character(survey$path))
-   namstates <- array (NA,50)      # character vector
-   numstates <- 0
-     for (i in 1:length(d)) 
-    { str_char <- stringf (d[i]) 
-     for (j in 1:length(str_char))
-    {     if (str_char[j] %in% namstates) test22 <- 1 else
-           { numstates <- numstates + 1 ;  namstates[numstates] <- str_char[j] }
+StateSpace <- function (Bdata,newnamstates) 
+{   if (missing(newnamstates)) newnamstates <- NULL
+	 # Get the state space from the data (by inspecting Bdata$path)
+    d <- unique(as.character(Bdata$path))
+    namstates <- array(NA, 50)
+    numstates <- 0
+    for (i in 1:length(d)) {
+        str_char <- stringf(d[i])
+        for (j in 1:length(str_char)) {
+            if (str_char[j] %in% namstates) 
+                test22 <- 1
+            else {
+                numstates <- numstates + 1
+                namstates[numstates] <- str_char[j]
+            }
+        }
     }
-    }                          #  end of loop i
-    namstates <- subset(namstates,!is.na(namstates))
-    # Determine absorbing states (always last state in path): state namstates[j] is an
-    # aborbing state if that state is always the last state occupied
-     absorbstates <- namstates
-     for (j in 1:numstates)
-      { for (i in 1:length(d))
-          { if (namstates[j]%in%stringf(d[i]) & namstates[j] != substr(d[i],nchar(d[i]),nchar(d[i])))  
-                    {absorbstates[j] <- NA; break}
-          #  substr(d[i],nchar(d[i]),nchar(d[i]))  = last character of string d[i]
-          }
-      }
-     absorbstates <- subset(absorbstates,!is.na(absorbstates))
-     namstates <<- namstates
-     numstates <<- numstates
-     return (list(absorbstates = absorbstates) )
-}
+    namstates <- subset(namstates, !is.na(namstates))
+    absorb <- namstates
+    for (j in 1:numstates) {
+    	# State j is in the path and is not the last element
+    	# State j i aborbing if it always is last element of path
+        for (i in 1:length(d)) {
+            if (namstates[j] %in% stringf(d[i]) & namstates[j] != 
+                substr(d[i], nchar(d[i]), nchar(d[i]))) {
+                absorb[j] <- NA
+                break
+            }
+        }
+    }
+    absorbstates <- subset(absorb, !is.na(absorb))
+    if (length(absorbstates)==0) absorbstates <- NULL
 
+# Check whether new state sequence is provided
+   if (is.null(newnamstates)) newnamstates <- namstates
+# Consistency check: Check whether labels in newnamstates are all in namstates 
+   z<- match (newnamstates, namstates)
+
+   if (NA %in% z) 
+      stop ("No match between namstates and newnamstates. Enter a new global variable 'namstates'. ") else  
+      {namstates <- newnamstates; assign("namstates",newnamstates,envir=.GlobalEnv)}
+
+    assign("numstates",numstates,envir=.GlobalEnv)
+    return(list(namstates = namstates,
+                absorbstates = absorbstates))
+}

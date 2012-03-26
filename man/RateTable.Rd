@@ -2,16 +2,15 @@
 \alias{RateTable}
 \alias{Ratetable}
 \title{Table for rate calculation}
-\description{Ratetable produces a table of transitions and exposure times for calculating transition rates (occurrence-exposure rates)}
+\description{Ratetable produces a table of transition counts and exposure times for the computation of transition rates (occurrence-exposure rates)}
 \usage{
-RateTable(survey, occup, trans)
+RateTable(occup, trans)
 }
 \arguments{
-  \item{survey}{Input data}
   \item{occup}{Object produced by the Occup function}
   \item{trans}{Object produced by the Trans function}
 }
-\details{RateTable is one of the key functions of the package. It provides in table format the data needed for determining transition rates by origin, destination and age}
+\details{RateTable is one of the key functions of the package. The Stable object it produces contains the data needed for the computation of transition rates by origin, destination and age}
 \value{ 
     \item{Stable}{The table of transitions and exposure times}
     \item{censored_by_age}{Number of censored cases by age and state at censoring}
@@ -23,9 +22,9 @@ RateTable(survey, occup, trans)
  data (GLHS)
  z<- Parameters (GLHS)
  occup <- Occup(GLHS)
- ist <- statesequence.ind (GLHS)
- trans <- Trans (GLHS,seq.ind=ist)
- w <- RateTable(GLHS, occup, trans)
+ ist <- Sequences.ind (GLHS$path,namstates)
+ trans <- Trans (GLHS)
+ w <- RateTable(occup, trans)
 }
 \keyword{ Transitions }
 \keyword{ Exposure }

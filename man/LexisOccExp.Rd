@@ -1,16 +1,16 @@
 \name{LexisOccExp}
 \alias{LexisOccExp}
-\title{Display occurrence, exposures and transition rates in a Lexis diagram}
-\description{The Lexis diagram is an age-time framework. It shows data in on a given transition in two time dimensions, e.g. calendar date and age. The user selects the transition and determines the age and time interval.}
+\title{Displays occurrences, exposures and transition rates in a Lexis diagram}
+\description{The Lexis diagram is an age-time framework. The diagram displays transition data in two time dimensions, e.g. calendar date and age. The Lexis class in the EPI package is an object-based framework for managing transition data on multiple time scales. The function displays occurrences, exposures and transition rates for a selected transltion. The user also determines the age and time interval.}
 \usage{
-LexisOccExp(survey, transition, nyear)
+LexisOccExp(Bdata, transition, nyear)
 }
 \arguments{
-  \item{survey}{Data in Biograph format (Biograph object)}
+  \item{Bdata}{Data in Biograph format (Biograph object)}
   \item{transition}{The transition selected. A transition is identified by the state of origin and the state of destination.}
   \item{nyear}{The age and time interval, generally 5 years.}
 }
-\details{The data presentation in the Lexis diagram is particularly helpful to explain the concept of occurrence-exposure rate. The functions plots Lexis diagrams for event counts, exposures and transition rates. In addition, it produces an object with as components the event counts, exposures and rates. It also produces a survival object, which can be used for further survival analysis with the survival package, and a Lexis object, which can be used for further analysis with the Epi package. }
+\details{The presentation of data in the Lexis diagram is particularly helpful to explain the concept of occurrence-exposure rate. The functions plots Lexis diagrams for event counts, exposures and transition rates. In addition, it produces an object with as components the event counts, exposures and rates. It also produces a survival object, which can be used for further survival analysis with the survival package, and a Lexis object, which can be used for further analysis with the Epi package. }
 \value{
  \item{surv }{The survival object. The survival object is used as a response variable in survival models (see the survival package in CRAN)}
  \item{Lcoh }{The Lexis object. The Lexis object is a key object in the Epi package.}
@@ -27,5 +27,5 @@ Carstensen, B. (2009) The Epi package. Available at http://cran.r-project.org/we
 \examples{
 # The following example selects the "JN" transitions from the GLHS data and produces Lexis diagrams with age and time intervals of 5 years
   data (GLHS)
-  w <- LexisOccExp (survey=GLHS,transition= "JN",nyear=5)
+  w <- LexisOccExp (Bdata=GLHS,transition= "JN",nyear=5)
 }

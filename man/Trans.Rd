@@ -1,13 +1,12 @@
 \name{Trans}
 \alias{Trans}
 \title{Transitions by age}
-\description{Tabulates transitions by origin, destination and age.}
-\usage{Trans(survey, seq.ind)}
+\description{Produces tables of transitions: (1) by origin and destination and (2) by origin, destination and age. It also computes the mean ages at transition.}
+\usage{Trans(Bdata)}
 \arguments{
-  \item{survey}{Input data}
-  \item{seq.ind}{Individual sequences}
+  \item{Bdata}{Biograph object}
 }
-\details{Tabulates transitions and determines mean ages.}
+\details{The function calls Sequences.ind}
 \value{
 	\item{Ttrans}{Total number of transitions by origin and destination.}
 	\item{meanage}{Mean age of transitions by origin and destination}
@@ -18,6 +17,5 @@
 \examples{
 	data (GLHS)
 	y<- Parameters(GLHS)
-	ist <- statesequence.ind (GLHS)
-	z <- Trans (GLHS,seq.ind=ist)
+	z <- Trans (GLHS)
 }

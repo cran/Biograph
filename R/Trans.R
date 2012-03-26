@@ -1,37 +1,44 @@
 Trans <-
-function (survey,seq.ind) {
+function (Bdata) {
 # seq.ind  = individual sequence 
 # trans[ix,io,id] = Transitions by age [ix], origin [io] and destination [id]
 #   origin = state before j-th transition: seq.ind[i,j]
 #   destin = state after j-th transition: seq.ind[i,j+1]
 # trans[i,j] is from ist[i,j] to seq.ind[i,j+1]     
-#    (eg survey[6,] ; ages[6,]; events[6,] ; seq.ind[6,]
+#    (eg Bdata[6,] ; ages[6,]; events[6,] ; seq.ind[6,]
 # input
-#   -   tstate   Global variable
-  #  if (!exists("ist")) seq.ind <- istates(survey)
-  if (!exists("numstates"))
-  {  print ("Biograph first runs Parameters",quote=FALSE)   
-     z <- Parameters (survey)
-  }
-  agetrans <- AgeTrans(survey)
+#   -   tstate   Global variabl
+seq.ind <- Sequences.ind (Bdata$path,namstates) 
+
+print (paste ("Trans ",attr(Bdata,"format.date"),seq=""))
+print (format.in)
+  z<- check.par(Bdata)
+  if (missing(seq.ind)) seq.ind <- Sequences.ind (Bdata)
+  agetrans <- AgeTrans(Bdata)
   ages <- agetrans$ages
   agecens <- agetrans$agecens
-  nsample <- nrow(survey)
+  nsample <- nrow(Bdata)
   agelist2 <- c(iagelow:iagehigh)
   zz <- length(agelist2)
   trans <- array(0,c(zz,numstates,numstates+1))
   zz1 <- zz - 1                 
   dimnames(trans) <- list (Age = c(0:zz1),origin=namstates,destination=c(namstates,"censored"))
-  case88 <- ifelse (date_in_month_or_year==1,12,1)
+#  ntimeunit <- ifelse (attr(Bdata,"format.date")=="CMC",12,1)
   for (i in 1:nsample) {
-    agecens <- trunc((survey$end[i]-survey$born[i])/case88)-iagelow + 1
-    if (survey$ns[i] > 1) 
-      { for (j in 1:survey$ns[i]-1) 
+#    agecens <- trunc((Bdata$end[i]-Bdata$born[i])/ntimeunit)-iagelow + 1
+   if (format.in=="age")
+     {  agecens <- Bdata$end[i]-iagelow+1  } else
+     {  yb <- date.convert (Bdata$born[i],format.in=format.in,format.out="year")
+        y <- date.convert (Bdata$end[i],format.in=format.in,format.out="year")
+        agecens <- trunc(y-yb)-iagelow+1  }
+ 
+    if (Bdata$ns[i] > 1) 
+      { for (j in 1:Bdata$ns[i]-1) 
        {  age_at_trans <- trunc(ages[i,j])-iagelow+1   # + 1 because of vector definition
 #         occupx[i,ix] <<-  seq.ind         
          trans[age_at_trans,seq.ind[i,j],seq.ind[i,j+1]] <-  trans[age_at_trans,seq.ind[i,j],seq.ind[i,j+1]] + 1
        }}
-    trans[agecens,seq.ind[i,survey$ns[i]],numstates+1] <- trans[agecens,seq.ind[i,survey$ns[i]],numstates+1] + 1
+    trans[agecens,seq.ind[i,Bdata$ns[i]],numstates+1] <- trans[agecens,seq.ind[i,Bdata$ns[i]],numstates+1] + 1
   }
  #occupxt <- tstate
  
@@ -72,4 +79,3 @@ function (survey,seq.ind) {
               trans = aperm(trans,c(1,3,2)),
               trans_during_interval = tt ))              
 }
-

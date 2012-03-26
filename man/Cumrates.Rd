@@ -1,30 +1,32 @@
 \name{Cumrates}
 \alias{Cumrates}
-\title{Estimates and plots cumulative transition rates}
-\description{Estimates and plots (optional) cumulative transition rates by origin, destination, and age. Two estimation methods are distinguished: the statistical method and the demographic method.}
+\title{Estimates cumulative transition rates}
+\description{Estimates cumulative transition rates by origin, destination, and age. Two estimation methods are distinguished: the statistical method (Nelson-Aalen estimator) and the demographic method (occurrence-exposure rates).}
 \usage{
-Cumrates(irate, data, plot.cumrates)
+Cumrates(irate, Bdata)
 }
 \arguments{
   \item{irate}{Indicator variable defining option to be used: 1 = Nelson-Aalen method; 2 = Occurrence-Exposure rate; 3 = Both}
-  \item{data}{Biograph object, e.g. GLHS or NLOG98}
-  \item{plot.cumrates}{Vector of transitions to be plotted. Transitions are identified by transition number. }
+  \item{Bdata}{Biograph object}  
 }
 \details{
-	The Nelson- Aalen estimator is obtained using the mvna package. First the function Biograph.mvna is called to converts the Biograph object to data in the mvna format. Then the mvna and the predict functions of the mvna package are called. The cumulative hazard (with confidence intervals) at each birthday is produced by the predict function.
+	The Nelson- Aalen estimator is obtained using the mvna package. First the function Biograph.mvna is called to convert the Biograph object to a data frame of class mvna. Then the mvna and the predict functions of the mvna package are called. The predict function produces cumulative hazards (with confidence intervals) at each birthday.
 	 
-	For estimating the cumulative occurrence-exposure rates, the function Extract, Occup, Trans and RateTable are called. The object M is produced, which contains the age-specific transition rates by origin and destination in a standard format used in multistate demographic analysis.
-	
-	The function plots cumulative transition rates (cumulative hazard rates). If irate = 1 or irate = 3 it plots the Nelson-Aalen estimator at each birthday and adds lower and upper confidence intervals. If irate = 2 or irate = 3, it plots the cumulative occurrence-exposure rates. If irate = 3, the function plots both the Nelson-Aalen estimator (with confidence intervals) and the cumulative occurrence-exposure rate.}
+	For estimating the cumulative occurrence-exposure rates, the functions Occup, Trans and RateTable are called (among other functions). The object M is produced; it is a three-dimensional array containing the transition rates by age, origin and destination in a standard format used in multistate demographic analysis.
+}
 \value{
+	\item{D}{The Biograph object Bdata with diagonal elements removed}
+	\item{irate}{Option for estimation of rates: (1) Nelson-Aalen, (2) Occurrence-exposure rates, (3) both}
 	\item{NeAa}{Nelson-Aalen estimator}
-	\item{oe}{Occurrence-exposure rates}
-	\item{M}{The N-matrix of age-specific transition rates by origin and destination}
+	\item{predicted}{Cumulative transition rates (Nelson-Aalen estimator) predicted at consecutive ages (using predict function of mvna package)}
+	\item{astr}{Age-specific transition rate by age, derived from predicted cumulative transition rates}
+	\item{oeCum}{Cumulative occurrence-exposure rates}
+	\item{oe}{The M-matrix of age-specific transition (occurrence-exposure) rates by origin and destination}
 	}
 \author{Frans Willekens}
-\note{The function takes time to execute. It calls Biograph.mvna and Extract.}
+\note{The function takes time to execute. It calls Parameters, date.comnvert, Remove.intrastate, statesequence.ind, Occup, Trans, RateTable, Rates.ac, Biograph.mvna and the mvna and predict functions of the mvna package.}
 \examples{
-	# Compute and plot the cumulative hazard of the NJ and JN transitions.Use the Nelson-Aalen estimator and the occurrence-exposure rate. 
     data(GLHS)
-    z <- Cumrates (irate = 3,data= GLHS,plot.cumrates=c(1,2))
+    Bdata.a <- date.b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))
+    cumrates <- Cumrates (irate = 3,Bdata=Bdata.a)
   }

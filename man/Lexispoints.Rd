@@ -1,20 +1,24 @@
 \name{Lexispoints}
 \alias{Lexispoints}
 \title{Plot observations in Lexis diagram}
-\description{Plots observations in age-time diagram for each category of categorical covariate}
+\description{Plots observations in age-time diagram for each category of categorical covariate (using the Lexis function of the Epi package)}
 \usage{
-Lexispoints(data, transition, title1, cov)
+Lexispoints(Bdata, transition, title, cov,legend)
 }
 \arguments{
-  \item{data}{Biograph object}
+  \item{Bdata}{Biograph object}
   \item{transition}{The transition selected, e.g. "NJ" in GLHS data}
-  \item{title1}{Title of Lexis diagram}
+  \item{title}{Title of Lexis diagram}
   \item{cov}{Covariate. Observations are plotted for each category of this covariate. If observations should be plotted for the total sample population, cov = NA}
+  \item{legend}{legend}
 }
 \value{
   \item{Lcoh}{Lexis object created to plot the observations}
 }
-\references{For Lexis diagram, see Carstensen (2009) and the Epi pacakge}
+\references{Plummer, M. and B. Carstensen (2011) Lexis: an R class for epidemiolgoical studies with long-term follow-up. Journal of Statistical Software, 38(5):1-12 
+	
+Carstensen, B. (2009) The Epi package. Available at http://cran.r-project.org/web/packages/Epi/Epi.pdf
+}
 \author{Frans Willekens. The Epi package used to plot the Lexis diagram was developed by Carstensen.}
 \note{requires Epi}
 \seealso{Lexislines.episodes}
@@ -22,13 +26,13 @@ Lexispoints(data, transition, title1, cov)
 #  Example 1: ages at labour market entry, by sex
   library (Epi)
   data(GLHS)
-  y <- Parameters(GLHS)
-  z <- Lexispoints (GLHS,"NJ","Calendar time and age at labour market entry","sex")
+  #y <- Parameters(GLHS)
+  z <- Lexispoints (Bdata=GLHS,transition="NJ",title="Calendar time and age at labour market entry",cov="sex",legend="topleft")
 
 #  Example 2: ages at first birth among married women, by religious denomination
   data(NLOG98)
   y <- Parameters (NLOG98)
   z <- Lexispoints (NLOG98,"MK","Calendar time and age at first birth (married women)","kerk")
 #  Example 3: ages at leaving home, by birth cohort (any destination)
-  z <- Lexispoints (NLOG98,"H*","Calendar time and age at leaving parental home","cohort")  
+  z <- Lexispoints (NLOG98,"H*","Calendar time and age at leaving parental home","cohort","topleft")  
   }

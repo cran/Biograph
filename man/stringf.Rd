@@ -1,6 +1,6 @@
 \name{stringf}
 \alias{stringf}
-\title{Stringf}
+\title{Converts character string to vector}
 \description{Converts character string to vector}
 \usage{
 stringf(string)
@@ -9,10 +9,9 @@ stringf(string)
   \item{string}{character string}
 }
 \details{Converts string}
-\value{str_char is the vector}
-\author{fw}
+\value{The function returns a vector with elements the characters of a character string. }
+\author{Frans Willekens}
 \examples{
-test <- "test"
-z <- stringf(test)
+z <- stringf("test")
 }
 

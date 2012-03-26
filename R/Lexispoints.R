@@ -1,20 +1,25 @@
 Lexispoints <-
-function (data,transition,title1,cov)
-{ require (Epi)
-  year <- data.frame(YearTrans(data))
-  zx <- TransitionAB(data,transition)
-  zc <- subset(year,!is.na(zx$year))
-  ID <- zc$ID
-  entry <- zc$entry
+function (Bdata,transition,title,cov,legend)
+{ z<- check.par (Bdata)
+  require (Epi)
+  if (missing(cov)) cov=NA
+  if (missing(title)) title <- "Title missing" 
+  if (missing(legend)) legend <- "topleft"
+ # year <- data.frame(YearTrans(Bdata))
+  Bdata2 <- date.b(Bdata=Bdata,format.in="CMC",selectday=1,format.out="year")  
+  zx <- TransitionAB(Bdata2,transition) # zx: nrow = number of transition selected
+  Bdata2 <- subset(Bdata2,!is.na(zx$year))
+  ID <- zx$id
+  entry <- subset(Bdata2$start,Bdata2$ID%in%ID)
   exit <-  subset (zx$year,!is.na(zx$year)) # event of interest
-  birth <- zc$born
-  istrans <- rep(1,nrow(zc))
-  zbb <- subset(data,!is.na(zx$year))
+  birth <- subset(Bdata2$born,Bdata2$ID%in%ID)
+  istrans <- rep(1,length(ID))
+  #zbb <- subset(Bdata2,!is.na(zx$year))
    Lcoh1 <- Lexis( id = ID,
                entry = list( CalTime=entry ),
                exit  = list( CalTime=exit, Age=exit-birth ),
                exit.status = istrans,
-               data=zbb,
+               data=Bdata2[Bdata2$ID%in%ID,], # zbb,
                merge=TRUE)       # 1900 added for x-axis
                # lex.dur = exit - entry
                # CalTime =  Lcoh1[,1] = date at entry (1900+)
@@ -28,7 +33,7 @@ function (data,transition,title1,cov)
   PerHigh1[PerHigh1-PerLow1 < AgeHigh1-AgeLow1] <- PerLow1 + AgeHigh1 - AgeLow1
   AgeHigh1[AgeHigh1-AgeLow1 < PerHigh1-PerLow1] <- AgeLow1 + PerHigh1 - PerLow1
   Lexis.diagram (age=c(AgeLow1,AgeHigh1),alab="Age",date=c(PerLow1,PerHigh1),dlab="Calendar Time",
-  int=5,lab.int=5,col.life="black",lwd.grid=1,las=1,main=title1)
+  int=5,lab.int=5,col.life="black",lwd.grid=1,las=1,main=title)
   color <- palette (rainbow(7))
   Lcoh1$one <- 1
   if (is.na(cov)) 
@@ -42,10 +47,6 @@ function (data,transition,title1,cov)
      Lcoh1$Age[Lcoh1[,poscov]==covcat[i]]+Lcoh1$lex.dur[Lcoh1[,poscov]==covcat[i]], 
      pch=c(NA,16)[Lcoh1$lex.Xst[Lcoh1[,poscov]==covcat[i]]+1], col=color[i], cex=0.5 )
   }
- legend("topleft", title=cov,legend=covcat[1:length(covcat)],pch=16,col=color[1:length(covcat)],bg="white")
-
-    # x and y = first two columns of Lcoh1 (time and age at entry into labour force [en1])
- # text (1960,41,"Transition", col="red")
- return (list (Lcoh=Lcoh1))
+ legend(legend, title=cov,legend=covcat[1:length(covcat)],pch=16,col=color[1:length(covcat)],bg="white")
+ return (Lcoh=Lcoh1)
 }
-

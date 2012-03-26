@@ -1,30 +1,29 @@
 Biograph.mstate <-
-function (survey)
+function (Bdata)
 # Prepares data format for mstate (Putter)
-# tmat <- ex_survey$tmat
+# tmat <- ex_Bdata$tmat
 # D <- Dlong$D
 # Based on steril.r in NFHS/123
 
-# End survey_long
-#survey_long$Tstart_a <- (survey_long$Tstart-survey_long$born)/12
-#survey_long$Tstop_a <- (survey_long$Tstop-survey_long$born)/12
+# End Bdata_long
+#Bdata_long$Tstart_a <- (Bdata_long$Tstart-Bdata_long$born)/12
+#Bdata_long$Tstop_a <- (Bdata_long$Tstop-Bdata_long$born)/12
 # For censored cases: add origin states to have complete list of competing destinations: D2
-# survey_long <- survey_long[1:sum(survey$ns),]
-{ if (!exists("namstates")) 
-	{ print ("Biograph first runs Parameters")
-	  z <- Parameters (survey)
-	}
+# Bdata_long <- Bdata_long[1:sum(Bdata$ns),]
+{ z <- check.par(Bdata)
+   tmat <- attr(Bdata,"Trans")
+   if (is.null(tmat))  {param <- Parameters(Bdata); tmat <- param$tmat}
   # 1. Remove intrastate transitions  ========
-  z<- !is.na(diag(attr(survey,"trans")))
+  z<- !is.na(diag(attr(Bdata,"trans")))
   if (TRUE %in%z) # at least one diagonal element is not missing
   {  print ("     Biograph.mstate: calls function Remove_intrastate  . . . ")
-  dd <- Remove.intrastate (survey)
-  survey2 <- dd$D
-  tmat <- attr(survey2,"trans")
-  } else {survey2 <- survey} 
-  covnames <- colnames(survey)[5:(locpath(survey)-3)]
+  dd <- Remove.intrastate (Bdata)
+  Bdata2 <- dd$D
+  tmat <- attr(Bdata2,"trans")
+  } else {Bdata2 <- Bdata} 
+  covnames <- colnames(Bdata)[5:(locpath(Bdata)-3)]
   # 2. Produce long format  ===================
-  z<- Biograph.long (survey2)
+  z<- Biograph.long (Bdata2)
   Dlong  <- z$Depisode                                                        
 
   # 3. Create mstate format from long format ==
@@ -97,4 +96,3 @@ attr(D2, "trans") <- tmat
 class(D2) <- c("msdata", "data.frame")
 return (D2)
 }
-

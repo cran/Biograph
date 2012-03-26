@@ -1,14 +1,14 @@
 \name{Remove.intrastate}
 \alias{Remove.intrastate}
-\title{Remove intrastate transitions from Biograph object}
+\title{Removes intrastate transitions from Biograph object}
 \description{Removes intrastate transitions. }
 \usage{
-Remove.intrastate(survey)
+Remove.intrastate(Bdata)
 }
 \arguments{
-  \item{survey}{Biograph object}
+  \item{Bdata}{Biograph object}
 }
-\details{Intrastate transitions are removed and characteristics of the resulting data set are computed.}
+\details{Intrastate transitions are removed and new characteristics of the data set are obtained.}
 \author{Frans Willekens}
 \value{
 	\item{D}{Biograph object with intrastate transitions removed}
@@ -16,5 +16,5 @@ Remove.intrastate(survey)
 	}
 \examples{
   data (GLHS)
-  survey2 <- Remove.intrastate (GLHS)
+  Bdata2 <- Remove.intrastate (GLHS)
 }

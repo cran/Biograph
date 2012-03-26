@@ -1,34 +1,25 @@
 \name{OverviewTransitions}
 \alias{OverviewTransitions}
-\alias{p.OverviewTransitions}
 \title{Overview of transitions}
-\description{Produces standard summary tables on transitions.}
+\description{Produces summary indicators of transitions.}
 \usage{
-OverviewTransitions(survey, seq.ind, agetrans)
-p.OverviewTransitions(data, path, file.in, file.out)
+OverviewTransitions(Bdata, seq.ind, agetrans)
 }
 \arguments{
-  \item{survey}{input data}
-  \item{seq.ind}{individual state sequences}
-  \item{agetrans}{Ages at the different transitions}
-  \item{data}{Object produced by the OverviewTransitions function}
-  \item{path}{Path to the folder where the tabulations should be saved}
-  \item{file.in}{Name of input data file}
-  \item{file.out}{Name of output file}
+  \item{Bdata}{input data}
+  \item{seq.ind}{individual state sequences. If seq.ind is missing, the function calls Sequences.ind to obtain the individual state sequences.}
+  \item{agetrans}{Ages at the different transitions. If agetrans is missing, the function calls AgeTrans.}
  }
 \value{
  \item{Ttrans}{Number of transitions by origin and destination and censored cases by state occupied at time of censoring.}
- \item{meanage}{Mean age at transition by origin and destinatin and mean age at censoring.} 
- }
+ \item{meanage}{Mean age at transition by origin and destinatin and mean age at censoring.}}
+\note{The function checks for availability of numstates (number of states). If numstates is not available, the function Parameters is called.}
 \author{Frans Willekens}
 \examples{
  data (GLHS)
  z <- Parameters (GLHS)
- ist <- statesequence.ind (GLHS)
+ seq.ind <- Sequences.ind (GLHS$path,namstates)
  agetrans <- AgeTrans (GLHS)
- overviewT <- OverviewTransitions (GLHS, seq.ind=ist, agetrans)
-
-  path1 <- getwd() # save output file in current directory
-  p.OverviewTransitions (overviewT,path=path1,file.in="GLHS",file.out="transitions.out")
+ overviewT <- OverviewTransitions (GLHS, seq.ind=seq.ind, agetrans)
 }
 

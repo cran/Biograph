@@ -1,70 +1,86 @@
 LexisOccExp <-
-function (survey,transition,nyear)
-{  locpat <- locpath(survey)
-   if (!exists ("date_in_month_or_year"))
-    { print ("Parameters called first. Please wait.")
-      z <- Parameters (survey)
-    }
+function (Bdata,transition,nyear)
+{ # NOTE: transition need origin state and destination state (hence NOT *M)
+  if (!exists("namstates")) z<- StateSpace(Bdata)
+  if (substr(transition,1,1)%in%namstates==FALSE) stop ("LexisOccExp: Origin state is not in state space")
+  if (substr(transition,2,2)%in%namstates==FALSE) stop ("LexisOccExp: Destination state is not in state space")
+  z <- check.par (Bdata)
+  locpat <- locpath(Bdata)
+  transition1 <- substr(transition,1,1) # State of origin (for open interval)
   require (Epi)
 	# select the subjects that experience the given transition (eg "JN") (determine their ID)
-  subjectsID1 <- survey$ID[grep(transition,survey$path,value=FALSE)]
-  subjects1 <- grep(transition,survey$path,value=FALSE) # line number of subject with given transition
+ # subjectsID1 <- Bdata$ID[grep(transition,Bdata$path,value=FALSE)]
+  subjectsID1 <- TransitionAB(Bdata,transition=transition)$id
+  subjects1 <- which (Bdata$ID %in%subjectsID1)
+ # subjects1 <- grep(transition,Bdata$path,value=FALSE) # line number of subject with given transition
   # Select subjects that 
   #      a) experiences the transtions, OR
-  #      b) do not experience the transition and are censored in the origin state (J)
-  # Select subjects who are censored in the given origin state (J)
-  z <- apply (survey,1,function (x) substr(x[locpat],x[(locpat-1)],x[(locpat-1)])==substr(transition,1,1))
+  #      b) do not experience the transition and are censored in the origin state (J, say)
+  # Select subjects who are censored in the given origin state (J,say)
+  kk <- substr(transition,1,1)
+  z <- apply (Bdata,1,function (x) substr(x[locpat],x[(locpat-1)],x[(locpat-1)])==substr(transition,1,1))
   # Select subjects who do not experience given transition but are censored in origin state (determine their ID)
-  subjectsID2<- survey$ID[(survey$ID %in% survey$ID[subjects1]==FALSE & z==TRUE)]
-  subjects2 <- survey$ID %in% survey$ID[subjects1]==FALSE & z==TRUE
-  # surveyT : data for subjects with the given transition OR who are censored in origin state (J)
-  surveyT <- survey[survey$ID %in%c(subjectsID1,subjectsID2),]
+  subjectsID2<- Bdata$ID[(Bdata$ID %in% subjectsID1)==FALSE & z==TRUE]
+  subjects2 <- Bdata$ID %in% Bdata$ID[subjects1]==FALSE & z==TRUE
+  # BdataT : data for subjects with the given transition OR who are censored in origin state (J)
+  BdataT <- Bdata[Bdata$ID %in%c(subjectsID1,subjectsID2),]
   # Number of closed intervals
-   print (paste("Closed intervals  =  ",length(subjectsID1),sep=""))
+   print (paste("Closed intervals  =  ",length(na.omit(subjectsID1)),sep=""))
    # Number of open intervals
-   print (paste("Open   intervals  =  ",length(subjectsID2),sep=""))
+   print (paste("Open   intervals  =  ",length(na.omit(subjectsID2)),sep=""))
 
   # Determine the position of entry into risk set (first entry) [transition)))[1]]  
   # Determine the starting date and ending date of episode (exposure) in YEARS
-  surveyT <- CMC.years(surveyT,covsCMC=NULL) # convert to years
-  pos <- vector (mode="numeric",length=nrow(surveyT))
-  Tstart <- vector (mode="numeric",length=nrow(surveyT))
-  Tstop <- vector (mode="numeric",length=nrow(surveyT))
-  Tstatus <- vector (mode="numeric",length=nrow(surveyT))
-  for (i in 1:nrow(surveyT))
-  { pos[i] <- nchar(unlist(strsplit(surveyT$path[i],transition)))[1]+ 1 }
+  BdataT <- date.b(Bdata=Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year",covs=NULL)  
+    #  table(BdataT$path)
+  pos <- vector (mode="numeric",length=nrow(BdataT))
+  Tstart <- vector (mode="numeric",length=nrow(BdataT))
+  Tstop <- vector (mode="numeric",length=nrow(BdataT))
+  Tstatus <- vector (mode="numeric",length=nrow(BdataT))
+  for (i in 1:nrow(BdataT))
+  { if (BdataT$ID[i]%in%subjectsID1)  # closed interval
+   	 { pos[i] <- nchar(unlist(strsplit(BdataT$path[i],transition)))[1]+ 1 } else
+   	 { pos[i] <- nchar(unlist(strsplit(BdataT$path[i],transition1)))[1]+ 1 }
+  }
   # SURVIVAL OBJECT
   
-  for (i in 1:nrow(surveyT))
-    { zz <- ifelse (pos[i]==1,surveyT$start[i],surveyT[i,(locpat+pos[i]-1)])
-      if (surveyT$ID[i] %in% survey$ID[subjects1])
+  for (i in 1:nrow(BdataT))
+    { zz <- ifelse (pos[i]==1,BdataT$start[i],BdataT[i,(locpat+pos[i]-1)])
+      if (BdataT$ID[i] %in% Bdata$ID[subjects1]) # closed interval
       { Tstart[i] <- zz
-      	Tstop[i]  <- surveyT[i,(locpat+pos[i])]
+      	Tstop[i]  <- BdataT[i,(locpat+pos[i])]
       	Tstatus[i] <- 1 } else
-      { Tstart[i] <- surveyT[i,(locpat+surveyT$ns[i]-1)]
-      	Tstop[i] <- surveyT$end[i]
+      { Tstart[i] <- zz # BdataT[i,(locpat+BdataT$ns[i]-1)]
+      	Tstop[i] <- BdataT$end[i]
       	Tstatus[i] <- 0 }
     }
-    Tstop <- ifelse (is.na(Tstop),surveyT$end,Tstop)
+    Tstop <- ifelse (is.na(Tstop),BdataT$end,Tstop)
     
-   #   Tstart[i] <- ifelse (surveyT$ID[i] %in% survey$ID[subjects1]== TRUE,
-   #           zz,surveyT[i,(locpat+surveyT$ns[i]-1)])
-   #   Tstop[i] <- ifelse (surveyT$ID[i] %in% survey$ID[subjects1]== TRUE,
-   #           surveyT[i,(locpat+pos[i])],surveyT$end[i])
-   #   Tstatus[i] <- ifelse (surveyT$ID[i] %in% survey$ID[subjects1]== TRUE,1,0) }
+   #   Tstart[i] <- ifelse (BdataT$ID[i] %in% Bdata$ID[subjects1]== TRUE,
+   #           zz,BdataT[i,(locpat+BdataT$ns[i]-1)])
+   #   Tstop[i] <- ifelse (BdataT$ID[i] %in% Bdata$ID[subjects1]== TRUE,
+   #           BdataT[i,(locpat+pos[i])],BdataT$end[i])
+   #   Tstatus[i] <- ifelse (BdataT$ID[i] %in% Bdata$ID[subjects1]== TRUE,1,0) }
   
  # ===============  Create Lexis object ======================
   print  ("Create Lexis object",quote=FALSE)
   require (Epi)
   # Transform data in years   
-  bt <- surveyT$born
-  endt <- surveyT$censored
-  en1 <-  surveyT$start
+  bt <- BdataT$born
+  endt <- BdataT$end
+  en1 <-  BdataT$start
   ex1 <- Tstart
   en2 <- ex1
   ex2 <- Tstop
   event2 <- Tstatus
-  Lcoh <- Lexis( id = surveyT$ID,
+    duration <- ex2 - en2
+  duration.neg <- length (duration[duration < 0]) # number of negative durations
+  if (duration.neg > 0)
+  { print ("Lexislines.episodes.R: some durations are negative.")
+    print (Dlong2[duration<0,])
+    return
+  }
+  Lcoh <- Lexis( id = BdataT$ID,
                entry = list( CalTime=en2),
                exit  = list( CalTime=ex2, Age=ex2-bt ),
                exit.status = event2)
@@ -100,28 +116,27 @@ date.mid <- timeBand(Lcoh_tr1_ap,"CalTime","mid")
 age.mid <-  timeBand(Lcoh_tr1_ap,"Age","mid")
 # =============  Draw Lexis diagram  ============================
 #  EXPOSURE  (in years)
-title1 <- paste ("Exposures to transition ",transition," (years)",sep="")
+title1 <- paste ("Transition ",transition,": exposure in (years)",sep="")
 print (paste("Exposure time = ",sum(ndur,na.rm=TRUE), " years or ",sum(ndur,na.rm=TRUE)*12," months",sep=""))
-Lexis.diagram( age=c(AgeLow,AgeHigh), date=c(PerLow,PerHigh), coh.grid=FALSE,
-   int=5,lab.int=5,main=title1)
+Lexis.diagram( age=c(AgeLow,AgeHigh), date=c(PerLow,PerHigh), coh.grid=FALSE,int=5,lab.int=5,main=title1)
 date66 <- sort(unique(date.mid))
 age66 <- sort(unique(age.mid))
 for (ix in 1:length(age66)) {for (iy in 1:length(date66))
         text( date66[iy],age66[ix], trunc(ndur[ix,iy]), cex=0.7 ) }
-par (ask=TRUE) 
+par (ask=TRUE) # Display graph but hit on console
+# 
 # EVENTS
-title1 <- paste ("Count of transition ",transition," (years)",sep="")
+title1 <- paste ("Transition ",transition,": occurrences",sep="")
 sum(nevents,na.rm=TRUE)
-Lexis.diagram( age=c(AgeLow,AgeHigh), date=c(PerLow,PerHigh), coh.grid=FALSE,
-   int=5,lab.int=5,main=title1)
+Lexis.diagram( age=c(AgeLow,AgeHigh), date=c(PerLow,PerHigh), coh.grid=FALSE,int=5,lab.int=5,main=title1)
 for (ix in 1:length(age66)) {for (iy in 1:length(date66))
         text( date66[iy],age66[ix], trunc(nevents[ix,iy]), cex=0.8 ) }
 par (ask=TRUE) 
+#
 # RATES
 title1 <- paste("Transition ",transition,": Occurrence-exposure rates (per year)",sep="" )
-d88 <- ifelse (date_in_month_or_year==1,"month","year")
-Lexis.diagram( age=c(AgeLow,AgeHigh), date=c(PerLow,PerHigh), coh.grid=FALSE,int=5,
-  lab.int=5,main=title1)
+Lexis.diagram( age=c(AgeLow,AgeHigh), date=c(PerLow,PerHigh), coh.grid=FALSE,int=5,lab.int=5,main=title1)
+#
 for (ix in 1:length(age66)) {for (iy in 1:length(date66))
         text( date66[iy],age66[ix], round(nevents[ix,iy]/ndur[ix,iy],3), cex=0.7 ) }
 # close.screen()
@@ -138,4 +153,3 @@ return (list(
              ndur = ndur,
              rates = rates))
 }
-

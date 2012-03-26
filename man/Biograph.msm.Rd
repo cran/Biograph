@@ -1,14 +1,13 @@
 \name{Biograph.msm}
 \alias{Biograph.msm}
 \title{Biograph to msm format}
-\description{Conferts Biograph object to input data for msm package (logn format)}
+\description{Converts Biograph object to input data for msm package (long format)}
 \usage{
-Biograph.msm(survey)
+Biograph.msm(Bdata)
 }
 \arguments{
-  \item{survey}{Biography object}
+  \item{Bdata}{Biography object}
 }
-\details{The function requires the global variable locpath determined in Extract function. }
 \value{Data frame with data in msm format}
 \references{For msm, see Jackson, 2009. }
 \author{Frans Willekens}

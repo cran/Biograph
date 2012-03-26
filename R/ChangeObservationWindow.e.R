@@ -1,18 +1,42 @@
 ChangeObservationWindow.e <-
-function (survey,entrystate,exitstate)
+function (Bdata,entrystate,exitstate)
 { #  Check whether Parameters was called
-  if (!exists("nsample")|!exists("namstates")) 
-    { print ("ERROR in ChangeObservationWindow.e: parameters missing; call Parameters first")
-      return ()
+  z<- check.par(Bdata)
+  # Check presence of entrystate and exitstate in Bdata. Remove records with missing entry- or exitstate
+  # This section copied from function TransitionAB()
+   if (entrystate%in%namstates & (exitstate%in%namstates|is.na(exitstate))) z=3 else stop("ChangeObservationWindow.e : Entry- or exitstate not part of state space")
+   if (!is.na(entrystate))
+   {  transition <- entrystate
+      pos <- sapply(Bdata$path, function(x) {
+         z1 <- grep(transition, x)
+         pos <- ifelse(length(z1) == 0, NA, ifelse(z1 == 1, nchar(unlist(strsplit(x, 
+              transition)[1])) + 1, 0))
+       })
+     pos <- unname(pos)
+     Bdata6 <- subset (Bdata,!is.na(pos))
+     attr(Bdata6,"format.dat") <- attr(Bdata,"format.date")
+     attr(Bdata6,"trans") <- attr(Bdata,"trans")
     }
-  locpat <- locpath(survey)
-  maxtrans <- (ncol(survey)-locpat) 
+  print (paste(nrow(Bdata)," observations with entrystate ",entrystate,sep=""),quote=FALSE)
+  if (!is.na(exitstate))
+  { transition <- exitstate
+    pos <- sapply(Bdata$path, function(x) {
+      z1 <- grep(transition, x)
+      pos <- ifelse(length(z1) == 0, NA, ifelse(z1 == 1, nchar(unlist(strsplit(x, 
+            transition)[1])) + 1, 0))
+      })
+     pos <- unname(pos)
+     Bdata <- subset (Bdata,!is.na(pos))
+   }  
+  print (paste(nrow(Bdata)," observations with entrystate ",entrystate," and  exitstate ",exitstate,sep=""),quote=FALSE)
+  locpat <- locpath(Bdata)
+  maxtrans <- (ncol(Bdata)-locpat) 
   windowe <- function (data,refstate)
   { entry88 <- function (x,state)
     {   # Get for a state following another state the position in path and the date of occurrence
-        #  x[locpath(survey)] is the state sequence path
+        #  x[locpath(Bdata)] is the state sequence path
         #  x[length(x)] is the first state occupied in current sequence (=low)
-        #  x[locpath(survey)-1] is the last state occupied (= ns)
+        #  x[locpath(Bdata)-1] is the last state occupied (= ns)
         
     	lowx <- as.numeric(x[length(x)]) # see below
     	if (is.na(lowx))
@@ -32,7 +56,7 @@ function (survey,entrystate,exitstate)
           # Position of state in path
            locp <- ifelse (loc==1,lowx,lowx + loc -1)
            date <- ifelse (loc==1,x[3],x[(locpat+locp-1)]) # date at entry in state
-            # if loc==1, date is survey$start
+            # if loc==1, date is Bdata$start
            # if (is.na(state)) date <- x[(locpat+z98)]
            return(list(loctrans = locp,    #  location of transition (entry or exit)
                        date=date))   #  date of transition
@@ -53,34 +77,38 @@ function (survey,entrystate,exitstate)
     return (list (loc=loc,
                   date=date))
   }  # end windowe
-  
-  low1 <- rep(1,nsample)
-  entry <- windowe (cbind(survey,low1),entrystate)   # GLHS low[1] = 2
-  exit <- windowe (cbind(survey,low1=entry$loc),exitstate)
+  print ("Creating new Biograph object. Patience please . . . ")
+  low1 <- rep(1,nrow(Bdata))
+  entry <- windowe (cbind(Bdata,low1),entrystate)   # GLHS low[1] = 2
+  exit <- windowe (cbind(Bdata,low1=entry$loc),exitstate)
  # exit$loc <- exit$loc + entry$loc - rep(1,length(exit$loc))  # CHANGED 10_11_2010
-   # nn <- nrow(survey[!is.na(exit$loc),]) 
+   # nn <- nrow(Bdata[!is.na(exit$loc),]) 
    
 # Create a new Biogaph data file: subset with observations in the interval
   entryloc <- entry$loc
   exitloc <-  exit$loc
   #cmc_select <- subset(cmc,!is.na(entrydate))
   entrydate <- entry$date  # STARTING DATE for subjects with entry event
-  exitdate <-  ifelse (is.na(exit$date),survey$end,exit$date)  # idem
-  #  if exit (censoring) can be at survey date
-  survey2 <- survey
-  for (i in 1:nsample)
-   { survey2$path[i] <- ifelse (is.na(entry$loc[i])," ",ifelse (is.na(exit$date[i]),entrystate,substr(survey$path[i],entry$loc[i],exit$loc[i])))}  
-  for (i in 1:nsample)
-  {  survey2$ns[i] <-  nchar(survey2$path[i])  
-     survey2$start[i] <- ifelse (entry$loc[i]==1,survey$start[i],survey[i,(locpat+entry$loc[i]-1)])
-     nn <- ifelse (survey2$ns[i]==1,1,survey2$ns[i]-1)
-     if (nn==1) {survey2[i,(locpat+1)] <- survey[i,(locpat+entry$loc[i])]} else
-           {survey2[i,(locpat+1):(locpat+nn)] <- survey[i,(locpat+entry$loc[i]):(locpat+exit$loc[i]-1)]}
-     #   ifelse (is.na(exit$loc[i]),NA,survey[i,(locpat+entry$loc[i]):(locpat+exit$loc[i]-1)])
-     survey2[i,(locpat+survey2$ns[i]):(locpat+maxtrans)] <- NA  
-     survey2$end <- exitdate
+  exitdate <-  ifelse (is.na(exit$date),Bdata$end,exit$date)  # idem
+  #  if exit (censoring) can be at Bdata date
+  Bdata2 <- Bdata
+  for (i in 1:nrow(Bdata))
+   { Bdata2$path[i] <- ifelse (is.na(entry$loc[i])," ",ifelse (is.na(exit$date[i]),entrystate,substr(Bdata$path[i],entry$loc[i],exit$loc[i])))}  
+  print ("Continues creating new Biograph object. Patience please . . . ")
+  for (i in 1:nrow(Bdata))
+  {  Bdata2$ns[i] <-  nchar(Bdata2$path[i])  
+     Bdata2$start[i] <- ifelse (entry$loc[i]==1,Bdata$start[i],Bdata[i,(locpat+entry$loc[i]-1)])
+     nn <- ifelse (Bdata2$ns[i]==1,1,Bdata2$ns[i]-1)
+     if (nn==1) {Bdata2[i,(locpat+1)] <- Bdata[i,(locpat+entry$loc[i])]} else
+           {Bdata2[i,(locpat+1):(locpat+nn)] <- Bdata[i,(locpat+entry$loc[i]):(locpat+exit$loc[i]-1)]}
+     #   ifelse (is.na(exit$loc[i]),NA,Bdata[i,(locpat+entry$loc[i]):(locpat+exit$loc[i]-1)])
+     Bdata2[i,(locpat+Bdata2$ns[i]):(locpat+maxtrans)] <- NA  
+     Bdata2$end <- exitdate
    }
-   survey2 <- survey2[survey2$path!=" ",]
-  return (survey2)
+   Bdata2 <- Bdata2[Bdata2$path!=" ",]
+   attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
+   z <- Parameters(Bdata2)
+   attr(Bdata2, "trans") <- z$tmat
+   print("A Biograph object with new observation window is returned.",quote = FALSE)
+  return (Bdata2)
  }
-

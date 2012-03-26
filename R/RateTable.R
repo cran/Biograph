@@ -1,5 +1,5 @@
 RateTable <-
-function (survey,occup,trans)
+function (occup,trans)
 { if (!exists(as.character(substitute(occup)))) 
 	  print ("Message from RateTable: 'occup' does not exists")
   if (!exists(as.character(substitute(trans))))
@@ -33,4 +33,3 @@ function (survey,occup,trans)
  return (list( Stable = aperm(Stable,c(1,3,2)),
                censored_by_age = censored_by_age))
 }
-

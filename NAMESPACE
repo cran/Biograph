@@ -1,0 +1,73 @@
+exportPattern("^[[:alpha:]]+")
+import(survival,
+	mvna,
+	mstate,
+	msm,
+	Epi,
+        ggplot2,
+      reshape)
+
+
+export(
+
+age.as.year,
+age.as.Date,
+cmc.as.age,
+cmc.as.year,
+cmc.as.Date,
+Date.as.age,
+Date.as.year,
+Date.as.cmc,
+year.as.age,
+year.as.Date,
+year.as.cmc,
+date.convert,
+date.b,
+
+stringf,
+pos.char,
+pos.charstr,
+string.blank.omit,
+transitions,
+Sequences.ind.0,
+locpath,
+Remove.intrastate,
+check.par,
+
+StateSpace,
+Parameters ,
+SamplePath,
+AgeTrans ,
+YearTrans ,
+OverviewEpisodes ,
+OverviewTransitions ,
+ Occup ,
+Trans ,
+RateTable ,
+Sequences ,
+Sequences.ind,
+Rates.ac ,
+Lexispoints ,
+Lexis.points,
+Lexislines.episodes ,
+Lexis.lines,
+LexisOccExp ,
+Biograph.long ,
+Biograph.mstate ,
+Biograph.msm ,
+Biograph.mvna ,
+TransitionAB ,
+Cumrates , 
+MSLT.S ,
+MSLT.e ,
+ChangeObservationWindow.e ,
+ChangeObservationWindow.t , 
+GLHS.trans ,
+GLHS.IllnessDeath,
+plot.MSLT.S,
+plot.cumrates,
+plot.occup.S)
+
+S3method(plot,MSLT.S)
+S3method(plot,cumrates)
+S3method(plot,occup.S)

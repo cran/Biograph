@@ -2,43 +2,52 @@
 \alias{Biograph-package}
 \alias{Biograph}
 \docType{package}
-\title{Explore biograpies / life histories / lifepaths}
-\description{Extracts from the data useful information on the life courses of selected individuals or subpopulations with given attributes: 
-	- sequences of states and events or transition; 
-	- episodes: open (left truncated, right censored) and closed;
-	- sojourn times. 
-Two time scales are considered: individual time (age) and calendar time. 
+\title{Explore life histories (biographies, lifepaths)}
+\description{Biograph is designed to facilitate the descriptive and statistical analysis of life histories. It follows a multistate perspective on the life course and conceptualizes the life course as a sequence of states and transitions between states (events). Transitions are governed by transition rates that depend on event counts and exposure times. Transition rates also depend on covariates.  
+	
+Biograph produces useful life-course indicators for individuals and groups: (1) types of episodes (open, closed) and transitions (transient, absorbing), (2) states occupied at various ages, (3) sojourn times in different states and (4) state sequences (trajectories). Biograph estimates transition rates by age, origin and destination. Biograph also structures the data for multistate statistical and demographic modeling of life histories. Biograph accepts data in wide format. The user needs to create a Biograph object from original data. The object has a fixed data structure and is input to most functions. The Doc subdirectory of the package (inst/doc of the source package) contains a description of how to prepare Biograph objects. It includes illustrations and R code. It demonstrates the preparation of Biograph objects using hypothetical data and data from the German Life History Survey (GLHS) (used by Blossfeld and Rohwer in their book Techniques of Event History Modeling, 2002), the Netherlands Family and Fertility Survey (NLOG98), the Survey on Health, Ageing and Retirement in Europe (SHARE), the National Family Life Survey of India (NFHS) and data from the European Registry for Blood and Marrow Transplantation (EBMT) (included in the mstate package developed by Putter and colleagues). 
 
-In biographic analysis, discrete states of existence are distinguished. Rates of transition between states are the main parameters of life-course models. Biograph helps the user to understand how transition rates are related to event counts (occurrences) and sojourn times (exposures). 
 
-Biograph has several "adapters", functions that convert a Biograph object, which has data structure known as 'wide format' to the 'long format' required by the major packages for (multistate) survival analysis and event history analysis. The long format has one record for each episode (episode data) or transition (event data). }
+Two time scales are considered: individual time (age) and calendar time.  }
 \details{
 \tabular{ll}{
 Package: \tab Biograph\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2011-1-25\cr
+Version: \tab 1.1\cr
+Date: \tab 2012-3-29\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
-The user needs to create a Biograph object from original data. The object has a fixed data structure and is input to most functions. }
+
+Major functions of Biograph (for a complete list, see the INDEX file):
+
+Parameters         :  extract information from data set
+
+TransitionAB       : extract from the raw data information on a selected transition (age profile)
+
+Occup              : determines state occupancies at each age and state-specific sojourn times in age interval
+
+Sequences          : shows the different state sequences (trajectories) in the sample data 
+
+Rates              : computes transition rates by origin state and destination state, and by age (and covariates) by dividing occurrences and exposures. 
+
+Biograph.long      : converts Biograph object to long format required by the survival and eha packages
+
+Biograph.mstate    : converts Biograpgh object to long format required by the mstate package
+
+Biograph.msm       : converts Biograph object to long format required by the msm package
+
+Biograph.mvna      : conferts Biograph object to long format required by the mvna package
+
+Cumrates           : produces (and plots) two types of estimates of cumulative transition rates: Nelson-Aalen estimators (using the mvna package) and occurrence-exposure rates. The latter are generally used in demography. 
+
+Lexispoints        : produces a scatter plot of the age and time at selected transitions for a subsample of subjects with selected characteristics 
+
+Lexislines.episodes : draws lifelines for selected subjects 
+ }
 \author{Frans Willekens <willekens@nidi.nl>}
 \references{
-Willekens, F. (2011) Biograph. Multistate analysis of life histories with R.}
+Willekens, F. (2012) Biograph. Multistate analysis of life histories with R. Springer (forthcoming)}
 \keyword{ package }
 \keyword{ datasets }
 \keyword{ survival }
-\examples{
-Parameters         #  extract information from data set
-TransitionAB       # extract from the raw data information on a selected transition (age profile)
-Occup              # determines state occupancies at each age and state-specific sojourn times in age interval
-Sequences          # shows the different state sequences (trajectories) in the data 
-Rates              # derives transition rates by origin state and destination state, and by age (and covariates) by dividing occurrences and exposures. Two types of rates are distinguished. 
-Biograph.long      # converts Biograph object to the long format required by the survival package and other packages
-Biograph.mstate    # converts Biograpgh object to the long format required by the mstate package
-Biograph.msm       # converts Biograph object to the long format required by the msms package
-Biograph.mvna      # conferts Biograph object to the long format required by the mvna package
-Cumrates           # produces (and plots) two types of estimates of transition rates: Nelson-Aalen estimators (using the mvna package),generally used in statistics, and occurrence-exposure rates, generally used in demography. 
-Lexispoints        # produces a scatter plot of the age and time of a selected transition for a subsample of subjects with selected characteristics (using the Epi package)
-Lexislines.episodes  # draws lifelines for selected subjects (using the Epi package)
-}

@@ -11,4 +11,3 @@ function (string)
       }
   return (str)
 }
-

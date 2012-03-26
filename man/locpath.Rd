@@ -1,10 +1,10 @@
 \name{locpath}
 \alias{locpath}
-\title{Location of path in Biograph object}
-\description{Determines location of path in Biograph object}
-\usage{locpath(survey)}
+\title{Determines location of state sequence in Biograph object}
+\description{Determines location of state sequence  (path variable)in Biograph object}
+\usage{locpath(Bdata)}
 \arguments{
-  \item{survey}{input data}
+  \item{Bdata}{Biograph object}
 }
 \author{Frans Willekens}
 \note{The locpath function is used in Extract and other functions.}

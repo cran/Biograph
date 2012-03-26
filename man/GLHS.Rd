@@ -13,8 +13,8 @@
     \item{\code{end}}{End of observation (CMC)}
     \item{\code{sex}}{Sex. A factor with levels \code{Males} \code{Females}}
     \item{\code{edu}}{Years of education.}
-    \item{\code{marriage}}{Date of marriage (CMC)}
-    \item{\code{TE}}{Date of entry in labour force (CMC)}
+    \item{\code{marriage}}{Date of marriage (CMC) (TB in BR data)}
+    \item{\code{LMentry}}{Date of entry in labour force (CMC) (TE in BR data)}
     \item{\code{cohort}}{Birth cohort. A factor with levels \code{1929-31} \code{1939-41} \code{1949-51}}
     \item{\code{idim}}{a numeric vector (not used)}
     \item{\code{ns}}{Number of states occupied during observation period.}
@@ -40,6 +40,5 @@ Blossfeld, H.P. and G. Rohwer (2002) Techniques of event history modeling. New a
 
 Blossfeld, H.P., K. Golsh and G. Rohwer (2007) Event history analysis with Stata. Erlbaum, Mahwah, New Jersey.
 }
-\seealso{
-  \code{\link{rrdat}}}
+
 \keyword{datasets}
