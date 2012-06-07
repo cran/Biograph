@@ -1,4 +1,5 @@
-StateSpace <- function (Bdata,newnamstates) 
+StateSpace <-
+function (Bdata,newnamstates) 
 {   if (missing(newnamstates)) newnamstates <- NULL
 	 # Get the state space from the data (by inspecting Bdata$path)
     d <- unique(as.character(Bdata$path))

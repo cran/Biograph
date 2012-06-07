@@ -21,10 +21,10 @@ function (Bdata)
   Dmvna <- subset(Dmvna,!is.na(Dmvna[,1]))
   Dmvna  <- data.frame (Dmvna)
    
-  Dmvna$from <- apply (Dmvna,1,function(x) grep(x[2],namstates))
-  Dmvna$to[Dmvna$DES=="cens"] <- "cens"
-  to <- ifelse (Dmvna$to=="cens","cens",apply(Dmvna,1,function (x) grep(x[3],namstates)))
-  Dmvna$to <- unlist (to)
+  #Dmvna$from <- apply (Dmvna,1,function(x) grep(x[2],namstates))
+  #Dmvna$to[Dmvna$DES=="cens"] <- "cens"
+  # to <- ifelse (Dmvna$to=="cens","cens",apply(Dmvna,1,function (x) grep(x[3],namstates)))
+ #  Dmvna$to <- unlist (to)
   if (is.null(attr(Bdata,"format.date"))) stop ('Function Parameters: date format (attribute format.in) missing from Biograph object (data). Please add, e.g.: <attr(GLHS,"format.date") <- "CMC">')
   format.in <- attr(Bdata,"format.date") 
  # print ("Biograph.mvna ")

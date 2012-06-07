@@ -1,5 +1,5 @@
-# ================  print INDIVIDUAL SAMPLEPATHS (biographies) ===============
-SamplePath <- function (Bdata,subjectsID)
+SamplePath <-
+function (Bdata,subjectsID)
 # Produces sample path for selection of subjects
 #       The record numbers of the selected subjects are in vector "subjects"
 #       e.g. subjects <- c(1,40,765,5320)
@@ -91,4 +91,3 @@ SamplePath <- function (Bdata,subjectsID)
 
 return(info)
 }
-# to get path: z[[1]][[1]]$path

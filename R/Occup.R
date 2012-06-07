@@ -1,5 +1,5 @@
-# ========================  OCCUP  ======================================
-Occup <- function (Bdata) {
+Occup <-
+function (Bdata) {
 # A. State occupancies at exact ages 
 # Input  = Bdata.dat
 #          iagelow, iagehigh (global variables, defined in MAIN programme)

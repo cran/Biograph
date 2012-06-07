@@ -1,5 +1,5 @@
-
-Sequences.ind.0 <- function (d,namstates,absorb)
+Sequences.ind.0 <-
+function (d,namstates,absorb)
 {  # d is object of class 'numeric' or 'Date'
 	if (missing (absorb)) absorb <- NULL
 	if (missing(namstates)) namstates <- NULL
@@ -38,5 +38,3 @@ Sequences.ind.0 <- function (d,namstates,absorb)
                 path=path,
                 ns=ns))
 }
-
-

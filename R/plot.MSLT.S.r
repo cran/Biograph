@@ -1,5 +1,5 @@
-
-plot.MSLT.S <- function (x,e0,order,colours,title,area,xmin,xmax,...)
+plot.MSLT.S <-
+function (x,e0,order,colours,title,area,xmin,xmax,...)
  {# ======== Plot state occupancies  =============    
     if (!inherits(x, "MSLT.S"))
         stop("'x' must be a 'MSLT' object")
@@ -73,9 +73,3 @@ print(p7)
   return(list(S=S,
               plot=p7))
 }
-
-#  StackGraph(S[,1:numstates,1],xlabel="Age",ylabel="State probability",xlegend="topright",
-#  ylegend="topright",title,title_sub,namst)
-#  abline(h=0.5,lty=2,colour="darkgrey")
-  
-  

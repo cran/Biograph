@@ -1,9 +1,9 @@
 Package: Biograph
 Type: Package
 Title: Explore life histories
-Version: 2.0
+Version: 2.0.1
 Depends: Epi, msm, mstate, mvna, survival,plyr,ggplot2,reshape
-Date: 2012-03-26
+Date: 2012-06-07
 Author: Frans Willekens
 Maintainer: Frans Willekens <willekens@nidi.nl>
 Description: Biograph is designed to facilitate the descriptive and
@@ -21,6 +21,6 @@ Description: Biograph is designed to facilitate the descriptive and
         Biograph objects. It includes several illustrations and R code.
 License: GPL-2
 LazyLoad: yes
-Packaged: 2012-03-30 12:18:19 UTC; franswillekens
+Packaged: 2012-06-07 08:54:08 UTC; franswillekens
 Repository: CRAN
-Date/Publication: 2012-03-30 14:40:21
+Date/Publication: 2012-06-08 07:26:11

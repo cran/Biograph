@@ -1,5 +1,5 @@
-# ========================  Parameters  =================================
-Parameters <- function (Bdata) {
+Parameters <-
+function (Bdata) {
 print (". . . . Running function Parameters . . . . ")
 #-------------   state space   ----------
 if (exists("namstates")) 

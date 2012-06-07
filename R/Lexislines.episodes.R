@@ -1,4 +1,5 @@
-Lexislines.episodes <- function (Bdata,Dlong,subjectsID,title)
+Lexislines.episodes <-
+function (Bdata,Dlong,subjectsID,title)
 { # From lifelines.r
   # subjectsID <- Bdata$ID
   #  subjectsID <- c(1,19,20,208)
@@ -88,4 +89,3 @@ Lexislines.episodes <- function (Bdata,Dlong,subjectsID,title)
                sub =subjectsID2,
                k = length(subjectsID2)))
 }
-

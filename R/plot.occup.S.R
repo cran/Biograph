@@ -1,4 +1,5 @@
-plot.occup.S <- function (x,namstates.desired,colours,title,area,xmin,xmax,...)
+plot.occup.S <-
+function (x,namstates.desired,colours,title,area,xmin,xmax,...)
 {
     if (!inherits(x, "occup.S"))
         stop("'x' must be a 'occup.S' object")

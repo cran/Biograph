@@ -1,4 +1,5 @@
-Lexis.points <- function (Bdata,transition,title,cov,group,legend.pos,pdf)
+Lexis.points <-
+function (Bdata,transition,title,cov,group,legend.pos,pdf)
 {  	require (ggplot2)
 	require (plyr)
   z<- check.par (Bdata) 
@@ -24,10 +25,10 @@ Lexis.points <- function (Bdata,transition,title,cov,group,legend.pos,pdf)
 groupn <- group
 if (!is.null(group)) group <- Bdata2[,colnames(Bdata2)==groupn]
 if (is.null(cov))
-  { covn <= "one"
+  { covn <- "one"
   	covd <- rep(1,nrow(Bdata2)) }  else
   { covn <- cov
-    covd <- Bdata2[,colnames(Bdata2)==covn[1]]  }
+    covd <- Bdata2[,colnames(Bdata2)%in%covn]  }
 #namecov1 <- colnames(Bdata2[,covd])
 lex <- data.frame(age=age,date=date,covd,gp=group) 
 #lex <- subset (lex,!is.na(lex$group))
@@ -35,7 +36,15 @@ lex$gp <- factor(lex$gp)
 #  unique (levels(lex$gp))
 
 ddc <- round_any(date,5,floor)   # function from Plyr
-colours<- c("Red","blue","green","yellow")
+colours<- c("Red","blue","green","yellow","brown")
+ncolours <- length(colours)
+ncategories.cov <- length(unique(covd))
+if (ncategories.cov > ncolours) 
+ { zff <- paste("Error in Lexis.points:", ncolours," colours for ",ncategories.cov," categories of covariate ",cov,sep="" )
+  stop(zff)	
+ }
+ colours <- colours[1:ncategories.cov]
+ncolours <- ncategories.cov 
 #cov1 <- Bdata2[,poscov[1]]
 #cov2 <- Bdata2[,poscov[4]]
 # namecov2 <- colnames(Bdata2[poscov[4]])
@@ -52,7 +61,7 @@ lex4 <- lex3+layer(geom="point")+
   axis.title.y=theme_text(colour="darkgreen",face="bold",angle=90))   # equal scales p. 136
 
 lex5 <- lex4 + scale_colour_manual(values=colours,name=covn) +  opts(axis.text.x=theme_text(colour="black",size=6))+opts(title=title)
-if (is.null(groupn)) lex6<- lex5 else lex6 <- lex5+facet_wrap(~gp,ncol=3)
+if (is.null(groupn)) lex6<- lex5 else lex6 <- lex5+facet_wrap(~gp,nrow=3)
 print (lex6)
 if (pdf)
 { pdf("graph.pdf", width = 8, height = 16)  # portrait
@@ -60,4 +69,3 @@ if (pdf)
   dev.off()  }
  return(lex6)
 }
-

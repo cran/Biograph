@@ -1,4 +1,5 @@
-Lexis.lines <- function (Bdata,Dlong,subjectsID,title)
+Lexis.lines <-
+function (Bdata,Dlong,subjectsID,title)
   # NOTE: Dlong = Dlong$Depisode
   # Bdata =GLHS.yr
  {  require (ggplot2)
@@ -80,7 +81,7 @@ lex3 <- ggplot(data2,aes(x=Tstart,y=Tstarta,colour=state))  # colour p. 48
 #lex3 <- ggplot(data2,aes(x=x,y=y,colour=state))
 p<- lex3+geom_line(aes(group = ID),size=1) + coord_equal()+scale_x_continuous(breaks=seq(PerLow,PerHigh+1,by=nyear))+scale_y_continuous(breaks=seq(AgeLow,AgeHigh+1,by=nyear)) # p. 108   title:p. 143
 p2 <- p +geom_text(aes(label=ID,x=locIDx,y=locIDy,hjust=0, vjust=0),size=2.5,colour="yellow")+xlab("Age")+ylab("Count")
-p3<- p2+ opts(title="Lifelines for selected individuals")
+p3<- p2+ opts(title=title)
 p4 <- p3+opts(plot.title=theme_text(size=11))
 p5 <- p4+scale_colour_manual(values=colours)+opts(plot.background=theme_rect(fill="lightskyblue1",colour=NA),
   panel.background=theme_rect("black"),
@@ -92,5 +93,3 @@ print (p5)
 return (list (subjectsID=subjectsID,
              p=p5))
 }
-
-

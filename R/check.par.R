@@ -1,4 +1,5 @@
-check.par <- function (Bdata)
+check.par <-
+function (Bdata)
 { print ('check.par: the function checks whether "format.date" is present (attribute of Biograph object) and all parameters are defined (by function Parameters) ')
 	#  Check whether Parameters was called
     format.in <- attr(Bdata,"format.date") 

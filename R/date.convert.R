@@ -1,4 +1,5 @@
-date.convert <- function (d,format.in,selectday,format.out,born,format.born)
+date.convert <-
+function (d,format.in,selectday,format.out,born,format.born)
 # born is reference age(time) to determine age (or time since reference event)
 # Converts date in any format to date of class Date (R-base)
 # format input data can be: CMC, year, day, age (in years), %d%b%Y 
@@ -32,15 +33,15 @@ date.convert <- function (d,format.in,selectday,format.out,born,format.born)
    if (format.out=="age" & format.in!="age" & missing(born)) stop("date.convert: format.in is not age, format.out = age, but born is missing")
      
  
-# age to Date
-   if (format.in=="age" & format.out==format.out)
-     {  g <- age.as.Date (x=d,born=born,format.born=format.born,format.out=format.out)
-     	return (date=g)
-     }
 # age to year
    if (format.in=="age" & format.out=="year")
      {  g <- age.as.year (x=d,born=born,format.born=format.in)
      	return (year=g)
+     }
+# age to Date
+   if (format.in=="age" & format.out==format.out)
+     {  g <- age.as.Date (x=d,born=born,format.born=format.born,format.out=format.out)
+     	return (date=g)
      }
 # CMC to age
    if (format.in=="CMC" & format.out=="age")
@@ -99,4 +100,3 @@ if (is.null(g)) print ("date.convert: Input format is probably wrong." )
 if (!exists("g")) stop ("date.convert: The function cannot handle your request. Please check date formats.")
 return ()
 }
-

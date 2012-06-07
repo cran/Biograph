@@ -24,6 +24,7 @@ M.oe <- 0
 namstates2 <- vector (mode="numeric",length=length(namstates))
 for (i in 1:length(namstates))
 { namstates2[i] <- grep(namstates[i],namstates)} 
+namstates2 <- as.character(1:length(namstates))
 niter5 <- ifelse (irate==2,1,3)
 if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
   { print ("  ")
@@ -50,10 +51,10 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
     print (". . . . . . . . . . . . ")
     print (". . . . Running mvna . . . . . . ")
     # Absorbing states determined in StateSpace (letter)
-    st.absorb2 <- which (namstates==st.absorb)
-    D44 <- subset (D3,D3$from!=st.absorb2)
-    if (is.null(st.absorb)) zz2 <- D3 else zz2 <- D44 
-    na <- mvna(data=zz2,state.names=namstates2,tra=Dmvna$par$trans_possible,cens.name=Dmvna$cens)
+    if (is.null(st.absorb)) zz2 <- D3 else 
+         {  st.absorb2 <- which (namstates==st.absorb)
+         	zz2 <- subset (D3,D3$from!=st.absorb2) }
+    na <- mvna(data=zz2,state.names=namstates,tra=Dmvna$par$trans_possible,cens.name=Dmvna$cens)
     cumh <- predict (na,times=seq(0,iagehigh,by=1))
    #	print ("cumrates test78")   
 # see MSLT.mvna.r
