@@ -45,7 +45,12 @@ GLHS.tg <- data.frame(ID=GLHS$ID,J1Jt,J1Js,JNt,JNs,sex=GLHS$sex,cohort=GLHS$coho
   attr(GLHS.tg,"format.date") <- "CMC"
 # get the transition matrix
   tmat <- GLHS.trans()
-  attr(GLHS.tg,"trans") <- tmat
-  
+  attr(GLHS.tg,"param") <- attr(GLHS,"param")
+  attr(GLHS.tg,"param")$tmat <- tmat 
+  attr(GLHS.tg,"param")$ntrans <- 3
+  attr(GLHS.tg,"param")$trans_possible <- ifelse (is.na(tmat),"FALSE","TRUE")
+  attr (GLHS.tg,"param")$transitions <- NULL
+  attr(GLHS.tg,"param")$nntrans <- NULL 
+    
  return (GLHS.tg) 
 }

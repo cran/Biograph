@@ -13,5 +13,5 @@
 \examples{
 	data(GLHS)
 	z <- Parameters (GLHS)  
-	seq.ind <- Sequences.ind (path=GLHS$path,namstatesnew=namstates)
+	seq.ind <- Sequences.ind (path=GLHS$path,namstatesnew=attr(GLHS,"param")$namstates)
 }

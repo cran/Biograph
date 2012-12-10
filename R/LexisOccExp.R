@@ -1,10 +1,12 @@
 LexisOccExp <-
 function (Bdata,transition,nyear)
 { # NOTE: transition need origin state and destination state (hence NOT *M)
+	namstates <- attr(Bdata,"param")$namstates
   if (!exists("namstates")) z<- StateSpace(Bdata)
   if (substr(transition,1,1)%in%namstates==FALSE) stop ("LexisOccExp: Origin state is not in state space")
   if (substr(transition,2,2)%in%namstates==FALSE) stop ("LexisOccExp: Destination state is not in state space")
   z <- check.par (Bdata)
+  namstates <- attr(Bdata,"param")$namstates
   locpat <- locpath(Bdata)
   transition1 <- substr(transition,1,1) # State of origin (for open interval)
   require (Epi)
@@ -24,6 +26,7 @@ function (Bdata,transition,nyear)
   subjects2 <- Bdata$ID %in% Bdata$ID[subjects1]==FALSE & z==TRUE
   # BdataT : data for subjects with the given transition OR who are censored in origin state (J)
   BdataT <- Bdata[Bdata$ID %in%c(subjectsID1,subjectsID2),]
+  ns <- nchar(BdataT$path)
   # Number of closed intervals
    print (paste("Closed intervals  =  ",length(na.omit(subjectsID1)),sep=""))
    # Number of open intervals
@@ -31,7 +34,7 @@ function (Bdata,transition,nyear)
 
   # Determine the position of entry into risk set (first entry) [transition)))[1]]  
   # Determine the starting date and ending date of episode (exposure) in YEARS
-  BdataT <- date.b(Bdata=Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year",covs=NULL)  
+  BdataT <- date_b(Bdata=Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year",covs=NULL)  
     #  table(BdataT$path)
   pos <- vector (mode="numeric",length=nrow(BdataT))
   Tstart <- vector (mode="numeric",length=nrow(BdataT))
@@ -50,14 +53,14 @@ function (Bdata,transition,nyear)
       { Tstart[i] <- zz
       	Tstop[i]  <- BdataT[i,(locpat+pos[i])]
       	Tstatus[i] <- 1 } else
-      { Tstart[i] <- zz # BdataT[i,(locpat+BdataT$ns[i]-1)]
+      { Tstart[i] <- zz # BdataT[i,(locpat+ns[i]-1)]
       	Tstop[i] <- BdataT$end[i]
       	Tstatus[i] <- 0 }
     }
     Tstop <- ifelse (is.na(Tstop),BdataT$end,Tstop)
     
    #   Tstart[i] <- ifelse (BdataT$ID[i] %in% Bdata$ID[subjects1]== TRUE,
-   #           zz,BdataT[i,(locpat+BdataT$ns[i]-1)])
+   #           zz,BdataT[i,(locpat+ns[i]-1)])
    #   Tstop[i] <- ifelse (BdataT$ID[i] %in% Bdata$ID[subjects1]== TRUE,
    #           BdataT[i,(locpat+pos[i])],BdataT$end[i])
    #   Tstatus[i] <- ifelse (BdataT$ID[i] %in% Bdata$ID[subjects1]== TRUE,1,0) }
@@ -77,7 +80,7 @@ function (Bdata,transition,nyear)
   duration.neg <- length (duration[duration < 0]) # number of negative durations
   if (duration.neg > 0)
   { print ("Lexislines.episodes.R: some durations are negative.")
-    print (Dlong2[duration<0,])
+    print (Bdata[duration<0,])
     return
   }
   Lcoh <- Lexis( id = BdataT$ID,

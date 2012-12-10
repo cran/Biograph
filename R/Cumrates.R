@@ -8,7 +8,11 @@ function (irate,Bdata)
   # calling mvna produces and error: "there are undefined transitions". 
   # In that case, remove the transition from aborbing state to censoring.
   if (missing(irate)) irate=3
-z<- check.par (Bdata)
+  z<- check.par (Bdata)
+  namstates <- attr(Bdata,"param")$namstates
+  numstates <- length (namstates)
+  namage <- attr(Bdata,"param")$namage
+iagehigh <- attr(Bdata,"param")$iagehigh
 require (mvna)
 print (". . . . . .  Removing intrastate transitions . . . . . ")
 locpat <- locpath(Bdata)
@@ -30,7 +34,7 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
   { print ("  ")
   	print ("Cumrates: calls function Biograph.mvna  . . . ")
   	# convert from months to years
-  	Bdata <- date.b (Bdata=Bdata,format.in=format.in,format.out="age",covs=NULL)
+  	Bdata <- date_b (Bdata=Bdata,format.in= attr(Bdata,"format.date"),format.out="age",covs=NULL)
   	#Bdata <- CMC.ages(Bdata)  # NO COVARIATES INCLUDED
   	Dmvna <- Biograph.mvna (Bdata)
    print ("Cumrates 88")
@@ -101,7 +105,7 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
   	print ("Running Trans",quote=FALSE)  
   	trans <- Trans (Bdata)
   	print ("Running RateTable",quote=FALSE)  
-    ratetable <- RateTable (occup,trans)
+    ratetable <- RateTable (Bdata,occup,trans)
     pc_ac <- 2    # age-cohort rates  ( 1 - age-cohort rates)
     print ("Running Rates",quote=FALSE)  
     M <- Rates.ac(ratetable$Stable) 
@@ -125,5 +129,8 @@ if (!exists("M.oe")) M.oe <- NA
               oeCum = Lambda.oe,
               oe=M.oe)
  class(cum) <- 'cumrates'
+
  return (cum)
+
+#   attr(cum$D$D,"param")$namstates
 }

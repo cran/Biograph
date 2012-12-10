@@ -22,12 +22,12 @@ Lexis.points(Bdata, transition, title, cov,group,legend.pos,pdf)
 #  Example 1: ages at labour market entry, by sex
   data(GLHS)
   #y <- Parameters(GLHS)
-  z <- Lexis.points (Bdata=GLHS,transition="NJ",title="Date and age at labour market entry by sex and cohort",cov="sex",group="cohort",legend.pos=c(0.5,2.2),pdf=FALSE)
+  z <- Lexis.points (Bdata=GLHS,transition="NJ",title="Date and age at labour market entry by sex and cohort",cov="sex",group="cohort",legend.pos="right",pdf=FALSE)
 
 #  Example 2: ages at first birth among married women, by religious denomination
   data(NLOG98)
   y <- Parameters (NLOG98)
-  z <- Lexis.points (Bdata=NLOG98,transition="MK",title="Date and age at first birth (married women) by religion and cohort",cov="kerk",group="cohort",legend.pos=c(0.6,1.6),pdf=FALSE)
+  z <- Lexis.points (Bdata=NLOG98,transition="MK",title="Date and age at first birth (married women) by religion and cohort",cov="kerk",group="cohort",legend.pos="right",pdf=FALSE)
 #  Example 3: ages at leaving home, by birth cohort (any destination)
   z <- Lexis.points (Bdata=NLOG98,transition="H*",title="Date and age at leaving parental home by religion and education",cov="kerk",group="educ",legend.pos=c(0.7,0.2),pdf=FALSE)  
   }

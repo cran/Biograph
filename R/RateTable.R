@@ -1,9 +1,14 @@
 RateTable <-
-function (occup,trans)
+function (Bdata,occup,trans)
 { if (!exists(as.character(substitute(occup)))) 
 	  print ("Message from RateTable: 'occup' does not exists")
   if (!exists(as.character(substitute(trans))))
       print ("Message from RateTable: 'trans' does not exists")
+  namstates <- attr (Bdata,"param")$namstates
+  numstates <- length (namstates)
+  iagelow <- attr(Bdata,"param")$iagelow
+  iagehigh <- attr(Bdata,"param")$iagehigh
+  nage <- attr(Bdata,"param")$nage
   tstate <-occup$state_occup
   tsjt <- occup$tsjt
   meanage <- trans$meanage

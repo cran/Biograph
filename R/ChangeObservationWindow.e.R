@@ -2,6 +2,7 @@ ChangeObservationWindow.e <-
 function (Bdata,entrystate,exitstate)
 { #  Check whether Parameters was called
   z<- check.par(Bdata)
+  	namstates <- attr(Bdata,"param")$namstates
   # Check presence of entrystate and exitstate in Bdata. Remove records with missing entry- or exitstate
   # This section copied from function TransitionAB()
    if (entrystate%in%namstates & (exitstate%in%namstates|is.na(exitstate))) z=3 else stop("ChangeObservationWindow.e : Entry- or exitstate not part of state space")
@@ -14,8 +15,9 @@ function (Bdata,entrystate,exitstate)
        })
      pos <- unname(pos)
      Bdata6 <- subset (Bdata,!is.na(pos))
-     attr(Bdata6,"format.dat") <- attr(Bdata,"format.date")
+     attr(Bdata6,"format.date") <- attr(Bdata,"format.date")
      attr(Bdata6,"trans") <- attr(Bdata,"trans")
+     Bdata <- Bdata6
     }
   print (paste(nrow(Bdata)," observations with entrystate ",entrystate,sep=""),quote=FALSE)
   if (!is.na(exitstate))
@@ -26,7 +28,10 @@ function (Bdata,entrystate,exitstate)
             transition)[1])) + 1, 0))
       })
      pos <- unname(pos)
-     Bdata <- subset (Bdata,!is.na(pos))
+     Bdata3 <- subset (Bdata,!is.na(pos))
+     attr(Bdata3,"format.date") <- attr(Bdata,"format.date")
+     attr(Bdata3,"trans") <- attr(Bdata,"trans")
+     Bdata <- Bdata3
    }  
   print (paste(nrow(Bdata)," observations with entrystate ",entrystate," and  exitstate ",exitstate,sep=""),quote=FALSE)
   locpat <- locpath(Bdata)
@@ -36,7 +41,7 @@ function (Bdata,entrystate,exitstate)
     {   # Get for a state following another state the position in path and the date of occurrence
         #  x[locpath(Bdata)] is the state sequence path
         #  x[length(x)] is the first state occupied in current sequence (=low)
-        #  x[locpath(Bdata)-1] is the last state occupied (= ns)
+        #  x[locpath(Bdata)-1] is the last state occupied (= ns) REMOVED
         
     	lowx <- as.numeric(x[length(x)]) # see below
     	if (is.na(lowx))
@@ -49,10 +54,11 @@ function (Bdata,entrystate,exitstate)
     	    	            date = NA))} else
          { # State is in substring of path
            # Get the substring
-             kk <- substr(x[locpat],x[length(x)],x[(locpat-1)])
+             ns <- nchar(x[locpat])
+             kk <- substr(x[locpat],x[length(x)],ns) # x[(locpat-1)])
            # Determine position of state (loc) in substring and date at entry into state
              loc <- grep(state,stringf(kk))[1]  # loc=first location of (reference) state
-          # z98 <- ifelse (is.na(loc),as.numeric(x[(locpat-1)])-as.numeric(x[length(x)])+1,(z99 -1 + as.numeric(x[length(x)])) )
+          # z98 <- ifelse (is.na(loc),ns-as.numeric(x[length(x)])+1,(z99 -1 + as.numeric(x[length(x)])) )  # as.numeric(x[(locpat-1)])
           # Position of state in path
            locp <- ifelse (loc==1,lowx,lowx + loc -1)
            date <- ifelse (loc==1,x[3],x[(locpat+locp-1)]) # date at entry in state
@@ -65,7 +71,7 @@ function (Bdata,entrystate,exitstate)
     } # end entry88
     
     if (is.na(refstate)) # user gives NA as reference state
-     { loc <- data[,(locpat-1)]
+     { loc <- nchar(data[,locpat])   #    data[,(locpat-1)]
        date <- data[,4]
      }  else
      { date90 <- apply (data,1,function(x) entry88(x,refstate))
@@ -96,19 +102,19 @@ function (Bdata,entrystate,exitstate)
    { Bdata2$path[i] <- ifelse (is.na(entry$loc[i])," ",ifelse (is.na(exit$date[i]),entrystate,substr(Bdata$path[i],entry$loc[i],exit$loc[i])))}  
   print ("Continues creating new Biograph object. Patience please . . . ")
   for (i in 1:nrow(Bdata))
-  {  Bdata2$ns[i] <-  nchar(Bdata2$path[i])  
+  {  ns <-  nchar(Bdata2$path[i])  
      Bdata2$start[i] <- ifelse (entry$loc[i]==1,Bdata$start[i],Bdata[i,(locpat+entry$loc[i]-1)])
-     nn <- ifelse (Bdata2$ns[i]==1,1,Bdata2$ns[i]-1)
+     nn <- ifelse (ns==1,1,ns-1)
      if (nn==1) {Bdata2[i,(locpat+1)] <- Bdata[i,(locpat+entry$loc[i])]} else
            {Bdata2[i,(locpat+1):(locpat+nn)] <- Bdata[i,(locpat+entry$loc[i]):(locpat+exit$loc[i]-1)]}
      #   ifelse (is.na(exit$loc[i]),NA,Bdata[i,(locpat+entry$loc[i]):(locpat+exit$loc[i]-1)])
-     Bdata2[i,(locpat+Bdata2$ns[i]):(locpat+maxtrans)] <- NA  
+     Bdata2[i,(locpat+ns):(locpat+maxtrans)] <- NA  
      Bdata2$end <- exitdate
    }
    Bdata2 <- Bdata2[Bdata2$path!=" ",]
    attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
-   z <- Parameters(Bdata2)
-   attr(Bdata2, "trans") <- z$tmat
+   param <- Parameters(Bdata2)
+   attr(Bdata2, "param") <- param
    print("A Biograph object with new observation window is returned.",quote = FALSE)
   return (Bdata2)
  }

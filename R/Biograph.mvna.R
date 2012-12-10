@@ -6,10 +6,12 @@ function (Bdata)
 {
 # ========== Bdata TO MVNA FORMAT ======================
 # need to remove intrastate transitions
+  if (is.null(attr(Bdata,"param"))) print ("Biograph.mvna: Parameters missing. Run Parameters . . . . ",quote=FALSE)
   z <- check.par(Bdata)
+  namstates <-   attr(Bdata,"param")$namstates
   removed <- Remove.intrastate (Bdata) 
   Bdata2<- removed$D
-  tmat <- attr(Bdata2,"trans")
+  tmat <- attr(Bdata2,"param")$tmat
   namstates2 <- vector (mode="numeric",length=length(namstates))
   for (i in 1:length(namstates))
     { namstates2[i] <- grep(namstates[i],namstates)} 
@@ -35,9 +37,9 @@ function (Bdata)
        Dmvna$exit <- Dmvna$Tstop
    	
    }  else
-   {  ystart <- date.convert (Dmvna$Tstart,format.in=format.in,format.out="year")
-      ystop <- date.convert (Dmvna$Tstop,format.in=format.in,format.out="year")
-      yborn <- date.convert (Dmvna$born,format.in=format.in,format.out="year")
+   {  ystart <- date_convert (Dmvna$Tstart,format.in=format.in,format.out="year")
+      ystop <- date_convert (Dmvna$Tstop,format.in=format.in,format.out="year")
+      yborn <- date_convert (Dmvna$born,format.in=format.in,format.out="year")
       Dmvna$entry <- ystart  -yborn  # = Dmvna$Tstarta
       Dmvna$exit <- ystop  -yborn    # = Dmvna$Tstopa
     }
@@ -45,8 +47,8 @@ function (Bdata)
   D2 <- data.frame(id=Dmvna$id,from=Dmvna$from,to=as.character(Dmvna$to),
     entry=as.numeric(Dmvna$entry),exit=as.numeric(Dmvna$exit))
   D2$exit <- ifelse (D2$exit <= D2$entry,D2$exit+1,D2$exit) # CORRECT if CMC exit = CMC entry
-  attr(D2, "trans") <- attr(Bdata2,"trans")   
-  attr(Dmvna, "trans") <- attr(Bdata2,"trans")   
+  attr(D2, "param") <- attr(Bdata2,"param")   
+  attr(Dmvna, "param") <- attr(Bdata2,"para,")   
   attr(Dmvna, "format.date") <- "age"
   attr(D2, "format.date") <- "age"
       

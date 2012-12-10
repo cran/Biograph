@@ -5,14 +5,15 @@ function (Bdata,subjectsID)
 #       e.g. subjects <- c(1,40,765,5320)
 # NEEDS Parameters (first run Parameters)
 # Output: prints sample paths to text file; no other output
-{  if (missing(subjectsID)) 
+{  namstates <- attr(Bdata,"param")$namstates
+	if (missing(subjectsID)) 
 	  { print ("SamplePath: Path for random sample of 5 subjects",quote=FALSE)
 	  	subjectsID <- sample(Bdata$ID,5,replace=FALSE) }
   z <- check.par (Bdata)
-  locpat <- locpath (Bdata)
+  locpat <- attr(Bdata,"param")$locpat
   seq.ind <- Sequences.ind (Bdata$path,namstates)
  ages <- AgeTrans(Bdata)$ages  
- calendar <- date.b (Bdata,format.in=format.in,selectday=1,format.out="%d%b%y")
+ calendar <- date_b (Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="%d%b%y")
 # if format.in = age and Bdata$born not provided, skip 
 
   nn <- length(subjectsID)
@@ -37,8 +38,9 @@ function (Bdata,subjectsID)
   for (k in 1:nn) 
   { # i<- as.numeric(rownames(survey)[survey$ID==subjectsID[k]]) Replaced 7/5/2010
      i <- zc[Bdata$ID==subjectsID[k]]
-       # subjectsID = ID; get associated line number 
-    nss <- Bdata$ns[i]
+       # subjectsID = ID; get associated line number
+     ns <- nchar(Bdata$path[i]) 
+    nss <- ns
     nss1 <- nss + 1 # = number of transitions + 2 
     nss2 <- nss-1 
     cmc_trans <- vector(mode="numeric",length=nss1)
@@ -58,11 +60,11 @@ function (Bdata,subjectsID)
     cmc_dur[nss1] <- NA
       if (!is.null(attr(Bdata,"format.date"))) 
    {format.in <- attr(Bdata,"format.date")} else  stop('p.SamplePath: format.date not specified (see attr(Bdata,"format.date"))')
-    y <- date.convert (Bdata$born[i],format.in=format.in,format.out="year") 
+    y <- date_convert (Bdata$born[i],format.in=format.in,format.out="year") 
     born2 <- y 
-    y <- date.convert (Bdata$start[i],format.in=format.in,format.out="year")
+    y <- date_convert (Bdata$start[i],format.in=format.in,format.out="year")
     age_start <- y-born2
-    y <- date.convert (Bdata$end[i],format.in=format.in,format.out="year")
+    y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year")
     age_cens <- y-born2
  #   ntimeunit <- ifelse (attr(Bdata,"format.date")=="month",12,ifelse (attr(Bdata,"format.date")=="year",1,1))
  #   age_start <- (Bdata$start[i]-Bdata$born[i])/ntimeunit

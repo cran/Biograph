@@ -26,22 +26,17 @@
               \code{(7) Third step tertiary education  }}
     \item{\code{cohort}}{Birth cohort: a factor with 2 levels:  \code{(1) <1960  } \code{(2) >=1960}}
     \item{\code{YearInt}}{Year of interview}
-    \item{\code{dim}}{A constant (value 1)}
-    \item{\code{ns}}{Number of states occupied during observation period}
     \item{\code{path}}{State sequence during observation period}
-    \item{\code{ev1}}{Date of first transition in CMC}
-    \item{\code{ev2}}{Date of second transition in CMC}
-    \item{\code{ev3}}{Date of third transition in CMC}
-    \item{\code{ev4}}{Date of fourth transition in CMC}
-    \item{\code{ev5}}{Date of fifth transition in CMC}
-    \item{\code{ev6}}{Date of sixth transition in CMC}
-    \item{\code{ev7}}{Date of seventh transition in CMC}
-    \item{\code{ev8}}{Date of eighth transition in CMC}
-    \item{\code{ev9}}{Date of nineth transition in CMC}
-    \item{\code{ev10}}{Date of tenth transition in CMC}
-    \item{\code{ev11}}{Date of eleventh transition in CMC}  
-    \item{\code{ev12}}{Date of twelfth transition in CMC}  }
- }
+    \item{\code{Tr1}}{Date of first transition in CMC}
+    \item{\code{Tr2}}{Date of second transition in CMC}
+    \item{\code{Tr3}}{Date of third transition in CMC}
+    \item{\code{Tr4}}{Date of fourth transition in CMC}
+    \item{\code{Tr5}}{Date of fifth transition in CMC}
+    \item{\code{Tr6}}{Date of sixth transition in CMC}
+    \item{\code{Tr7}}{Date of seventh transition in CMC}
+    \item{\code{Tr8}}{Date of eighth transition in CMC}
+    \item{\code{Tr9}}{Date of nineth transition in CMC}
+  }}
 \details{NLOG98 data}
 \source{Statistics Netherlands. Life history format: Matsuo and Willekens, 2003}
 \references{Matsuo, H., Willekens F. (2003) 

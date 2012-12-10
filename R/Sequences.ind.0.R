@@ -7,12 +7,16 @@ function (d,namstates,absorb)
     if (is.null(namstates)) {namstates=LETTERS[1:ncol(d)]
    	                        colnames(d) <- namstates}
     if(is.null(colnames(d))) colnames(d) <- namstates	
-	if (!is.null(absorb)) {if(absorb %in% namstates==FALSE) absorb <- NULL
-                           nn <- which (colnames(d)==absorb)
+
+	if (!is.null(absorb)) {if(FALSE %in% (absorb %in% namstates)) absorb <- NULL
+                           nn <- which (colnames(d) %in% absorb)
                            d[,nn] <-d[,nn] + 0.1
                            for (i in 1:nsample)
-                             { if (!is.na(d[i,nn])) d[i,] <- ifelse (d[i,]>d[i,nn],NA,d[i,])  }
-                           d[,nn] <- trunc(d[,nn])}
+                             {  for (jk in 1:length (nn))
+                             	{  if (!is.na(d[i,nn[jk]])) d[i,] <- ifelse (d[i,]>d[i,nn[jk]],NA,d[i,])  }
+                                d[,nn] <- trunc(d[,nn])
+                             }
+                           }
 	first <- namstates[1]
 	if (!is.character(first)) warning ("The first state is not a character.")
    if (is.vector(d)) d <- t(as.matrix(d)) # single observation (nsample=1)
@@ -30,11 +34,8 @@ function (d,namstates,absorb)
     	   for (j in 1:xx) path[i] <- paste(path[i],names(zx)[j],sep="") } else
     	 { d_s[i,] <- as.numeric(d[i,]) }
      }
-   ns <- nchar(path)
    #d_s <- data.frame(d_s)
    return (list(namstates=namstates,
                 d=d_s,   # numeric
-                sequence=sequence,
-                path=path,
-                ns=ns))
+                path=path))
 }

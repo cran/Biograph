@@ -7,11 +7,18 @@ function (Bdata) {
 # trans[i,j] is from ist[i,j] to seq.ind[i,j+1]     
 #    (eg Bdata[6,] ; ages[6,]; events[6,] ; seq.ind[6,]
 # input
-#   -   tstate   Global variabl
-seq.ind <- Sequences.ind (Bdata$path,namstates) 
+#   -   tstate   Global variables
 
-print (paste ("Trans ",attr(Bdata,"format.date"),seq=""))
-print (format.in)
+namstates <- attr(Bdata,"param")$namstates
+numstates <- length (namstates)
+iagelow <-attr(Bdata,"param")$iagelow
+iagehigh <- attr(Bdata,"param")$iagehigh
+nage <- attr(Bdata,"param")$nage
+
+seq.ind <- Sequences.ind (Bdata$path,attr(Bdata,"param")$namstates) 
+format.in <- attr(Bdata,"format.date")
+#print (paste ("Trans ",attr(Bdata,"format.date"),seq=""))
+#print (format.in)
   z<- check.par(Bdata)
   if (missing(seq.ind)) seq.ind <- Sequences.ind (Bdata)
   agetrans <- AgeTrans(Bdata)
@@ -28,17 +35,18 @@ print (format.in)
 #    agecens <- trunc((Bdata$end[i]-Bdata$born[i])/ntimeunit)-iagelow + 1
    if (format.in=="age")
      {  agecens <- Bdata$end[i]-iagelow+1  } else
-     {  yb <- date.convert (Bdata$born[i],format.in=format.in,format.out="year")
-        y <- date.convert (Bdata$end[i],format.in=format.in,format.out="year")
+     {  yb <- date_convert (Bdata$born[i],format.in=format.in,format.out="year")
+        y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year")
         agecens <- trunc(y-yb)-iagelow+1  }
  
-    if (Bdata$ns[i] > 1) 
-      { for (j in 1:Bdata$ns[i]-1) 
+     ns <- nchar (Bdata$path[i])
+    if (ns > 1) 
+      { for (j in 1:ns-1) 
        {  age_at_trans <- trunc(ages[i,j])-iagelow+1   # + 1 because of vector definition
 #         occupx[i,ix] <<-  seq.ind         
          trans[age_at_trans,seq.ind[i,j],seq.ind[i,j+1]] <-  trans[age_at_trans,seq.ind[i,j],seq.ind[i,j+1]] + 1
        }}
-    trans[agecens,seq.ind[i,Bdata$ns[i]],numstates+1] <- trans[agecens,seq.ind[i,Bdata$ns[i]],numstates+1] + 1
+    trans[agecens,seq.ind[i,ns],numstates+1] <- trans[agecens,seq.ind[i,ns],numstates+1] + 1
   }
  #occupxt <- tstate
  

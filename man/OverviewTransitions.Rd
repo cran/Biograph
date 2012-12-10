@@ -18,7 +18,7 @@ OverviewTransitions(Bdata, seq.ind, agetrans)
 \examples{
  data (GLHS)
  z <- Parameters (GLHS)
- seq.ind <- Sequences.ind (GLHS$path,namstates)
+ seq.ind <- Sequences.ind (GLHS$path,attr(GLHS,"param")$namstates)
  agetrans <- AgeTrans (GLHS)
  overviewT <- OverviewTransitions (GLHS, seq.ind=seq.ind, agetrans)
 }

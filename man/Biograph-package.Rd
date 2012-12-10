@@ -14,7 +14,7 @@ Two time scales are considered: individual time (age) and calendar time.  }
 Package: \tab Biograph\cr
 Type: \tab Package\cr
 Version: \tab 1.1\cr
-Date: \tab 2012-3-29\cr
+Date: \tab 2012-10-01\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }

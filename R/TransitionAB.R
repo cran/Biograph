@@ -1,7 +1,8 @@
 TransitionAB <-
 function (Bdata,transition,keep)
-{   if (missing (transition)) stop ("TransitionAB: transition missing")
+{ if (missing (transition)) stop ("TransitionAB: transition missing")
 	f <- StateSpace (Bdata)
+	namstates <- attr(Bdata,"param")$namstates
 	if ((substring(transition,1,1)%in%namstates | substring(transition,1,1)=="*") ==FALSE) stop ("TransitionAB: at least one state not in state space. Try running StatSpace before this function")
 	if ((substring(transition,2,2)%in%namstates | substring(transition,2,2)=="*") ==FALSE) stop ("TransitionAB: at least one state not in state space. Try running StatSpace before this function")
 	if (missing(keep)) keep<-FALSE # do not remove the subjects that do not experience the transition
@@ -45,9 +46,9 @@ function (Bdata,transition,keep)
   dates <- as.numeric(dates)
 
   if (is.null(format.in)) stop("Biograph object: date format not specified. Check attributes of Biograph object. ")
-  y <- date.convert (dates,format.in=format.in,selectday=1,format.out="year",born=Bdata$born)
+  y <- date_convert (dates,format.in=format.in,selectday=1,format.out="year",born=Bdata$born)
   years <- y
-  y<- date.convert(as.numeric(Bdata$born),format.in=format.in,format.out="year")
+  y<- date_convert(as.numeric(Bdata$born),format.in=format.in,format.out="year")
   byear <- trunc(y)
   ages <- years-byear
     

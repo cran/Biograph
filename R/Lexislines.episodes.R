@@ -7,6 +7,7 @@ function (Bdata,Dlong,subjectsID,title)
   # Convert dates in years
   if (missing(subjectsID)) subjectsID <- sample(Bdata$ID,5,replace=FALSE)
   if (missing(title)) title <- "Title missing"
+   if (is.null(attr(Bdata,"format.date"))) {print ("Lexisines.episodes: format.date is missing (attribute of data)")}
   z<- check.par (Bdata)
   if (missing(Dlong)) 
        { print ("Getting data in long file format. Patience please.",quote=FALSE)
@@ -15,14 +16,13 @@ function (Bdata,Dlong,subjectsID,title)
        	 print ("Data in long format produced. Lexis continues.") } else Dlong2 <- Dlong # on input, Dlong is Dlong#Depisode
        	 
   if (!is.data.frame(Dlong2)) {stop ("Dlong$Depisode is not a data frame. Please check") }
-  
-  if (!is.null(attr(Bdata,"format.date"))) 
-   {format.in <- attr(Bdata,"format.date")} else  {print ("Lexisines.episodes: format.date is missing (attribute of data)")}
-   y <- date.convert (Dlong2$Tstart,format.in=format.in,format.out="year")
+  namstates <- attr(Bdata,"param")$namstates
+   format.in <- attr(Bdata,"format.date")
+   y <- date_convert (Dlong2$Tstart,format.in=format.in,format.out="year")
    Dlong2$TstartY <- y
-   y <- date.convert (Dlong2$Tstop,format.in=format.in,format.out="year")
+   y <- date_convert (Dlong2$Tstop,format.in=format.in,format.out="year")
    Dlong2$TstopY <- y
-   y <-date.convert (Dlong2$born,format.in=format.in,format.out="year") 
+   y <-date_convert (Dlong2$born,format.in=format.in,format.out="year") 
    bt <- y
    Dlong2$Tstartage <- Dlong2$TstartY - Dlong2$born
    Dlong2$Tstopage <- Dlong2$TstopY - Dlong2$born
@@ -76,6 +76,12 @@ function (Bdata,Dlong,subjectsID,title)
  # Mark the location of the events in the Lexis diagram
   pchh <- c(19,16,18)
   #Dlong22 <- subset(Dlong2,Dlong2$ID %in%subjectsID)
+# ------------------------------------------------
+# To prevent NOTE: no visible binding for global variable
+# http://stackoverflow.com/questions/8096313/no-visible-binding-for-global-variable-note-in-r-cmd-check
+# See also Lexis.lines
+TstopY <- Tstopage <- DES <- lex.id <- NULL
+# -------------------------------------------------
   if (length(subjectsID2) < 10) points( Lcoh11$TstopY,Lcoh11$Tstopage,pch=substr(Lcoh11$DES,1,1), cex=0.7 )
  # Display ID 
   if (length(subjectsID2) < 20) 

@@ -3,9 +3,14 @@ function (x,namstates.desired,colours,title,area,xmin,xmax,...)
 {
     if (!inherits(x, "occup.S"))
         stop("'x' must be a 'occup.S' object")
+namstates <- unlist(unname(dimnames(x)[2]))
+namstates <- namstates[1:(length(namstates)-2)]
+numstates <- length (namstates)
+namage <- unlist(unname(dimnames(x)[1]))
 occup.S <- x
 namstates2 <- colnames(occup.S)[-ncol(occup.S)]
-if (namstates2[numstates+1]=="Censored") numstates2 = numstates+1 else numstates2 = numstates
+numstates2 <- length(namstates2)
+#if (!is.na(colnames(occup.S)[numstates+1])) numstates2 = numstates+1 else numstates2 = numstates
 if (missing(namstates.desired)) namstates.desired <- colnames(occup.S)[-ncol(occup.S)]
 if (length(match(namstates2,namstates.desired))<length(namstates2)) stop("Inconsistency between names of states and desired sequence of names of states")
 if (missing(title)) title<-"Title missing"
@@ -23,6 +28,11 @@ require (reshape)
 z <- melt(zmf)
 zz <- data.frame(age=rep(age,(numstates2)),state=z[,2],count=z[,3])
 zz$state <- factor(zz$state,levels=namstates.desired)
+
+# -------------------------------------
+# To prevent "no visible binding for global variables"
+state <- NULL
+# ------------------------------------------
 h5 <- ggplot (zz,aes(age,count,fill=state)) +xlim(xmin,xmax)
 # ========  to get bar: replace geom_area by geom_bar (also below)  =======
 
@@ -33,16 +43,16 @@ if (area==TRUE)
 p2 <- h5+geom_area(aes(fill=state,colour=state),binwidth=1,stat="identity")+scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill) else
 p2 <- h5+geom_bar(aes(fill=state,colour=state),binwidth=1,stat="identity")+scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill)
 
-p3<- p2+ opts(title=title)
+p3<- p2+ ggtitle(title)
 ddx <- seq((xmin+10),(xmax+10),by=10)
 ymax <- max(occup.S[,(numstates+1)])
 ddy <- seq(0,ymax,by=trunc(ymax/10))
-p4 <- p3+opts(plot.title=theme_text(size=11))+opts(plot.background=theme_rect(fill="lightskyblue1",colour=NA),
-  panel.background=theme_rect("black"),
-  axis.text.x=theme_text(colour="black"),
-  axis.text.y=theme_text(colour="black"),
-  axis.title.x=theme_text(colour="darkgreen",face="bold"),
-  axis.title.y=theme_text(colour="darkgreen",face="bold",angle=90))  # +facet_grid(cov~.)
+p4 <- p3+theme(plot.title=element_text(size=11))+theme(plot.background=element_rect(fill="lightskyblue1",colour=NA),
+  panel.background=element_rect("black"),
+  axis.text.x=element_text(colour="black"),
+  axis.text.y=element_text(colour="black"),
+  axis.title.x=element_text(colour="darkgreen",face="bold"),
+  axis.title.y=element_text(colour="darkgreen",face="bold",angle=90))  # +facet_grid(cov~.)
   
  p4 <- p4 + geom_vline(xintercept = ddx,colour="yellow",linetype=2)
 print(p4)

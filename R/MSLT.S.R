@@ -1,6 +1,7 @@
 MSLT.S <-
 function (rates)  # replaced by M1 destin = 3th dimension
 { require (msm)
+	numstates <- dim(rates)[2]
   P<- apply(rates,1,function(x) 
 	  MatrixExp(x,t=1,n=5,k=3,method="series"))
   zz <- array (P,c(numstates,numstates,nrow(rates)))

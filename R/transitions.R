@@ -4,17 +4,19 @@ function (Bdata)
 {
 # --------- Determine OR and DE and generate flow table ------------------------------------
 if (missing(Bdata)) stop("Data missing.")
-if (!exists("namstates")) namstates <- StateSpace(Bdata)$namstates
+namstates <- StateSpace(Bdata)$namstates
+numstates <- length (namstates)
 nsample <- nrow(Bdata)
-maxns <- max(Bdata$ns)
+ns <- nchar(Bdata$path)
+maxns <- max(ns)
 str_char <- array(" ",c(maxns))
 nntrans <- array(0,c(numstates,numstates))    
 dimnames (nntrans) <- list(Origin=namstates,Destination=namstates)
 Bdata$path <- as.character(Bdata$path)
 for (i in 1:nsample)
- { if (Bdata$ns[i] > 1) 
+ { if (ns[i] > 1) 
     { str_char <- stringf(Bdata$path[i])
-      for (k in 2:(Bdata$ns[i]))
+      for (k in 2:(ns[i]))
       { io <- grep(substr(Bdata$path[i],k-1,k-1),namstates)
         id <- grep(substr(Bdata$path[i],k,k),namstates)
         nntrans[io,id] <- nntrans[io,id] + 1  # nntrans = flow table

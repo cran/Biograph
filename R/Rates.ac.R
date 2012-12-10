@@ -5,6 +5,10 @@ function(Stable)
   # Calculate transition rates (occurrence-exposure rates): rates
   #  Input: Stable.out, created in TAB_TRANS.r
   nage <- nrow(Stable)-2
+  namstates <- unlist (unname(dimnames(Stable))[3])
+  numstates <- length (namstates)
+  namage <- unlist (unname(dimnames(Stable))[1])[1:nage]
+  
   rates <- Stable[1:nage,4:(3+numstates),] # rates: origin = third dimension
   for (k in 1:numstates) rates[,k,] <- rates[,k,]/Stable[1:nage,2,]
   for (ix in 1:nage) diag(rates[ix,,]) <- 0

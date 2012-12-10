@@ -8,7 +8,7 @@ function (Bdata,transition,title,cov,group,legend.pos,pdf)
   if (missing(legend.pos)) legend <- "topleft"
   if (missing(group)) group=NULL
  # year <- data.frame(YearTrans(Bdata))
-  Bdata2 <- date.b(Bdata=Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year",covs=NULL)  
+  Bdata2 <- date_b(Bdata=Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year",covs=NULL)  
   z <- TransitionAB(Bdata=Bdata2,transition=transition,keep=FALSE)
   Bdata2 <- Bdata2[Bdata2$ID%in%z$id,] # select subjects that experienced the transition
   
@@ -30,7 +30,8 @@ if (is.null(cov))
   { covn <- cov
     covd <- Bdata2[,colnames(Bdata2)%in%covn]  }
 #namecov1 <- colnames(Bdata2[,covd])
-lex <- data.frame(age=age,date=date,covd,gp=group) 
+lex <- data.frame(age=age,date=date,covd=covd,gp=group)
+#colnames(lex)[3] <- colnames(Bdata2[which (colnames(Bdata2)%in%covn==TRUE)])  
 #lex <- subset (lex,!is.na(lex$group))
 lex$gp <- factor(lex$gp)
 #  unique (levels(lex$gp))
@@ -48,24 +49,27 @@ ncolours <- ncategories.cov
 #cov1 <- Bdata2[,poscov[1]]
 #cov2 <- Bdata2[,poscov[4]]
 # namecov2 <- colnames(Bdata2[poscov[4]])
-
-lex2 <- ggplot(lex,aes(x=date,y=age,colour=covd)) + opts(title=title) # colour p. 48
+lex2 <- ggplot(lex,aes(x=date,y=age,colour=covd)) + ggtitle(title) # colour p. 48
 lex3 <- lex2+geom_point(aes(colour=covd),size=1.2)+scale_colour_manual(values=colours)+coord_equal() 
 lex4 <- lex3+layer(geom="point")+
-    opts(legend.direction = "vertical",legend.position = legend.pos,legend.background = theme_rect(colour = 'purple', fill = 'pink'))+
-    scale_colour_manual(values=colours)+opts(plot.background=theme_rect(fill="lightskyblue1",colour=NA),
-  panel.background=theme_rect("black"),
-  axis.text.x=theme_text(colour="black"),
-  axis.text.y=theme_text(colour="black"),
-  axis.title.x=theme_text(colour="darkgreen",face="bold"),
-  axis.title.y=theme_text(colour="darkgreen",face="bold",angle=90))   # equal scales p. 136
+    theme(legend.direction = "vertical",legend.position = legend.pos,legend.background = element_rect(colour = 'purple', fill = 'pink'))+
+    theme(plot.background=element_rect(fill="lightskyblue1",colour=NA),
+  panel.background=element_rect("black"),
+  axis.text.x=element_text(colour="black"),
+  axis.text.y=element_text(colour="black"),
+  axis.title.x=element_text(colour="darkgreen",face="bold"),
+  axis.title.y=element_text(colour="darkgreen",face="bold",angle=90))   # equal scales p. 136
 
-lex5 <- lex4 + scale_colour_manual(values=colours,name=covn) +  opts(axis.text.x=theme_text(colour="black",size=6))+opts(title=title)
-if (is.null(groupn)) lex6<- lex5 else lex6 <- lex5+facet_wrap(~gp,nrow=3)
+#lex5 <- lex4 +   theme(axis.text.x=element_text(colour="black",size=6))
+if (is.null(groupn)) lex6<- lex4 else 
+    { lex6 <- lex4+facet_wrap(~gp,nrow=3)
+      lex6 <- lex6+theme(legend.direction = "vertical",legend.position = "right",legend.background = element_rect(colour = 'purple', fill = 'pink'))
+    }
 print (lex6)
 if (pdf)
 { pdf("graph.pdf", width = 8, height = 16)  # portrait
   print (lex6)
   dev.off()  }
+  
  return(lex6)
 }

@@ -1,8 +1,9 @@
 YearTrans <-
 function (Bdata) 
 {   z <- check.par (Bdata)
+	format.in <- attr(Bdata,"format.date")
 	selectday <- 1
-	 if (format.in=="year"|format.in=="years") Bdata2 <- Bdata else if (format.in=="age"|format.in=="ages") Bdata2 <- Bdata else Bdata2 <- date.b(Bdata,format.in,selectday,format.out="year")
+	 if (format.in=="year"|format.in=="years") Bdata2 <- Bdata else if (format.in=="age"|format.in=="ages") Bdata2 <- Bdata else Bdata2 <- date_b(Bdata,format.in,selectday,format.out="year")
    nsample <- nrow(Bdata2)
    maxtrans <- ncol(Bdata2)-locpath(Bdata2)
    yeartrans <- array(0,c(nsample,maxtrans))

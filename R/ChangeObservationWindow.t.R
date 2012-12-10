@@ -1,8 +1,10 @@
 ChangeObservationWindow.t <-
 function (Bdata,starttime,endtime,covs.dates)
 { #  Check whether Parameters was called
+	
    if (missing(covs.dates)) covs.dates <- NULL
-  z<- check.par(Bdata) 
+  z<- check.par(Bdata)
+     namstates <- attr(Bdata,"param")$namstates
   # Check whether starting and ending times are in observation window
   Bdata2 <- Bdata
   locpat <- locpath(Bdata)
@@ -23,9 +25,10 @@ function (Bdata,starttime,endtime,covs.dates)
    
    for (i in 1:nrow(Bdata2))
   { # state occupied at starttime
-    if (Bdata2$ns[i] >1)
-    {zx <- c(Bdata2$start[i],Bdata[i,(locpath(Bdata)+1):(locpath(Bdata)+Bdata2$ns[i]-1)],Bdata2$end[i])
-     zx <- Bdata[i,(locpath(Bdata)+1):(locpath(Bdata)+Bdata2$ns[i]-1)]
+  	ns <- nchar(Bdata2$path[i])
+    if (ns >1)
+    {zx <- c(Bdata2$start[i],Bdata[i,(locpath(Bdata)+1):(locpath(Bdata)+ns-1)],Bdata2$end[i])
+     zx <- Bdata[i,(locpath(Bdata)+1):(locpath(Bdata)+ns-1)]
      zx <- unlist (zx)
      zy <- ifelse (zx >= rep(starttime,length(zx)) & zx <= rep(endtime,length(zx)),zx,0)
      # new transition dates
@@ -35,8 +38,8 @@ function (Bdata,starttime,endtime,covs.dates)
       }
  ## Determine state occupied at onset of new observation window
       if (max(zx,na.rm=TRUE) <starttime)
-        {Bdata2$ns[i] <- 1
-         Bdata2$path[i] <- substr(Bdata$path[i],Bdata$ns[i],Bdata$ns[i]) } else
+        {ns <- 1
+         Bdata2$path[i] <- substr(Bdata$path[i],ns,ns) } else
        { if (length(na.omit(starttime-zx)) > 0)  # vector of NAs
          {ii <- ifelse (starttime > zx[1], min(which(starttime-zx<=0),na.rm=TRUE),NA)} else # starttime after birth
          {ii <- NA}
@@ -44,13 +47,12 @@ function (Bdata,starttime,endtime,covs.dates)
       state1 <- substr(Bdata2$path[i],ii,ii)
       pathn <- substr(Bdata2$path[i],ii,ii+length(zy[zy>0]))
      Bdata2$path[i] <- pathn
-     Bdata2$ns[i] <- nchar(pathn)
    }}    
   }
-  z <- Parameters(Bdata2)
-  attr(Bdata2, "trans") <- z$tmat
-  attr(Bdata2,"statespace") <- namstates
-  attr(Bdata2,"format.date") <- format.in
+  param <- Parameters(Bdata2)
+  attr(Bdata2, "param") <- param
+ # attr(Bdata2,"statespace") <- namstates
+  attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
   print("A Biograph object with new observation window is returned.",quote = FALSE)
   return (Bdata =Bdata2)
  }

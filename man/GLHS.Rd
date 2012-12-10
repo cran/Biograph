@@ -16,8 +16,6 @@
     \item{\code{marriage}}{Date of marriage (CMC) (TB in BR data)}
     \item{\code{LMentry}}{Date of entry in labour force (CMC) (TE in BR data)}
     \item{\code{cohort}}{Birth cohort. A factor with levels \code{1929-31} \code{1939-41} \code{1949-51}}
-    \item{\code{idim}}{a numeric vector (not used)}
-    \item{\code{ns}}{Number of states occupied during observation period.}
     \item{\code{path}}{State sequence (a character vector)}
     \item{\code{Tr1}}{Date of first transition (CMC)}
     \item{\code{Tr2}}{Date of second transition (CMC)}

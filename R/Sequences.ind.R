@@ -1,6 +1,9 @@
 Sequences.ind <-
 function(path,namstatesnew)
-{ if (missing(namstatesnew))  if (exists ("namstates")) namstatesnew <- namstates else stop ("Sequences.ind: namstates is missing")
+{ namstates <- StateSpace (path)$namstates
+	if (missing(namstatesnew))  if (exists ("namstates")) namstatesnew <- namstates else stop ("Sequences.ind: namstates is missing")
+  # In case of Error in path.num[i, k] <- grep(str_char[k], namstatesnew)
+  # run Parameters and get namstatesnew 
   path <- as.character(path)
   nsample<-length(path)
   maxns <- max(nchar(path))

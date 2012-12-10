@@ -11,6 +11,11 @@ function (Bdata,seq.ind,agetrans) {
 #   -   tstate   Global variable
 # Direct transitions and censored cases
    z<- check.par(Bdata)
+   namstates <- attr(Bdata,"param")$namstates
+  numstates <- length (namstates)
+  iagelow <- attr(Bdata,"param")$iagelow
+  iagehigh <- attr(Bdata,"param")$iagehigh
+  nage <- attr(Bdata,"param")$nage
    if (missing(seq.ind)) 
        { print ("Calling function seq.ind",quote=FALSE)
        	seq.ind <- Sequences.ind (Bdata$path,namstates) }
@@ -21,7 +26,8 @@ function (Bdata,seq.ind,agetrans) {
   agecens <- agetrans$agecens
   nsample <- nrow(Bdata)
   agelist2 <- c(iagelow:iagehigh) 
-  zz <- length(agelist2)             
+  zz <- length(agelist2)  
+  ns <- nchar(Bdata$path)           
   trans <- array(0,c(zz,numstates,numstates+1))
   zz1 <- zz - 1                 
   dimnames(trans) <- list (Age = c(0:zz1),origin=namstates,destination=c(namstates,"censored"))
@@ -30,17 +36,17 @@ function (Bdata,seq.ind,agetrans) {
   if (attr(Bdata,"format.date") != "days" & max(agecens) > 150) warning("OverviewTransitions: age at censoring exceeds 150. Please check.")
    
   for (i in 1:nsample) {
-  	yb <- date.convert (Bdata$born[i],format.in=format.in,format.out="year",born=Bdata$born[i])
-    y <- date.convert (Bdata$end[i],format.in=format.in,format.out="year",,born=Bdata$born[i])
-    agecens <- ifelse (Bdata$ns[i]==1,trunc(y-yb)-iagelow+1,ifelse(y==ages[i,(Bdata$ns[i]-1)],NA,trunc(y-yb)-iagelow+1))
+  	yb <- date_convert (Bdata$born[i],format.in=format.in,format.out="year",born=Bdata$born[i])
+    y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year",,born=Bdata$born[i])
+    agecens <- ifelse (ns[i]==1,trunc(y-yb)-iagelow+1,ifelse(y==ages[i,(ns[i]-1)],NA,trunc(y-yb)-iagelow+1))
     
-    if (Bdata$ns[i] > 1) 
-      { for (j in 1:Bdata$ns[i]-1) 
+    if (ns[i] > 1) 
+      { for (j in 1:ns[i]-1) 
        {  age_at_trans <- trunc(ages[i,j])-iagelow+1   # + 1 because of vector definition
 #         occupx[i,ix] <<-  seq.ind         
          trans[age_at_trans,seq.ind[i,j],seq.ind[i,j+1]] <-  trans[age_at_trans,seq.ind[i,j],seq.ind[i,j+1]] + 1
        }}
-    if (!is.na(agecens)) trans[agecens,seq.ind[i,Bdata$ns[i]],numstates+1] <- trans[agecens,seq.ind[i,Bdata$ns[i]],numstates+1] + 1
+    if (!is.na(agecens)) trans[agecens,seq.ind[i,ns[i]],numstates+1] <- trans[agecens,seq.ind[i,ns[i]],numstates+1] + 1
   }                                                                                     
  #occupxt <- tstate
   

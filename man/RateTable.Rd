@@ -4,9 +4,10 @@
 \title{Table for rate calculation}
 \description{Ratetable produces a table of transition counts and exposure times for the computation of transition rates (occurrence-exposure rates)}
 \usage{
-RateTable(occup, trans)
+RateTable(Bdata,occup, trans)
 }
 \arguments{
+  \item{Bdata}{Biograph object}
   \item{occup}{Object produced by the Occup function}
   \item{trans}{Object produced by the Trans function}
 }
@@ -22,9 +23,9 @@ RateTable(occup, trans)
  data (GLHS)
  z<- Parameters (GLHS)
  occup <- Occup(GLHS)
- ist <- Sequences.ind (GLHS$path,namstates)
+ ist <- Sequences.ind (GLHS$path,attr(GLHS,"param")$namstates)
  trans <- Trans (GLHS)
- w <- RateTable(occup, trans)
+ w <- RateTable(GLHS,occup, trans)
 }
 \keyword{ Transitions }
 \keyword{ Exposure }

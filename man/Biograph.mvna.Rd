@@ -34,6 +34,6 @@ Allignol, A., J. Beyersmann and M. Schumacher (2008) mvna: An R package for the 
   D <- Biograph.mvna (GLHS)
   # Run mvna:
   require (mvna)
-  na <- mvna(data=D$D,state.names=namstates,tra=D$par$trans_possible,cens.name=D$cens)
+  na <- mvna(data=D$D,state.names=D$par$namstates,tra=D$par$trans_possible,cens.name=D$cens)
   
 }

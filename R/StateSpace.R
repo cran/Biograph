@@ -1,8 +1,9 @@
 StateSpace <-
-function (Bdata,newnamstates) 
-{   if (missing(newnamstates)) newnamstates <- NULL
+function (d,newnamstates) 
+{   # d can be an entire Biograph object (e.g. Bdata) of a vector of state sequences (e.g. Bdata$path)
+	if (missing(newnamstates)) newnamstates <- NULL
 	 # Get the state space from the data (by inspecting Bdata$path)
-    d <- unique(as.character(Bdata$path))
+      if (class(d)=="data.frame") d <- unique(as.character(d$path)) else {if (class(d)=="character") d = d else stop ("Error in StateSpace" ) }
     namstates <- array(NA, 50)
     numstates <- 0
     for (i in 1:length(d)) {
@@ -39,9 +40,9 @@ function (Bdata,newnamstates)
 
    if (NA %in% z) 
       stop ("No match between namstates and newnamstates. Enter a new global variable 'namstates'. ") else  
-      {namstates <- newnamstates; assign("namstates",newnamstates,envir=.GlobalEnv)}
+      {namstates <- newnamstates }  #assign("namstates",newnamstates,envir=.GlobalEnv)}
 
-    assign("numstates",numstates,envir=.GlobalEnv)
+   # assign("numstates",numstates,envir=.GlobalEnv)
     return(list(namstates = namstates,
                 absorbstates = absorbstates))
 }

@@ -1,8 +1,11 @@
 OverviewEpisodes <-
 function (Bdata,seq.ind) {
   z <- check.par (Bdata)
+  namstates <- attr(Bdata,"param")$namstates
+  numstates <- length (namstates)
   nsample <- nrow(Bdata)
   locpat <- locpath(Bdata)
+  ns <- nchar (Bdata$path)
   if (missing(seq.ind)) 
        { print ("Calling function seq.ind",quote=FALSE)
        	seq.ind <- Sequences.ind (Bdata$path,namstates) }
@@ -11,7 +14,7 @@ function (Bdata,seq.ind) {
   # no transition: determine state at onset of observation
   NumEpisodes <- array(0,c(numstates+1,5))
   for (i in 1:nsample) {
-    nns <- Bdata$ns[i]
+    nns <- nchar(Bdata$path[i])
     nns2 <- nns-1
   #     LRO and LO
     if(nns==1) NumEpisodes[seq.ind[i,1],1] <- NumEpisodes[seq.ind[i,1],1] + 1 
@@ -28,11 +31,11 @@ function (Bdata,seq.ind) {
   
     DurEpisodes <- array(0,c(numstates+1,5))  
   for (i in 1:nsample) {
-    nns <- Bdata$ns[i]
+    nns <- nchar(Bdata$path[i])
     nns2 <- nns-1
-    nns77 <- locpat+Bdata$ns[i]-1    # number of last transition before censoring
-    if(nns==1) DurEpisodes[seq.ind[i,1],1] <- DurEpisodes[seq.ind[i,1],1] + Bdata$end[i]-Bdata$start[i] 
-    else {DurEpisodes[seq.ind[i,1],2] <- DurEpisodes[seq.ind[i,1],2] + Bdata[i,(locpat+1)]-Bdata$start[i] 
+    nns77 <- locpat+nns-1    # number of last transition before censoring
+    if(nns==1) {DurEpisodes[seq.ind[i,1],1] <- DurEpisodes[seq.ind[i,1],1] + Bdata$end[i]-Bdata$start[i]} else 
+       {DurEpisodes[seq.ind[i,1],2] <- DurEpisodes[seq.ind[i,1],2] + Bdata[i,(locpat+1)]-Bdata$start[i] 
           DurEpisodes[seq.ind[i,nns],3] <-  DurEpisodes[seq.ind[i,nns],3] + Bdata$end[i]-Bdata[i,nns77]
           if (nns>2) for(j in 2:nns2) { 
               jj21 <- locpat + j -1
@@ -46,8 +49,8 @@ function (Bdata,seq.ind) {
 
 
   return (list(n= nsample,
-               ne = sum(Bdata$ns),
-               nt = sum(Bdata$ns-1),
+               ne = sum(ns),
+               nt = sum(ns-1),
                types=NumEpisodes,
   			   sojourn=DurEpisodes))
  }

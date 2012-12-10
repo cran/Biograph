@@ -1,8 +1,10 @@
 MSLT.e <-
 function (S,radix)
-{  nage <- nrow(S)
+{ 	nage <- nrow(S)
    iradix <- which(radix>0)
    lt <- apply(S[,,iradix],1,sum) # total survival prob: starts in iradix (1)
+    namstates <- unlist(unname(dimnames(S)[2]))
+    numstates <- length (namstates)
    LL <- array(0,c(nage,numstates,numstates))
    dimnames(LL) <- dimnames(S)
    for (ix in 1:(nage-1))

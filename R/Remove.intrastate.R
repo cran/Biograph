@@ -2,10 +2,10 @@ Remove.intrastate <-
 function (Bdata)
 {
 # Check whether intrastate transitions have been removed. 
-  if (is.null(attr(Bdata,"trans")))   # attribute trans is missing
-    {    stop ("Attribute 'trans' is missing from Biograph object. First run Parameters and add attribute.",quote=FALSE)	
+  if (is.null(attr(Bdata,"param")))   # attribute trans is missing
+    {    stop ("Attribute 'param' is missing from Biograph object. First run Parameters and add attribute.",quote=FALSE)	
     }
-  z<- !is.na(diag(attr(Bdata,"trans")))
+  z<- !is.na(diag(attr(Bdata,"param")$tmat))
   if (!TRUE %in%z) # all diagonal elements are NA
  {   print ("No intra-state transitions present in the data.",quote=FALSE)
  	 zz <- transitions (Bdata)
@@ -36,7 +36,6 @@ function (Bdata)
  print (". . . . Intrastate transitions removed. Recalculating transitions . . . . ",quote=FALSE)
  Bdata2 <- Bdata
  Bdata2$path <- pp
- Bdata2$ns <- nchar(Bdata2$path)
  Bdata2[,(locpat+1):ncol(Bdata2)] <- dates  
  z <- transitions (Bdata2)
  attr(Bdata2,"trans") <- z$tmat

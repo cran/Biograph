@@ -8,13 +8,16 @@ function (x,e0,order,colours,title,area,xmin,xmax,...)
  	if (missing (title)) title <- "Title"
  	if (missing (area)) area <- TRUE
  	if (missing (order)) order <- NULL
- 	if (missing(xmin)) xmin <- iagelow
- 	if (missing(xmax)) xmax <- iagehigh
- 	if (missing(colours)) colours <- rainbow(numstates)
+ 	if (missing(xmin)) xmin <- min(as.numeric(unlist(unname(dimnames(x)[1]))))
+ 	if (missing(xmax)) xmax <- max(as.numeric(unlist(unname(dimnames(x)[1]))))
+    namstates <- unlist(unname(dimnames(x)[2]))
+    numstates <- length (namstates)
+    if (missing(colours)) colours <- rainbow(numstates)
     if (length(colours) < numstates) 
         { print ("Number of colours is less than number of states. The states are: ")
           print (namstates)  }
  	
+       
   # Graph the state probabilities
    require (ggplot2)
    numstates.case = numstates # to plot occup: numstates+1 (censoring)
@@ -38,6 +41,7 @@ if (!is.null(order)) zz$state <- factor(zz$state,levels=order,labels=namst[1:num
 levels (zz$state)
 #zz$state <- factor(zz$state,levels=order)
 
+state <- NULL
 h5 <- ggplot (zz,aes(age,count,fill=state)) +xlim(xmin,xmax)
 # ========  to get bar: replace geom_area by geom_bar (also below)  =======
 #colours3 <- c("red","blue","lightgrey") #  numstates.case (censoring)
@@ -50,16 +54,16 @@ p2 <- h5+geom_area(aes(fill=state))+ scale_colour_manual(values=colours.outline)
 p2 <- h5+geom_bar(aes(fill=state),binwidth=1,stat="identity")+ scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill)
 # earlier: geom_area (,colour=state)
 
-p3<- p2+ opts(title=title)+opts(legend.position = "none") 
-p4 <- p3+opts(plot.title=theme_text(size=11))+opts(plot.background=theme_rect(fill="lightskyblue1",colour=NA),
-  panel.background=theme_rect("black"),
-  axis.text.x=theme_text(colour="black"),
-  axis.text.y=theme_text(colour="black"),
-  axis.title.x=theme_text(colour="darkgreen",face="bold"),
-  axis.title.y=theme_text(colour="darkgreen",face="bold",angle=90)) 
+p3<- p2+ ggtitle(title)+theme(legend.position = "none") 
+p4 <- p3+theme(plot.title=element_text(size=11))+theme(plot.background=element_rect(fill="lightskyblue1",colour=NA),
+  panel.background=element_rect("black"),
+  axis.text.x=element_text(colour="black"),
+  axis.text.y=element_text(colour="black"),
+  axis.title.x=element_text(colour="darkgreen",face="bold"),
+  axis.title.y=element_text(colour="darkgreen",face="bold",angle=90)) 
      #   +facet_grid(cov~.)
 
-p5 <- p4 +opts(legend.position=c(0.80,0.78),legend.background = theme_rect(colour = 1))
+p5 <- p4 +theme(legend.position=c(0.80,0.78),legend.background = element_rect(colour = 1))
 namst8 <- levels(zz$state)   #   namst[1:numstates]
 # USE  scale_linetype_discrete(name = "Fancy Title")
  p6 <- p5 + scale_linetype(name="Life\nExpectancy",breaks=namst8,labels=namst8) +
@@ -72,4 +76,8 @@ print(p7)
 #dev.off()
   return(list(S=S,
               plot=p7))
+#  StackGraph(S[,1:numstates,1],xlabel="Age",ylabel="State probability",xlegend="topright",
+#  ylegend="topright",title,title_sub,namst)
+#  abline(h=0.5,lty=2,colour="darkgrey")
+ 
 }
