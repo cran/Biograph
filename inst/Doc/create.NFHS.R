@@ -6,7 +6,10 @@ library (Biograph)
 # ------------------  Read data  -------------------
 zz1 <- "/Users/franswillekens/Documents/R/India/NFHS/NFHS-3/Women/"
 AP3 <- paste(zz1,"AP.sav",sep="")
-d06 <- data.frame(read.spss (AP3,use.value.labels=F)) 
+d06 <- data.frame(read.spss (AP3,use.value.labels=FALSE)) 
+zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/NFHS"
+setwd(zz9)
+save (d06,file="d06.RData")
 # v011	date of birth (all dates in CMC)
 # v008	date of interview 
 # v509	date of first marriage
@@ -23,7 +26,8 @@ CEB <- d06$v201 # Number of children ever born
 
 # -----------------  Arrange births by birth order  --------
 # Birth sequence (first child first). In the raw data, the
-# youngest child (last birth) is listed first. Using data on birth order, the variable cmc_k06 is created, where the oldest is listed first.
+# youngest child (last birth) is listed first. Using data on birth order, the variable 
+# cmc_k06 is created, where the oldest is listed first.
 cmc_child <- array(NA,dim=c(nrow(d06),20))
 colnames (cmc_child) <- c(paste("ch",1:20,sep=""))
 cmc_child <- cbind(d06$b3.01,d06$b3.02,d06$b3.03,d06$b3.04,d06$b3.05,
@@ -58,7 +62,7 @@ namstates <- c("H","M",letters[1:max(CEB)],"S") # state space
 ID <- c(1:nsample)  							# identification number
 born <- d06$v011								# date of birth
 start <-born									# onset of observation
-end <-d06$v008 # CMC at interview				# end of observation
+end <-d06$v008 +1 # CMC at interview			# end of observation
 
 nn <- max(CEB)+2
 # -------------  dates of transition (CMC)  -----------------
@@ -80,7 +84,7 @@ EDU <- as.factor(d06$v106)  # education
 WEAL <- as.factor(d06$v190) # wealth index
 U_R <- as.factor(d06$v102)  # urban/rural residence
 # ------------   Make data frame  --------------
-namtrans <- paste("Ev",1:ncol(f$d),sep="")
+namtrans <- paste("Tr",1:ncol(f$d),sep="")
 D.AP <- data.frame (ID,born,start,end,COH,EDU,WEAL,U_R,CEB,path,f$d)  
 D.AP$path <- as.character(D.AP$path)
 namcov <- c("COH","EDU","WEAL","U_R","CEB")
@@ -90,7 +94,7 @@ AP <- cbind(D.AP[,1:locpat],round(D.AP[,(locpat+1):ncol(D.AP)],2))
 attr(AP,"format.date") <- "year"
 param <- Parameters(AP)
 attr(AP,"param") <- param
-zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/NFHS"
+zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/NFHS"
 setwd(zz9)
 save(AP,file="AP.RData")
 

@@ -32,7 +32,7 @@
   }
 }
 \source{
-for the original data, see http://oldsite.soziologie-blossfeld.de/eha/tda/cf_files/Data/RRDAT.1}
+For the original data, see http://oldsite.soziologie-blossfeld.de/eha/tda/cf_files/Data/RRDAT.1}
 \references{
 Blossfeld, H.P. and G. Rohwer (2002) Techniques of event history modeling. New approaches to causal analysis. Lawrence Erlbaum, Mahwah, New Jersey (2nd Edition).
 

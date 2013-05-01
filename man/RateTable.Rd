@@ -18,7 +18,6 @@ RateTable(Bdata,occup, trans)
    }
 \references{Willekens (2011)}
 \author{Frans Willekens}
-\note{The functions Occup and Trans must be invoked before the RateTable function. Otherwise an error message follows.}
 \examples{
  data (GLHS)
  z<- Parameters (GLHS)

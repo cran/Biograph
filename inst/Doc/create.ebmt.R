@@ -1,10 +1,10 @@
 
 
 rm(list=ls())
+library (Biograph)
 library (mstate)
 data (ebmt4)
 attach(ebmt4)
-library (Biograph)
 #  2279 patients transplanted at the EBMT between 1985 and 1998;15 variables
  # id Patient identification number
  # rec Time in days from transplantation to recovery or last follow-up
@@ -56,7 +56,7 @@ cov <- c("year","agecl","proph","match")
 attach (ebmt4)
 options(stringsAsFactors=FALSE)
 # ------------  Create Biograph object "EBMT"   -------------
-namtrans <- paste("Ev",1:3,sep="")
+namtrans <- paste("Tr",1:3,sep="")
 EBMT <- data.frame (ID=ebmt4$id,born=rep(0,nsample),start=rep(0,nsample),end=end,year=year,agecl=agecl,proph=proph,match=match,path=as.character(path),f$d[,1:(max(nchar(path))-1)])
 namcov <- c("year","agecl","proph","match")
 colnames(EBMT) <- c("ID","born","start","end",namcov,"path",namtrans)
@@ -64,7 +64,7 @@ locpat <- locpath(EBMT)
 attr(EBMT,"format.date") <- "day"
 param <- Parameters(EBMT)
 attr(EBMT,"param") <- param
-zz8 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/EBMT/"
+ zz8 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/EBMT/"
 setwd(zz8)
 save (EBMT,file="EBMT.RData")
 

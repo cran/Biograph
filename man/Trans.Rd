@@ -6,7 +6,6 @@
 \arguments{
   \item{Bdata}{Biograph object}
 }
-\details{The function calls Sequences.ind}
 \value{
 	\item{Ttrans}{Total number of transitions by origin and destination.}
 	\item{meanage}{Mean age of transitions by origin and destination}

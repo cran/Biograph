@@ -7,7 +7,7 @@
   \item{Bdata}{input data: Biograph object}
   \item{seq.ind}{individual state sequences. If seq.ind is missing, the function calls Sequences.ind to obtain the individual state sequences.}
 }
-\details{Open intervals start before onset of observation (left truncated) or continue after observation ended (right censored). Closed intervals start and end during the observation period.}
+\details{Open intervals start before onset of observation (left truncated) or continue after observation ends (right censored). Closed intervals start and end during the observation period.}
 \value{
   \item{n}{Sample size}
   \item{ne}{Total number of episodes}

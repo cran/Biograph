@@ -17,7 +17,7 @@ require (mvna)
 print (". . . . . .  Removing intrastate transitions . . . . . ")
 locpat <- locpath(Bdata)
 removed <- Remove.intrastate(Bdata)
-Bdata <- removed$D
+Bdata <- removed
 z<- StateSpace (Bdata)
 st.absorb <- z$absorbstates
 # ========  Step 1: ESTIMATE TRANSITION RATES ========
@@ -36,6 +36,7 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
   	# convert from months to years
   	Bdata <- date_b (Bdata=Bdata,format.in= attr(Bdata,"format.date"),format.out="age",covs=NULL)
   	#Bdata <- CMC.ages(Bdata)  # NO COVARIATES INCLUDED
+  	print (Bdata[1:5,])
   	Dmvna <- Biograph.mvna (Bdata)
    print ("Cumrates 88")
   	# see GLHS_mvna.r
@@ -57,8 +58,9 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
     # Absorbing states determined in StateSpace (letter)
     if (is.null(st.absorb)) zz2 <- D3 else 
          {  st.absorb2 <- which (namstates==st.absorb)
-         	zz2 <- subset (D3,D3$from!=st.absorb2) }
-    na <- mvna(data=zz2,state.names=namstates,tra=Dmvna$par$trans_possible,cens.name=Dmvna$cens)
+         	zz2 <- subset (D3,D3$from!=st.absorb) } 
+         	       # NOTE: st.absorb used because name of state is given (nog mumber)
+    na <- mvna(data=zz2,state.names=namstates,tra=attr(Dmvna$D,"param")$trans_possible,cens.name=Dmvna$cens)
     cumh <- predict (na,times=seq(0,iagehigh,by=1))
    #	print ("cumrates test78")   
 # see MSLT.mvna.r
@@ -72,9 +74,9 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
       	 namage <- 0:(nage-1)}
    dimnames(Lambda) <- list(age=namage[1:nage],destination=namstates,origin=namstates,variant=c("Expected","Upper","Lower"))
    
-   	for (i in 1:removed$par$ntrans)
-   	{ des <- as.numeric(as.character(removed$par$transitions$DES[i]))
-   	  or <- as.numeric(as.character(removed$par$transitions$OR[i]))
+   	for (i in 1:attr(removed,"param")$ntrans)
+   	{ des <- as.numeric(as.character(attr(removed,"param")$transitions$DES[i]))
+   	  or <- as.numeric(as.character(attr(removed,"param")$transitions$OR[i]))
    	  Lambda[,des,or,1] <- cumh[[i]]$na
       Lambda[,des,or,2] <- cumh[[i]]$upper
       Lambda[,des,or,3] <- cumh[[i]]$lower
@@ -92,8 +94,9 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
   dimnames (astr) <- dimnames (Lambda)
   astr[1,,,] <- Lambda[1,,,]
   for (ix in 2:nage)
-  { astr[ix,,,] <- Lambda[ix,,,]-Lambda[(ix-1),,,]
+  { astr[ix-1,,,] <- Lambda[ix,,,]-Lambda[(ix-1),,,]
   }
+  astr[nage,,,] <- 0
   }
   if (irate %in% c(2,3))
   { # === occurrence-exposure rates ====
@@ -124,8 +127,8 @@ if (!exists("M.oe")) M.oe <- NA
  cum <- list(D=removed,
               irate=irate,
               NeAa = Lambda,
-              astr = astr,
               predicted=cumh,
+              astr = astr,
               oeCum = Lambda.oe,
               oe=M.oe)
  class(cum) <- 'cumrates'

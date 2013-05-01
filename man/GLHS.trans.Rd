@@ -9,7 +9,7 @@ GLHS.trans(names)
   \item{names}{The names of the three states. If the names are missing, the default names Job1, Job2 and NoJob are given}
 }
 \value{
-  \item{tmat}{The transition matrix of possible transitions in the illness-death model. A possible transition is denoted by a number.}
+  \item{}{The transition matrix of possible transitions in the illness-death model. A possible transition is denoted by a number.}
      }
 \examples{
 	data (GLHS)

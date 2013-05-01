@@ -24,7 +24,7 @@ Cumrates(irate, Bdata)
 	\item{oe}{The M-matrix of age-specific transition (occurrence-exposure) rates by origin and destination}
 	}
 \author{Frans Willekens}
-\note{The function takes time to execute. It calls Parameters, date.comnvert, Remove.intrastate, statesequence.ind, Occup, Trans, RateTable, Rates.ac, Biograph.mvna and the mvna and predict functions of the mvna package.}
+\note{The function takes time to execute. It calls Parameters, date_convert, Remove.intrastate, statesequence.ind, Occup, Trans, RateTable, Rates.ac, Biograph.mvna and the mvna and predict functions of the mvna package.}
 \examples{
     data(GLHS)
     Bdata.a <- date_b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))

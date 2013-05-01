@@ -25,8 +25,9 @@ Biograph.mvna(Bdata)
   \item{cens}{Character string denoting censoring (it is "cens")}
   }
 \references{
-For mvna package: 
 Allignol, A., J. Beyersmann and M. Schumacher (2008) mvna: An R package for the Nelson-Aalen estimator in multistate models. R Newsletter, 8(2):48-50
+
+Allignol, A., M. Schumacher and J. Beyersmann (2011). Empirical transition matrix of multistate models: the etm package. Journal of Statistical Software, 38(4), 15 pp. 
 }
 \author{Frans Willekens}
 \examples{
@@ -34,6 +35,6 @@ Allignol, A., J. Beyersmann and M. Schumacher (2008) mvna: An R package for the 
   D <- Biograph.mvna (GLHS)
   # Run mvna:
   require (mvna)
-  na <- mvna(data=D$D,state.names=D$par$namstates,tra=D$par$trans_possible,cens.name=D$cens)
+  na <- mvna(data=D$D,state.names=attr(D$D,"param")$namstates,tra=attr(D$D,"param")$trans_possible,cens.name=D$cens)
   
 }

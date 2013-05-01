@@ -55,7 +55,7 @@ function (Bdata)
 
   # D$DES <- ifelse (D$time > D$ns,"cens",substr(D$path,(D$time),(D$time)))
   D$status <- ifelse (D$DES=="cens",0,1)
-  zloc=10
+  zloc=9
   ncovariates <- attr(Bdata,"param")$ncovariates
    namstates <-   attr(Bdata,"param")$namstates
   D$trans <- apply(D,1,function (x) {ifelse (x[ncovariates+zloc+2]=="cens", 

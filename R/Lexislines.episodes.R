@@ -16,16 +16,16 @@ function (Bdata,Dlong,subjectsID,title)
        	 print ("Data in long format produced. Lexis continues.") } else Dlong2 <- Dlong # on input, Dlong is Dlong#Depisode
        	 
   if (!is.data.frame(Dlong2)) {stop ("Dlong$Depisode is not a data frame. Please check") }
-  namstates <- attr(Bdata,"param")$namstates
-   format.in <- attr(Bdata,"format.date")
+  namstates <- attr(Dlong2,"param")$namstates
+   format.in <- attr(Dlong2,"format.date")
    y <- date_convert (Dlong2$Tstart,format.in=format.in,format.out="year")
    Dlong2$TstartY <- y
    y <- date_convert (Dlong2$Tstop,format.in=format.in,format.out="year")
    Dlong2$TstopY <- y
    y <-date_convert (Dlong2$born,format.in=format.in,format.out="year") 
    bt <- y
-   Dlong2$Tstartage <- Dlong2$TstartY - Dlong2$born
-   Dlong2$Tstopage <- Dlong2$TstopY - Dlong2$born
+   Dlong2$Tstartage <- Dlong2$TstartY - bt
+   Dlong2$Tstopage <- Dlong2$TstopY - bt
          
   en1 <- Dlong2$TstartY
   ex1 <-  Dlong2$TstopY

@@ -246,7 +246,7 @@ param <- Parameters(SHARE)
 attr(SHARE,"param") <- param
 # 210 cases without date of birth. These are removed.
 table(trunc(SHARE$born),useNA="always")
-
-zzd <-  "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/SHARE/SHARE"
-save (zzd,file="SHARE.RData")
+zzd <-  "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/SHARE/"
+setwd(zzd)
+save (SHARE,file="SHARE.RData")
 # ===========   BIOGRAPH OBJECT COMPLETE   ==============

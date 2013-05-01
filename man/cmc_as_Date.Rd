@@ -9,7 +9,7 @@
   \item{format.out}{Format of output dates}
   }
 \value{
-  \item{date}{Dates (object of class 'Date'): days since 1-1-1970 and printed as date in Gregorian calendar, e.g. "1946-03-01"}
+  \item{}{Dates (object of class 'Date'): days since 1-1-1970 and printed as date in Gregorian calendar, e.g. "1946-03-01"}
   }
 \author{Frans Willekens}
 \examples{

@@ -26,11 +26,13 @@ for (i in 1:3)
 path <- as.character(f$path)
 
 bio  <- data.frame (ID=id,born=born,start=born,end=interview,sex=sex,educ=educ,path=as.character(path),dates[,1:(max(nchar(path))-1)],stringsAsFactors=FALSE)
+namtrans <- paste("Tr",1:ncol(f$d),sep="")
+colnames(bio)[8:9] <- namtrans[1:2]
+
 attr(bio,"format.date") <- "%Y-%m-%d"
-param <- Parameters (bio)
-attr(bio,"param") <- param
+attr(bio,"param") <- Parameters (bio)
 # Path to folder where bio should be stored
-zzz <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/simple 1"
+zzz <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/Simple 1"
 setwd(zzz)
 save (bio,file="simple1a.RData")
 

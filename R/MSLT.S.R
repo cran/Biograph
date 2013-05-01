@@ -20,5 +20,6 @@ function (rates)  # replaced by M1 destin = 3th dimension
   }
  # apply(S,c(1,3),sum)  sum = 1 
   class(S) <- "MSLT.S"
-  return(S)
+  return(list (S=S,
+               P=P3))
 }

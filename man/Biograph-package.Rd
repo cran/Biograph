@@ -13,8 +13,8 @@ Two time scales are considered: individual time (age) and calendar time.  }
 \tabular{ll}{
 Package: \tab Biograph\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2012-10-01\cr
+Version: \tab 2.0.3\cr
+Date: \tab 2013-05-01\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -29,10 +29,12 @@ Occup              : determines state occupancies at each age and state-specific
 
 Sequences          : shows the different state sequences (trajectories) in the sample data 
 
-Rates              : computes transition rates by origin state and destination state, and by age (and covariates) by dividing occurrences and exposures. 
+Rates.ac              : computes transition rates by origin state and destination state, and by age (and covariates) by dividing occurrences and exposures. 
 
 Biograph.long      : converts Biograph object to long format required by the survival and eha packages
 
+Biograph.Lexis     : converts Biograph object to Lexis object
+	
 Biograph.mstate    : converts Biograpgh object to long format required by the mstate package
 
 Biograph.msm       : converts Biograph object to long format required by the msm package
@@ -45,9 +47,9 @@ Lexispoints        : produces a scatter plot of the age and time at selected tra
 
 Lexislines.episodes : draws lifelines for selected subjects 
  }
-\author{Frans Willekens <willekens@nidi.nl>}
+\author{Frans Willekens <willekens@demogr.mpg.de>}
 \references{
-Willekens, F. (2012) Biograph. Multistate analysis of life histories with R. Springer (forthcoming)}
+Willekens, F. (2013) Biograph. Multistate analysis of life histories with R. Springer (forthcoming)}
 \keyword{ package }
 \keyword{ datasets }
 \keyword{ survival }

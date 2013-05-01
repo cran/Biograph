@@ -26,7 +26,7 @@ D$ns <- nchar(D$path)
 D$time <- ifelse (D$time==max(D$time),D$ns+1,D$time)   # time = line number of episode in trajectory (first= from birth; last = open to censored)
 D$OR <- ifelse (D$date==D$start2,"#",ifelse (D$time >D$ns, substr(D$path,D$ns,D$ns), substr(D$path,(D$time-1),(D$time-1))))  
 D$DES <-   ifelse (D$time > D$ns, "cens",substr(D$path,(D$time),(D$time)))
-nnz <- ncovariates+9+2  # = DES
+nnz <- ncovariates+9+3  # = DES
 tmat <- attr(Bdata2,"param")$tmat
 D$trans <- apply(D,1,function (x) {ifelse (x[nnz]=="cens",grep(x[nnz-1],namstates),tmat[grep(x[nnz-1],namstates),grep(x[nnz],namstates)])})
 D$firstobs <- ifelse (is.na(D$trans),1,0)

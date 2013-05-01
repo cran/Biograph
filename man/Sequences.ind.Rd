@@ -8,7 +8,7 @@
   \item{namstatesnew}{state labels (labels of single characters)}
 }
 \details{Individual sequences are basis for exploratory sequence analysis}
-\value{The value returned is a two-way table with for each subject the the sequences of states occupied between onset and end of observation}
+\value{The value returned is a two-way table with for each subject the sequences of states occupied between onset and end of observation}
 \author{Frans Willekens}
 \examples{
 	data(GLHS)

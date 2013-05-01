@@ -43,6 +43,6 @@ Lexislines.episodes(Bdata,Dlong, subjectsID, title)
   z<- Parameters (NLOG98)
   D <- Biograph.long (NLOG98)
   tit5 <- "Living arrangements for a selection of subjects, NLOH98"
-  subjectsID <- c(12,15,19,5442)
+  subjectsID <- c(8,96,980,1056,1496,2883)
   z <- Lexislines.episodes (NLOG98,D$Depisode,subjectsID = subjectsID,title = tit5)
 }

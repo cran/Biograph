@@ -11,10 +11,13 @@ function (Bdata)
   if (TRUE %in%z) # at least one diagonal element is not missing
   {  print ("     Biograph.mstate: calls function Remove_intrastate  . . . ")
   dd <- Remove.intrastate (Bdata)
-  Bdata2 <- dd$D
-  tmat <- attr(Bdata2,"param")$tmat
+  Bdata2 <- dd
+  param <- Parameters(Bdata2)
+  tmat <- param$tmat
   } else {Bdata2 <- Bdata} 
   covnames <- colnames(Bdata)[5:(locpath(Bdata)-3)]
+  attr(Bdata2,"param") <- param
+  attr (Bdata2,"trans") <- tmat
   # 2. Produce long format  ===================
   z<- Biograph.long (Bdata2)
   Dlong  <- z$Depisode                                                        

@@ -10,7 +10,7 @@ function (Bdata)
   z <- check.par(Bdata)
   namstates <-   attr(Bdata,"param")$namstates
   removed <- Remove.intrastate (Bdata) 
-  Bdata2<- removed$D
+  Bdata2<- removed
   tmat <- attr(Bdata2,"param")$tmat
   namstates2 <- vector (mode="numeric",length=length(namstates))
   for (i in 1:length(namstates))
@@ -48,13 +48,12 @@ function (Bdata)
     entry=as.numeric(Dmvna$entry),exit=as.numeric(Dmvna$exit))
   D2$exit <- ifelse (D2$exit <= D2$entry,D2$exit+1,D2$exit) # CORRECT if CMC exit = CMC entry
   attr(D2, "param") <- attr(Bdata2,"param")   
-  attr(Dmvna, "param") <- attr(Bdata2,"para,")   
+  attr(Dmvna, "param") <- attr(Bdata2,"param")   
   attr(Dmvna, "format.date") <- "age"
   attr(D2, "format.date") <- "age"
       
   print ("     Biograph.mvna completed: Object produced by Biograph.mvna: .$mvna ",quote=FALSE)
   return (list (D=D2,  
                 D.cov=Dmvna,
-                par = removed$par,
                 cens = "cens"))
 }

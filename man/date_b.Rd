@@ -11,7 +11,7 @@
   \item{covs}{Vector of covariates that are dates (that need to be converted too). The dates should be in the same format as the other dates.}
 }
 \value{
-  \item{Bdata}{Biograph object with dates in new format (format.out)}
+  \item{}{Biograph object with dates in new format (format.out)}
   }
 \author{Frans Willekens}
 \examples{

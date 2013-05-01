@@ -9,8 +9,7 @@ function (Bdata)
   if (!TRUE %in%z) # all diagonal elements are NA
  {   print ("No intra-state transitions present in the data.",quote=FALSE)
  	 zz <- transitions (Bdata)
-     return (list(D=Bdata,
-                  par=zz))
+     return (Bdata)
   }  else
  { #  REMOVE INTRASTATE TRANSITIONS 
  	print (". . . . . .   Removes intrastate transitions . . . .",quote=FALSE) 
@@ -38,10 +37,9 @@ function (Bdata)
  Bdata2$path <- pp
  Bdata2[,(locpat+1):ncol(Bdata2)] <- dates  
  z <- transitions (Bdata2)
- attr(Bdata2,"trans") <- z$tmat
+ attr(Bdata2,"param") <- Parameters (Bdata2)
  attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
  print ("A new Biograph object without intrastate transitions is returned.",quote=FALSE)
- return (list(D=Bdata2,
-              par=z))
+ return (Bdata2)
  }
  }

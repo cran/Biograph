@@ -21,7 +21,7 @@ LexisOccExp(Bdata, transition, nyear)
 \references{
 Carstensen, B. (2007) Age-Period-Cohort models for the Lexis diagram. Statistics in Medicine, 26(15):3018-3045.
 
-Carstensen, B. (2009) The Epi package. Available at http://cran.r-project.org/web/packages/Epi/Epi.pdf
+Carstensen, B. (2013) The Epi package. 
  }
 \author{Frans Willekens }
 \examples{

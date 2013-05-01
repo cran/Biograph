@@ -1,6 +1,6 @@
 \name{Lexis.points}
 \alias{Lexis.points}
-\title{Plot observations in Lexis diagram }
+\title{Plots ages and calendar years at transitions in Lexis diagram }
 \description{Plots observations in age-time diagram for each category of categorical covariate (using ggplot2)}
 \usage{
 Lexis.points(Bdata, transition, title, cov,group,legend.pos,pdf)

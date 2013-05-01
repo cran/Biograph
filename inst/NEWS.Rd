@@ -1,8 +1,23 @@
 \name{NEWS}
 \title{NEWS file for the Biograph package}
+\section{Changes in version 2.0.3 compared to version 2.0.2}{
+	\itemize{
+	 \item function Parameters: Bug in iagelow and iagehigh corrected (due to variable 'born')
+	 
+	 \item function Parameters: ncovariates: number of covariates is locpat-5 instead of locpat-7. And : covariates <- colnames(Bdata)[5:(locpat-1)] (1 was 3)
+
+     \item function Samplepath: variables Start and end removed (redundant)
+
+     \item function Remove.intrastate: Bdata2 is dd (and 'removed') instead of dd$D (and 'removed$D'). Further: removed$par is removed and replaced by attr(removed,"param"). This has effect on calling of na function of mvna package (see Biograph manual)
+     
+     \item function plot.MSLT.S : argument S$S instead of S
+     	 
+     \item function Biograph.long: zloc = 9 instead of 10
+	}
+}
 \section{Changes in version 2.0.2 compared to version 1.*}{
   \itemize{
-    \item Date conversion functions. In Biograph 1.0, calendar dates were in Century Month Code (CMC) or decimal year (calendar year and fraction of year). In Biograph 2.0, dates may be given as calendar date (year, month, day). Several function are added to convert one representation of date into another representation. The following representations are distinguished in Biograph 2.0.1 and higher: date of Gregorian calendar (year, month, day), Julian date (days since reference point in time), decimal year, CMC, and age. To compute the precise age in years, months and day in the Gregorian calendar, Biograph 2.0.2 distinguishes different classes of date objects (instant, interval, period and duration). The classes are implemented in functions of the lubridate package. These functions are used in Biograph 2.0. For details, see Willekens (2013) Chronological objects in demographic research. Submitted. 
+    \item Date conversion functions. In Biograph 1.0, calendar dates were in Century Month Code (CMC) or decimal year (calendar year and fraction of year). In Biograph 2.0, dates may be given as calendar date (year, month, day). Several function are added to convert one representation of date into another representation. The following representations are distinguished in Biograph 2.0.1 and higher: date of Gregorian calendar (year, month, day), Julian date (days since reference point in time), decimal year, CMC, and age. To compute the precise age in years, months and day in the Gregorian calendar, Biograph 2.0.2 distinguishes different classes of date objects (instant, interval, period and duration). The classes are implemented in functions of the lubridate package. These functions are used in Biograph 2.0. For details, see Willekens (2013) Chronological objects in demographic research. Demographic Research, Vol 28, Article 23. 
 
     \item Occup . In Biograph 2.0.1 the function Occup is split in two functions: 
 i.	state_age determines for each subject the state occupancy by age, and aggregates the result to produce (sample) population state occupancies by age. 

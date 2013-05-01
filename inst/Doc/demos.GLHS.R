@@ -13,12 +13,12 @@ occup <- Occup(GLHS)
 # Display state occupancies by age
 occup$state_occup
 # Display, for each subject under observation, the state occupied at birthdays. This data structure is used as input in the TraMineR package.
-occup$st_age_1
+# occup$st_age_1
 # Display, for each subject under observation and age, the number of years spent in each of the states of the state space
-occup$sjt_age_1 
+# occup$sjt_age_1 
     # This is an array with 201 rows (ID), 54 columns (Age) and 4 layers (2 states, "censored" and "Total")
 # Express the event dates in age instead of CMC
-GLHS.a <- date.b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))
+GLHS.a <- date_b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))
 # Plot the state occupancies by age
 occup.a <- Occup(GLHS.a)
 z<- plot.occup.S (x=occup.a$state_occup,namstates.desired=c("N","J","Censored"),colours=c("red","green","lightgrey"),title="States occupancies. GLHS",area=TRUE,xmin=10,xmax=55) 
@@ -28,7 +28,7 @@ agetrans$ages  # ages
 agetrans$st_censoring  # state at censoring
 table(agetrans$st_censoring)
 # Censoring by age and sex
-table(cut(agetrans$agecens, breaks=namage,
+table(cut(agetrans$agecens, breaks=attr(GLHS,"param")$namage,
 include.lowest=TRUE, right=FALSE), GLHS$sex)
 # States at censoring by sex
 table(agetrans$st_censoring,GLHS$sex)
@@ -43,6 +43,7 @@ z
 
 # Tabulate transitions (all) by birth cohort (p. 33)
 locpat <- locpath (GLHS)
+nsample <- nrow(GLHS)
 a1mat <- matrix(a1,c(nsample,ncol(GLHS)-locpat))
 b1mat <- matrix(a1,c(nsample,ncol(GLHS)-locpat))
 
@@ -81,7 +82,7 @@ trans$Ttrans
 z<- Parameters (GLHS)
 occup <- Occup(GLHS)
 trans <- Trans (GLHS)
-w <- RateTable(occup, trans)
+w <- RateTable(GLHS,occup, trans)
 str(w)
 w$Stable
 
@@ -152,11 +153,12 @@ zE <- Lexispoints (GLHS,"NJ","Calendar time and age at labour market entry","edu
 
 # Linelines with on x-axis calendar year instead of CMC
    # First convert CMC to calendar years
-GLHS.yr <- date.b (GLHS,format.in="CMC",format.out="year",covs=c("marriage","LMentry"))
+GLHS.yr <- date_b (GLHS,format.in="CMC",format.out="year",covs=c("marriage","LMentry"))
 Dlong.yr <- Biograph.long (GLHS.yr)
 tit5 <- "Employment careers for a selection of subjects. GLHS"
 subjects <- c(1,78,120,208)
-z2 <- Lexislines.episodes (GLHS,Dlong.yr$Depisode,subjectsID = subjects,title = tit5)
+GLHSd <- Remove.intrastate (GLHS)
+z2 <- Lexislines.episodes (Bdata=GLHSd,Dlong=Dlong.yr$Depisode,subjectsID = subjects,title = tit5)
 
 # Lexis diagram with event counts, exposure times and transition rates
   #  event = transition from job to nojob
@@ -189,6 +191,7 @@ expand = 0.5, col = "green",ticktype = "detailed")
 occup <- Occup(GLHS) 
 require (TraMineR) 
 DTraMineR <- seqconc (occup$st_age_1,sep="-")
+namstates <- attr(GLHS,"param")$namstates
 namst <- c(namstates,"C")
 D.seq <- seqdef (DTraMineR,states=namst)
 seqplot(D.seq, type="d",title="State distribution. GLHS", ylab="Count", xtlab=0:54, group=GLHS$sex)
@@ -259,7 +262,7 @@ plot (Cox_s.zph)
 # Cumulative hazard
 Cox_s <- coxph(Surv(time,status) ~ +strata(sex),data=D,method="breslow")
 sfits <- survfit(Cox_s)
-z <- coxph.detail(Cox_s)
+# z <- coxph.detail(Cox_s)
 zb <- basehaz(Cox_s)
 zb[c(1,106),1]
 #survival curve
@@ -315,6 +318,7 @@ fill=colours)
 # Convert data to mstate object
 Dmstate <- Biograph.mstate (GLHS)
 tmat <-   attr(Dmstate,"trans")
+require (mstate)
 events (Dmstate)
 Dmstate$agem <- round ((Dmstate$marriage-Dmstate$born)/12,2)
 Dmstate$Tstarta <- round((Dmstate$Tstart-Dmstate$born)/12,2)
@@ -366,7 +370,7 @@ qmatrix = twoway2.q, obstype=2, control=list(trace=2,REPORT=1,abstol=0.0000005),
 GLHS.msm.a
 # Display the matrix of transition rates (with confidence intervals)
 qmatrix.msm (GLHS.msm.a)
-$ Get state probabilities
+# Get state probabilities
 options (digits=3)
 z<- prevalence.msm (GLHS.msm.a,times=seq(15,50,1))
 str(z)
@@ -382,7 +386,7 @@ hazard.msm (out_sc.msm)   # Jackson 2011 p. 9
 # ==============   MULTISTATE LIFE TABLE   ====================
 # Remove diagonal elements (optional)
 GLHSd <- Remove.intrastate(GLHS)
-Dd <- GLHSd$D
+Dd <- GLHSd
 # Show the transitions
 Trans(Dd)$Ttrans
 cr <- Cumrates (irate=3,Bdata=Dd)
@@ -390,13 +394,13 @@ str(cr)
 occup <- Occup(Dd)
 ist <- Sequences.ind (Dd$path,namstates)
 trans <- Trans (Dd)
-ratetable <- RateTable(occup, trans)
+ratetable <- RateTable(Dd,occup, trans)
 ratetable$Stable[20:30,,]
-rates <- Rates(Stable=ratetable$Stable)
+rates <- Rates.ac(Stable=ratetable$Stable)
 S <- MSLT.S(cr$NeAa[,,,1])
 radix <- c(10000,0)
 mslt <- MSLT.e (S,radix)
-Sp <- plot.MSLT.S (x=S, e0=mslt$e0,title=NULL,area=TRUE)
+Sp <- plot (x=S$S, e0=mslt$e0,title=NULL,area=TRUE)
 
 
 

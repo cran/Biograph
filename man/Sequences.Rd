@@ -10,7 +10,7 @@ Sequences(Bdata,mean_median)
   \item{mean_median}{Select mean or median age: "mean" or "median"}
 }
 \details{The sequences are determined from the path variable in the data. The default age is the median age. }
-\value{sequences: the frequency table of sequences}
+\value{Frequency table of sequences}
 \author{Frans Willekens}
 \examples{
 #	Example 1: Sequences in GLHS

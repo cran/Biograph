@@ -10,10 +10,7 @@ Remove.intrastate(Bdata)
 }
 \details{Intrastate transitions are removed and new characteristics of the data set are obtained.}
 \author{Frans Willekens}
-\value{
-	\item{D}{Biograph object with intrastate transitions removed}
-	\item{par}{Object created by function Parameters: parameters of Biograph object with intrastate transitions removed.}
-	}
+\value{Biograph object with intrastate transitions removed. The "param" attribute is adjusted. }
 \examples{
   data (GLHS)
   Bdata2 <- Remove.intrastate (GLHS)

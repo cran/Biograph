@@ -22,8 +22,8 @@ if (attr(Bdata,"format.date") == "age")
   { iagelow <- min(Bdata$start)
     iagehigh <- max(Bdata$end)  }
 if (attr(Bdata,"format.date")=="CMC"|attr(Bdata,"format.date")=="cmc") 
-        { iagelow <- min(Bdata$start)
-          iagehigh <- max (Bdata$end)
+        { iagelow <- min(Bdata$start-Bdata$born)
+          iagehigh <- max (Bdata$end-Bdata$born)
           iagelow <- iagelow/12
           iagehigh <- iagehigh/12}  
 if (attr(Bdata,"format.date")=="year"|attr(Bdata,"format.date")=="YEAR") 
@@ -36,6 +36,10 @@ if (substr(attr(Bdata,"format.date"),1,1)=="%")
     	   iagelow <- as.numeric(min(zx,na.rm=TRUE))/365.24
     	   zy <- as.Date(Bdata$end)-as.Date(Bdata$born)
            iagehigh <- as.numeric(max(zy,na.rm=TRUE))/365.25  }
+if (attr(Bdata,"format.date")=="day"|attr(Bdata,"format.date")=="DAY")     
+        {  iagelow <- 0
+           iagehigh <- as.numeric(max(Bdata$end),na.rm=TRUE)
+        }       
 iagelow <- trunc(iagelow)
 iagehigh <- trunc(iagehigh)+1
 
@@ -44,8 +48,8 @@ namage <- iagelow:iagehigh
 
 # ---------- covariates -------------
 locpat <- locpath(Bdata)
-ncovariates  <- locpat - 7
-covariates <- colnames(Bdata)[5:(locpat-3)]
+ncovariates  <- locpat - 5
+covariates <- colnames(Bdata)[5:(locpat-1)]
 # ncmc_tr <-  max(nchar(Bdata$path)) - 1
 maxtrans <- max(nchar(Bdata$path)) - 1
 

@@ -32,7 +32,7 @@ EDU   Highest educational attainment before entry into labour market
 \source{
 
 	 http://oldsite.soziologie-blossfeld.de/eha/tda/cf_files/Data/RRDAT.1
-	www.soziologie-blossfeld.de/eha/tda/index.html
+
 }
 \seealso{
   \code{\link{GLHS}}

@@ -8,7 +8,7 @@
   \item{format.in}{Format of the date.}
   }
 \value{
-  \item{year.frac}{Calendar year and fraction of year}
+  \item{}{Calendar year and fraction of year}
   }
 \author{Frans Willekens}
 \examples{

@@ -7,7 +7,6 @@
   \item{Bdata}{Biograph object}
 }
 \author{Frans Willekens}
-\note{The locpath function is used in Extract and other functions.}
 \examples{
 data(GLHS)
 loc <- locpath(GLHS)

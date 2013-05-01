@@ -1,6 +1,7 @@
 Sequences.ind <-
 function(path,namstatesnew)
-{ namstates <- StateSpace (path)$namstates
+{  if (!is.character(path)) stop ("Sequences.ind: the argument <path> is not a character vector")
+	namstates <- StateSpace (path)$namstates
 	if (missing(namstatesnew))  if (exists ("namstates")) namstatesnew <- namstates else stop ("Sequences.ind: namstates is missing")
   # In case of Error in path.num[i, k] <- grep(str_char[k], namstatesnew)
   # run Parameters and get namstatesnew 

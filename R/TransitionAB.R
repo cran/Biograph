@@ -3,8 +3,8 @@ function (Bdata,transition,keep)
 { if (missing (transition)) stop ("TransitionAB: transition missing")
 	f <- StateSpace (Bdata)
 	namstates <- attr(Bdata,"param")$namstates
-	if ((substring(transition,1,1)%in%namstates | substring(transition,1,1)=="*") ==FALSE) stop ("TransitionAB: at least one state not in state space. Try running StatSpace before this function")
-	if ((substring(transition,2,2)%in%namstates | substring(transition,2,2)=="*") ==FALSE) stop ("TransitionAB: at least one state not in state space. Try running StatSpace before this function")
+	if ((substring(transition,1,1)%in%namstates | substring(transition,1,1)=="*") ==FALSE) stop ("TransitionAB: at least one state not in state space. Try running StateSpace before this function")
+	if ((substring(transition,2,2)%in%namstates | substring(transition,2,2)=="*") ==FALSE) stop ("TransitionAB: at least one state not in state space. Try running StateSpace before this function")
 	if (missing(keep)) keep<-FALSE # do not remove the subjects that do not experience the transition
     format.in = attr(Bdata,"format.date")
 	z<- check.par (Bdata)

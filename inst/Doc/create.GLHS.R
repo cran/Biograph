@@ -94,7 +94,8 @@ colnames(GLHS) <- c("ID","born","start","end",namcov,"path",paste("Tr",1:nsmax,s
 attr(GLHS,"format.date") <- "CMC"
 param <- Parameters (GLHS)
 attr(GLHS,"param") <- param
-zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/GLHS"
+zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/GLHS"
 setwd(zz9)
-save (GLHS,file=paste (test.Biograph,"GLHS.RData",sep="")) 
+test.Biograph <- getwd()
+save (GLHS,file=paste (test.Biograph,"/GLHS.RData",sep="")) 
 

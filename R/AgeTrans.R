@@ -2,7 +2,7 @@ AgeTrans <-
 function (Bdata) 
 {   z<- check.par (Bdata)
 	format.in <- attr(Bdata,"format.date") 
-	if (format.in=="age"|format.in=="ages") Bdata2 <- Bdata else 
+	if (format.in=="age"|format.in=="ages"|format.in=="day"|format.in=="days") Bdata2 <- Bdata else 
 	  	Bdata2 <- date_b(Bdata=Bdata,format.in=format.in,format.out="age")
     nsample <- nrow(Bdata2)
 	maxtrans <- (ncol(Bdata2)-locpath(Bdata2))

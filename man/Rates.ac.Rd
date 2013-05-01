@@ -1,7 +1,7 @@
 \name{Rates.ac}
 \alias{Rates.ac}
 \title{Estimates occurrence-exposure rates}
-\description{Estimates occurrence-exposure rates starting from the Stable object. The transition rates are of the age-cohort type.}
+\description{Estimates occurrence-exposure rates. The transition rates are of the age-cohort type.}
 \usage{Rates.ac (Stable)}
 \arguments{
   \item{Stable}{Stable is object produced by RateTable function}

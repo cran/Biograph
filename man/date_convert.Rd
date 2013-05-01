@@ -13,12 +13,12 @@
   \item{format.born}{Format of date of birth}
 }
 \value{
-  \item{date}{Dates at transition. The object is of class 'Date' (see Dates in R base. Dates are represented as the number of days since 1970-01-01, with negative values for earlier dates. They are printed following the rules of the current Gregorian calendar: year, month and date, e.g. Sys.Date()}
+  \item{date}{Dates at transition. The object is of class 'Date' (see Dates in R base). Dates are represented as the number of days since 1970-01-01, with negative values for earlier dates. They are printed following the rules of the current Gregorian calendar: year, month and date, e.g. Sys.Date()}
   \item{datep}{Dates for printing}
   }
 \author{Frans Willekens}
 \examples{
     data(GLHS)
-	b <- date_convert(d='01/01/2011',format.in='\%m/\%d/\%Y',selectday=1,format.out='day-month-year')  
+    b <- date_convert(d='01/01/2011',format.in='\%m/\%d/\%Y',selectday=1,format.out='day-month-year')  
     bb<- date_convert(d=GLHS$marriage,format.in='CMC',selectday=1,format.out='day-mon-year',born=GLHS$born)
     }

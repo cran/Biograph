@@ -70,7 +70,7 @@ cmca[,2] <- ifelse (!is.na(cmca[,2]) & !is.na(cmca[,18]) & cmca[,2]==cmca[,18],N
 #                3 other
 #                4 lives at home (censored)
 table(data$leavewhy)
-colnames(cmca) <- c("z","C","A","C","A","C","A","C","C","M","A","M","A","M","A","K","C","M","A")
+colnames(cmca) <- c("A","C","A","C","A","C","A","C","C","M","A","M","A","M","A","K","C","M","A")
 cmc <- cmca[,-c(1,17,18,19,20)]
 # Sort and rearrange the dates and obtain state sequence (path)
 f <- Sequences.ind.0(cmc,namstates,absorb="K")
@@ -95,15 +95,17 @@ NLOG98 <- nnn
 attr(NLOG98,"format.date") <- "CMC"
 require (Biograph)
 param <- Parameters (NLOG98)
+attr (NLOG98,"trans") <- NULL
 attr(NLOG98,"param") <- param
-zz9  <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/OG98/"
+zz9  <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/OG98/"
 setwd(zz9)
 save (NLOG98,file="NLOG98.5450.RData")
 og <- sample (NLOG98$ID,496,replace=FALSE)
 og <- unique (c(og,c(12,15,19,5442)))
 og2 <- NLOG98[NLOG98$ID%in%og,]
 NLOG98 <- og2
-attr(NLOG98,"param") <- param
-save (NLOG98,file=paste (test.Biograph,"NLOG98.RData",sep=""))
+attr(NLOG98,"format.date") <- "CMC"
+attr(NLOG98,"param") <- Parameters (NLOG98)
+save (NLOG98,file=paste (zz9,"NLOG98.RData",sep=""))
 
 

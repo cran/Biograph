@@ -1,6 +1,6 @@
 \name{Lexispoints}
 \alias{Lexispoints}
-\title{Plot observations in Lexis diagram}
+\title{Plot event dates and ages in Lexis diagram}
 \description{Plots observations in age-time diagram for each category of categorical covariate (using the Lexis function of the Epi package)}
 \usage{
 Lexispoints(Bdata, transition, title, cov,legend)
@@ -17,7 +17,7 @@ Lexispoints(Bdata, transition, title, cov,legend)
 }
 \references{Plummer, M. and B. Carstensen (2011) Lexis: an R class for epidemiolgoical studies with long-term follow-up. Journal of Statistical Software, 38(5):1-12 
 	
-Carstensen, B. (2009) The Epi package. Available at http://cran.r-project.org/web/packages/Epi/Epi.pdf
+Carstensen, B. (2013) The Epi package. 
 }
 \author{Frans Willekens. The Epi package used to plot the Lexis diagram was developed by Carstensen.}
 \note{requires Epi}

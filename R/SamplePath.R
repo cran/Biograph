@@ -87,8 +87,7 @@ function (Bdata,subjectsID)
     TAB_samplepath <-noquote(format(path[[k]],justify="right"))
   #  print (TAB_samplepath)
 
-    start.end <- data.frame (Start=round(Bdata$start[k],2),Start2=calendar$start[k],Stop=round(Bdata$end[k],2),Stop2=calendar$end[i])
-    info[[k]] <- list(ID=ID[k],born=born[k],start_end=start.end,path=path[[k]])
+    info[[k]] <- list(ID=ID[k],born=born[k],path=path[[k]])
   }
 
 return(info)

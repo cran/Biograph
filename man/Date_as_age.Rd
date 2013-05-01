@@ -11,13 +11,13 @@
 \value{
 	\item{age.sec}{Age in seconds}
 	\item{age.day}{Age in days} 
-	\item{age}{Age}
+	\item{age}{Age in years, months and days (produced by package lubridate)}
 	\item{age.year}{Age in decimal year}
 	}
 \author{Frans Willekens}
 \examples{
 	Date_as_age ("2010-10-30","\%Y-\%m-\%d","1990-4-20")
-    # result: 20.52877
+
 }
 
 

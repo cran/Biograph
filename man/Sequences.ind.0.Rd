@@ -11,9 +11,7 @@
 \value{
   \item{namstates}{Labels of the states in the state space.}
   \item{d}{Sorted dates}
-  \item{sequence}{Vector of state sequences.}
   \item{path}{Character variable of state sequences. This variable is the 'path' variable in the Biograph object.}
-  \item{ns}{Number of states occupied between onset and end of observation. This variable is included in Biograph object.}
   }
 \author{Frans Willekens}
 \examples{

@@ -50,8 +50,10 @@ h5 <- ggplot (zz,aes(age,count,fill=state)) +xlim(xmin,xmax)
 colours.fill <- c("red",colours[2:numstates.case])
 colours.outline <- rep("green",numstates)
 if (area==TRUE)
-p2 <- h5+geom_area(aes(fill=state))+ scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill) else
-p2 <- h5+geom_bar(aes(fill=state),binwidth=1,stat="identity")+ scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill)
+p2 <- h5+geom_area(aes(fill=state))  else
+#+ scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill) else
+p2 <- h5+geom_bar(aes(fill=state),binwidth=1,stat="identity")
+# + scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill)
 # earlier: geom_area (,colour=state)
 
 p3<- p2+ ggtitle(title)+theme(legend.position = "none") 
@@ -67,7 +69,7 @@ p5 <- p4 +theme(legend.position=c(0.80,0.78),legend.background = element_rect(co
 namst8 <- levels(zz$state)   #   namst[1:numstates]
 # USE  scale_linetype_discrete(name = "Fancy Title")
  p6 <- p5 + scale_linetype(name="Life\nExpectancy",breaks=namst8,labels=namst8) +
-     scale_colour_discrete (name="Life\nExpectancy",breaks=namst8,labels=namst8)
+    scale_colour_discrete (name="Life\nExpectancy",breaks=namst8,labels=namst8)
      
 p7 <- p5 + scale_fill_manual(values=colours[1:length(namst8)],name="Life\nExpectancy",breaks=namst8,labels=namst8)
 # 0 gets rid of border

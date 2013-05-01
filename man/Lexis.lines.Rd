@@ -1,7 +1,7 @@
 \name{Lexis.lines}
 \alias{Lexis.lines}
 \title{Draws Lexis diagram with lifelines for selected subjects}
-\description{The function draws a Lexis diagram and draws lifelines for selected subjects  (using ggplot2 library)}
+\description{The function draws a Lexis diagram and draws lifelines for selected subjects  (using ggplot2 package)}
 \usage{
 Lexis.lines(Bdata,Dlong, subjectsID, title)
 }
@@ -37,7 +37,7 @@ Lexis.lines(Bdata,Dlong, subjectsID, title)
   z<- Parameters (NLOG98)
   NLOG98.yr <- date_b(Bdata=NLOG98,format.in=attr(NLOG98,"format.date"),selectday=1,format.out="year")
   D <- Biograph.long (NLOG98.yr)
-  tit5 <- "Living arrangements for a selection of subjects, NLOH98"
-  subjectsID <- c(12,15,19,5442)
+  tit5 <- "Living arrangements for a selection of subjects, NLOG98"
+subjectsID <- c(8,96,980,1056,1496,2883)
   z <- Lexis.lines (NLOG98.yr,D$Depisode,subjectsID = subjectsID,title = tit5)
 }

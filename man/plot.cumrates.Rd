@@ -1,7 +1,7 @@
 \name{plot.cumrates}
 \alias{plot.cumrates}
 \title{Plots cumulative transition rates}
-\description{Plots cumulative transition rates by origin, destination, and age. The required input data are provided by the Cumrates function. It plots cumulative transition rates estimated by \code{\link{Cumrates}}
+\description{Plots cumulative transition rates by origin, destination, and age estimated by \code{\link{Cumrates}. The required input data are provided by the Cumrates function. }
 }
 \usage{
 \method{plot}{cumrates}(x,ptrans,...)
