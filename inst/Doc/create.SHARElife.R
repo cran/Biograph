@@ -241,6 +241,7 @@ locpat <- locpath(SHARE)
 colnames(SHARE)[(locpat+1):ncol(SHARE)] <- paste("Tr",1:(ncol(SHARE)-locpat),sep="")
 SHARE <- subset(SHARE,!is.na(SHARE$born))
 attr(SHARE,"format.date") <- "year"
+attr(SHARE,"format.born") <- "year"
 require (Biograph)
 param <- Parameters(SHARE)
 attr(SHARE,"param") <- param

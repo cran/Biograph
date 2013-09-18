@@ -13,7 +13,7 @@ function (irate,Bdata)
   numstates <- length (namstates)
   namage <- attr(Bdata,"param")$namage
 iagehigh <- attr(Bdata,"param")$iagehigh
-require (mvna)
+# require (mvna)
 print (". . . . . .  Removing intrastate transitions . . . . . ")
 locpat <- locpath(Bdata)
 removed <- Remove.intrastate(Bdata)
@@ -34,7 +34,7 @@ if (irate %in% c(1,3)) # ===  mvna estimates transition rates  ====
   { print ("  ")
   	print ("Cumrates: calls function Biograph.mvna  . . . ")
   	# convert from months to years
-  	Bdata <- date_b (Bdata=Bdata,format.in= attr(Bdata,"format.date"),format.out="age",covs=NULL)
+  	Bdata <- date_b (Bdata=Bdata,format.out="age",covs=NULL)
   	#Bdata <- CMC.ages(Bdata)  # NO COVARIATES INCLUDED
   	print (Bdata[1:5,])
   	Dmvna <- Biograph.mvna (Bdata)

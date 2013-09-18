@@ -92,6 +92,7 @@ colnames(D.AP) <- c("ID","born","start","end",namcov,"path",namtrans)
 locpat <- locpath(D.AP)
 AP <- cbind(D.AP[,1:locpat],round(D.AP[,(locpat+1):ncol(D.AP)],2)) 
 attr(AP,"format.date") <- "year"
+attr(AP,"format.born") <- "year"
 param <- Parameters(AP)
 attr(AP,"param") <- param
 zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/NFHS"

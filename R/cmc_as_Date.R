@@ -3,7 +3,7 @@ function (x,selectday,format.out)
  { 	if (is.logical(x)) return(x)  # all values are NA
  	if (!is.numeric(x))
  	   { print ("WARNING in cmc.as.Date: x is not numeric")
- 	   	 if (is.character(x)) x <- as.numeric(x) else print ("ERROR in cmc.as.Date: x not numeric and not character.")
+ 	   	 if (is.character(x)) x <- as.numeric(x) else print ("ERROR in cmc_as_Date: x not numeric and not character.")
  	   }
  	   	
  	if (missing(selectday)) selectday <- 1

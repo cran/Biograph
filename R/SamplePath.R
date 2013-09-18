@@ -13,7 +13,7 @@ function (Bdata,subjectsID)
   locpat <- attr(Bdata,"param")$locpat
   seq.ind <- Sequences.ind (Bdata$path,namstates)
  ages <- AgeTrans(Bdata)$ages  
- calendar <- date_b (Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="%d%b%y")
+ calendar <- date_b (Bdata,selectday=1,format.out="%d%b%y")
 # if format.in = age and Bdata$born not provided, skip 
 
   nn <- length(subjectsID)

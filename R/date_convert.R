@@ -35,7 +35,7 @@ function (d,format.in,selectday,format.out,born,format.born)
  
 # age to year
    if (format.in=="age" & format.out=="year")
-     {  g <- age_as_year (x=d,born=born,format.born=format.in)
+     {  g <- age_as_year (x=d,born=born,format.born=format.born)
      	return (year=g)
      }
 # age to Date

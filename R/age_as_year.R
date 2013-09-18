@@ -13,6 +13,7 @@ function (x,born,format.born)
  	  }
  	if (is.character(born)) b <-as.Date(born,format.born)
  	if (class(born)=="Date") b <-as.Date(born,format.born)
+    if (!exists("b")) stop("Error in age_as_year: data of birth cannot be interpreted")
  	d <- Date_as_year (b,format.in="%Y-%m-%d")  # convert date of birth to year
  	year <- d+x
     return (year) 

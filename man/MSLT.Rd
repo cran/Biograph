@@ -40,7 +40,11 @@ Palloni, A. (2001) Increment-decrement life tables. In: S.H. Preston, P. Heuveli
 \seealso{\code{\link{plot.MSLT.S}}}
 \examples{
 #	a. The multistate life table based on Nelson-Aalen estimators 
-#	The example obtains Nelson-Aalen estimators of the cumulative transition rates using the mavna package. It derives the multistate life survival function from the transition rates and the expected sojourn times from the survival function. The radix is the number of persons by state at the reference age (e.g. at the start of the life history).
+#	The example obtains Nelson-Aalen estimators of the cumulative transition rates 
+# using the mavna package. It derives the multistate life survival function 
+# from the transition rates and the expected sojourn times from the survival function. 
+# The radix is the number of persons by state at the reference age 
+# (e.g. at the start of the life history).
     data(GLHS)
     z <- Parameters (GLHS)
     cr <- Cumrates (irate=3,Bdata=GLHS)

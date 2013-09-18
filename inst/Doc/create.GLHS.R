@@ -92,6 +92,7 @@ GLHS <- data.frame (ID,born,start,end,sex,EDU,marriage,LMentry,cohort,path,cmc[,
 GLHS$path <- as.character(GLHS$path)
 colnames(GLHS) <- c("ID","born","start","end",namcov,"path",paste("Tr",1:nsmax,sep=""))
 attr(GLHS,"format.date") <- "CMC"
+attr(GLHS,"format.born") <- "CMC"
 param <- Parameters (GLHS)
 attr(GLHS,"param") <- param
 zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/GLHS"

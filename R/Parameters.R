@@ -1,11 +1,12 @@
 Parameters <-
-function (Bdata) {
+function (Bdata,newnamstates) {
+if (missing(newnamstates)) newnamstates <- NULL
 print (". . . . Running function Parameters . . . . ")
 #-------------   state space   ----------
 # ---- Parameters from Bdata: state space, sequence of states occupied -----
 nsample <- nrow (Bdata)
 
-statespace <- StateSpace (Bdata)
+statespace <- StateSpace (Bdata,newnamstates)
 namstates <- statespace$namstates
 numstates <- length(namstates)
 
@@ -85,6 +86,7 @@ fff <- list (nsample = nsample,
               locpat = locpat, # location of path (state sequence)
               ncovariates=ncovariates,  # number_of_covariates
               covariates=covariates,
-              format.date = attr(Bdata,"format.date"))
+              format.date = attr(Bdata,"format.date"),
+              format.born=attr(Bdata,"format.born"))
 return (fff)
 }

@@ -2,9 +2,10 @@
 \alias{Parameters}
 \title{Life history parameters from data}
 \description{Extracts state space and other characteristics from Biograph object}
-\usage{Parameters(Bdata)}
+\usage{Parameters(Bdata,newnamstates)}
 \arguments{
   \item{Bdata}{Biograph object}
+  \item{newnamstates}{Biograph detect determines the state space from the data set. The sequence of states detected may not be the most logical sequence. newnamstates allows to change the sequence. Default: sequence of labels detected by Biograph.}
 }
 \details{Parameters extracts useful information and stores it in values returned by the function. 
 	
@@ -44,6 +45,8 @@
 
 18. format.date: format of date variables (chronological objects) in Biograph object
 
+19. format.born: format of date of birth
+
 The parameters and the format of the dates (format.date) are attached to the Biograph object (Bdata) as attributes. 
 	}
 \value{
@@ -64,7 +67,8 @@ The parameters and the format of the dates (format.date) are attached to the Bio
   \item{ncovariates}{number of covariates}
   \item{covariates}{covariate labels}
   \item{format.date}{format of date variables in Biograph object}
-}
+  \item{format.born}{format of date of birth in Biograph object}
+ }
 \author{Frans Willekens}
 \seealso{
 	   \code{\link{StateSpace}}
@@ -75,6 +79,6 @@ The parameters and the format of the dates (format.date) are attached to the Bio
   z <- Parameters(GLHS)
 # Example 2
   data (NLOG98)
-  z <- Parameters(NLOG98)
+  z <- Parameters(NLOG98,newnamstates=c("H","A","C","M","K"))
   }
 

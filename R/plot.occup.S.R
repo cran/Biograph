@@ -21,11 +21,11 @@ if (missing(xmax)) xmax= max(namage)
 if (length(colours) < numstates2) 
    { print ("Number of colours is less than number of states. The states are: ")
    	 print (namstates2)  }
-library (ggplot2)
 zmf <- occup.S[,-ncol(occup.S)]
 age <- as.numeric(rownames(zmf))
-require (reshape)
-z <- melt(zmf)
+#  require (reshape)
+z <- reshape::melt.array(zmf)
+count <- NULL
 zz <- data.frame(age=rep(age,(numstates2)),state=z[,2],count=z[,3])
 zz$state <- factor(zz$state,levels=namstates.desired)
 

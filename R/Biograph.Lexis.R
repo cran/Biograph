@@ -1,6 +1,6 @@
 Biograph.Lexis <-
 function (Bdata,Dlong) # ,Dlong,subjectsID,title)
-{  require (Epi)
+{  # require (Epi)
   # Convert dates in years
    if (is.null(attr(Bdata,"format.date"))) {print ("Biograph.Lexis: format.date is missing (attribute of data)")}
   z<- check.par (Bdata)

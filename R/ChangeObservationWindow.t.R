@@ -14,7 +14,8 @@ function (Bdata,starttime,endtime,covs.dates)
   Bdata2$start <- ifelse (Bdata2$start < za, za,Bdata2$start)
   Bdata2$end <- ifelse (Bdata2$end > zb,zb,Bdata2$end)
   attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
-  attr(Bdata2,"trans") <- attr(Bdata,"trans")
+  attr(Bdata2,"format.born") <- attr(Bdata,"format.born")
+  attr(Bdata2,"param") <- attr(Bdata,"param")
  # Bdata2$marriage <- ifelse (Bdata2$marriage >= za & Bdata2$marriage <= zb,Bdata2$marriage,0)
   if (is.null(covs.dates)) 
   {for (jj in 1:ncol(Bdata2))
@@ -53,6 +54,7 @@ function (Bdata,starttime,endtime,covs.dates)
   attr(Bdata2, "param") <- param
  # attr(Bdata2,"statespace") <- namstates
   attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
+  attr(Bdata2,"format.born") <- attr(Bdata,"format.born")
   print("A Biograph object with new observation window is returned.",quote = FALSE)
   return (Bdata =Bdata2)
  }

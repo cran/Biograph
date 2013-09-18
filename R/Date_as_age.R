@@ -8,7 +8,7 @@ function (x,format.in,born)
  	d.born <- as.POSIXlt (born,format=format.in,tz="UTC")
  	age.days=(d-d.born)  # age in days 	
  	
- 	require (lubridate)
+ #	require (lubridate)
  	z <- as.interval (age.days,d.born)
     p=as.period(z,unit="year")
     p@year

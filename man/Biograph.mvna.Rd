@@ -35,6 +35,8 @@ Allignol, A., M. Schumacher and J. Beyersmann (2011). Empirical transition matri
   D <- Biograph.mvna (GLHS)
   # Run mvna:
   require (mvna)
-  na <- mvna(data=D$D,state.names=attr(D$D,"param")$namstates,tra=attr(D$D,"param")$trans_possible,cens.name=D$cens)
+  zz <- attr(D$D,"param")$namstates
+  zzz <- attr(D$D,"param")$trans_possible
+  na <- mvna(data=D$D,state.names=zz,tra=zzz,cens.name=D$cens)
   
 }

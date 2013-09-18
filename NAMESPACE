@@ -1,16 +1,16 @@
 exportPattern("^[[:alpha:]]+")
-import(survival,
-	mvna,
-	mstate,
-	msm,
-	Epi,
-        ggplot2,
-      reshape,
-     lubridate)
-    
+import (mvna)
+import (etm)
+import (msm)
+import(survival)
+import(ggplot2)
+import(mstate)
+importFrom ("Epi",Lexis,Lexis.diagram,splitLexis,timeBand,status,dur,plot.Lexis)
+importFrom ("lubridate",dmy,new_interval,as.period,as.duration,as.interval)
+importFrom ("reshape",melt)    
+importFrom ("plyr",round_any)  
 
 export(
-
 age_as_year,
 age_as_Date,
 cmc_as_age,

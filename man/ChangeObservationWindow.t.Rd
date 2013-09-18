@@ -14,7 +14,8 @@ ChangeObservationWindow.t(Bdata, starttime, endtime,covs.dates)
 \value{Biograph object with information on new observation window and transitions during the new observation window.}
 \author{Frans Willekens}
 \examples{
- #  The following example defines observation window as period between Century Month Code (CMC) 500 and CMC 900 (survey = GLHS)
+ #  The following example defines observation window 
+ # as period between Century Month Code (CMC) 500 and CMC 900 (survey = GLHS)
  data (GLHS)
  z <- ChangeObservationWindow.t (GLHS,starttime=500,endtime=800,covs.dates=c("marriage","LMentry"))
 }

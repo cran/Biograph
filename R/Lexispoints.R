@@ -1,12 +1,12 @@
 Lexispoints <-
 function (Bdata,transition,title,cov,legend)
 { z<- check.par (Bdata)
-  require (Epi)
+ # require (Epi)
   if (missing(cov)) cov=NA
   if (missing(title)) title <- "Title missing" 
   if (missing(legend)) legend <- "topleft"
  # year <- data.frame(YearTrans(Bdata))
-  Bdata2 <- date_b(Bdata=Bdata,format.in="CMC",selectday=1,format.out="year")  
+  Bdata2 <- date_b(Bdata=Bdata,selectday=1,format.out="year")  
   zx <- TransitionAB(Bdata2,transition) # zx: nrow = number of transition selected
   Bdata2 <- subset(Bdata2,!is.na(zx$year))
   ID <- zx$id

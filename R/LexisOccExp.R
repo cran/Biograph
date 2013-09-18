@@ -9,7 +9,7 @@ function (Bdata,transition,nyear)
   namstates <- attr(Bdata,"param")$namstates
   locpat <- locpath(Bdata)
   transition1 <- substr(transition,1,1) # State of origin (for open interval)
-  require (Epi)
+ # require (Epi)
 	# select the subjects that experience the given transition (eg "JN") (determine their ID)
  # subjectsID1 <- Bdata$ID[grep(transition,Bdata$path,value=FALSE)]
   subjectsID1 <- TransitionAB(Bdata,transition=transition)$id
@@ -34,7 +34,7 @@ function (Bdata,transition,nyear)
 
   # Determine the position of entry into risk set (first entry) [transition)))[1]]  
   # Determine the starting date and ending date of episode (exposure) in YEARS
-  BdataT <- date_b(Bdata=Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year",covs=NULL)  
+  BdataT <- date_b(Bdata=Bdata,selectday=1,format.out="year",covs=NULL)  
     #  table(BdataT$path)
   pos <- vector (mode="numeric",length=nrow(BdataT))
   Tstart <- vector (mode="numeric",length=nrow(BdataT))
@@ -67,7 +67,6 @@ function (Bdata,transition,nyear)
   
  # ===============  Create Lexis object ======================
   print  ("Create Lexis object",quote=FALSE)
-  require (Epi)
   # Transform data in years   
   bt <- BdataT$born
   endt <- BdataT$end
@@ -146,7 +145,6 @@ for (ix in 1:length(age66)) {for (iy in 1:length(date66))
 par (ask=TRUE) 
 
 # Survival object: dates in years
-  require (survival)
   surv <- Surv(Tstart,Tstop,Tstatus)
   
 return (list(

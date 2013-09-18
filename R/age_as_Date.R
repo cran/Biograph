@@ -10,6 +10,7 @@ function (x,born,format.born,format.out)
  	if (missing(born)) stop("ERROR: age.as.year: birth date is missing")
  	if (is.character(born)) b <-as.Date(born,format.born)
  	if (class(born)=="Date") b <-as.Date(born,format.born)
+ 	if (format.born=="CMC"|format.born=="cmc") b<- cmc_as_Date (born,selectday=1,format.out="%Y-%m-%d")
  	d <- Date_as_year (b,format.in="%Y=%m-%d")  # convert date of birth to year
  	year <- d+x
  	date <- year_as_Date (year,format.out=format.out) 

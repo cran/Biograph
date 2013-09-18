@@ -33,6 +33,7 @@ path <- as.character(f$path)
 bio  <- data.frame (ID=id,born=born,start=start,end=interview,sex=sex,educ=educ,path=as.character(path),dates[,1:(max(nchar(path))-1)],stringsAsFactors=FALSE)
 
 attr(bio,"format.date") <- "CMC"
+attr(bio,"format.born") <- "CMC"
 param <- Parameters (bio)
 attr(bio,"param") <- param
 # ---------  Biograph object completed  --------------

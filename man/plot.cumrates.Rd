@@ -16,7 +16,7 @@
 \author{Frans Willekens}
 \examples{
     data(GLHS)
-    Bdata.a <- date_b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))
+    Bdata.a <- date_b (GLHS,format.out="age",covs=c("marriage","LMentry"))
     cumrates <- Cumrates (irate = 3,Bdata=Bdata.a)
     z<- plot (x=cumrates,ptrans=c("NJ","JN")) 
   }

@@ -16,7 +16,8 @@ function (Bdata,entrystate,exitstate)
      pos <- unname(pos)
      Bdata6 <- subset (Bdata,!is.na(pos))
      attr(Bdata6,"format.date") <- attr(Bdata,"format.date")
-     attr(Bdata6,"trans") <- attr(Bdata,"trans")
+     attr(Bdata6,"format.born") <- attr(Bdata,"format.born")
+     attr(Bdata6,"param") <- attr(Bdata,"param")
      Bdata <- Bdata6
     }
   print (paste(nrow(Bdata)," observations with entrystate ",entrystate,sep=""),quote=FALSE)
@@ -30,7 +31,8 @@ function (Bdata,entrystate,exitstate)
      pos <- unname(pos)
      Bdata3 <- subset (Bdata,!is.na(pos))
      attr(Bdata3,"format.date") <- attr(Bdata,"format.date")
-     attr(Bdata3,"trans") <- attr(Bdata,"trans")
+     attr(Bdata3,"format.born") <- attr(Bdata,"format.born")
+     attr(Bdata3,"param") <- attr(Bdata,"param")
      Bdata <- Bdata3
    }  
   print (paste(nrow(Bdata)," observations with entrystate ",entrystate," and  exitstate ",exitstate,sep=""),quote=FALSE)
@@ -113,6 +115,7 @@ function (Bdata,entrystate,exitstate)
    }
    Bdata2 <- Bdata2[Bdata2$path!=" ",]
    attr(Bdata2,"format.date") <- attr(Bdata,"format.date")
+   attr(Bdata2,"format.born") <- attr(Bdata,"format.born")
    param <- Parameters(Bdata2)
    attr(Bdata2, "param") <- param
    print("A Biograph object with new observation window is returned.",quote = FALSE)

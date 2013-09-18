@@ -23,7 +23,7 @@ Lexis.lines(Bdata,Dlong, subjectsID, title)
 #  Example 1: Employment careers
   data(GLHS) 
   z<- Parameters (GLHS)
-  GLHS.yr <- date_b(Bdata=GLHS,format.in=attr(GLHS,"format.date"),selectday=1,format.out="year")
+  GLHS.yr <- date_b(Bdata=GLHS,selectday=1,format.out="year")
   D <- Biograph.long (GLHS.yr)
   tit5 <- "Employment careers for a selection of subjects. GLHS"
   subjects <- c(1,78,120,208)
@@ -35,7 +35,7 @@ Lexis.lines(Bdata,Dlong, subjectsID, title)
 #  Example 3: Living arrangements 
   data(NLOG98)
   z<- Parameters (NLOG98)
-  NLOG98.yr <- date_b(Bdata=NLOG98,format.in=attr(NLOG98,"format.date"),selectday=1,format.out="year")
+  NLOG98.yr <- date_b(Bdata=NLOG98,selectday=1,format.out="year")
   D <- Biograph.long (NLOG98.yr)
   tit5 <- "Living arrangements for a selection of subjects, NLOG98"
 subjectsID <- c(8,96,980,1056,1496,2883)

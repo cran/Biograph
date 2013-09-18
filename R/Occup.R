@@ -37,8 +37,8 @@ nsample <- nrow(Bdata)
 if (is.null(attr(Bdata,"format.date"))) stop ('in Occup: attr(Bdata,"format.date") missing.')
 format.in <- attr(Bdata,"format.date")
 nage <- iagehigh - iagelow + 1 
-if (nage > 150) warning("Occup: Please check ages. The number of age groups exceeds 150. Running Parameters to be certain.")
-if (nage > 150) warning("Occup: Please check ages. The number of age groups exceeds 150. ") else print (paste ("The number of age groups is ",iagehigh - iagelow + 1 ,sep=""),quote=FALSE)
+if (nage > 150) warning("Occup: Please check ages. The number of age groups may be numeric(0) or exceed 150. Check Attributes of data object (include Param) and run Parameters to be certain.")
+if (nage > 150) warning("Occup: Please check ages. ") else print (paste ("The number of age groups is ",iagehigh - iagelow + 1 ,sep=""),quote=FALSE)
 param <- Parameters(Bdata)
 print (". . . .  Running Occup . . . . ")
 #agetrans <- AgeTrans(Bdata) # at exit: timeunit is year!!

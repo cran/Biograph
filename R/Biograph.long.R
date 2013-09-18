@@ -18,6 +18,7 @@ function (Bdata)
   Bdata2$start2 <- Bdata2$start
   locpat <- locpath(Bdata2)
   print (". . . . .  running reshape  . . . . . ",quote=FALSE)
+  # require (reshape)
   zx <- reshape (Bdata2,idvar="ID",varying=list(c(3,(locpat+1):(ncol(Bdata2)),4)),
      v.names="date",direction="long",drop=NULL)
   print (" . . . . Sort data in long format  . . . . ",quote=FALSE)
@@ -76,7 +77,7 @@ function (Bdata)
   De$time <- De$time-1
   Depisode = data.frame (ID=De$ID,OR=De$OR,DES=De$DES,Tstart=De$Tstart,
                 Tstop=De$Tstop,status=De$status,trans=De$trans,
-                birhtdate=De$birthdate,birthyear=D$birthyear,De[,(3:(2+ncovariates))],
+                birthdate=De$birthdate,birthyear=D$birthyear,De[,(3:(2+ncovariates))],
                 born=De$born,OD=De$OD,Episode=De$time,Tstarta=D$Tstarta,Tstopa=D$Tstopa)
                          
   attr(D, "param") <- attr(Bdata,"param")  

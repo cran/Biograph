@@ -2,8 +2,8 @@ plot.MSLT.S <-
 function (x,e0,order,colours,title,area,xmin,xmax,...)
  {# ======== Plot state occupancies  =============    
     if (!inherits(x, "MSLT.S"))
-        stop("'x' must be a 'MSLT' object")
-    S <- x
+        stop("'x' must be a 'MSLT.S' object")
+    if (length (dim(x))==2) S <- array(x,dim=c(nrow(x),ncol(x),1),dimnames=list(Age=dimnames(x)[[1]],State=dimnames(x)[[2]],Origin="1")) else S <- x
  	if (missing(e0)) stop("Life expectancy (e0) is missing.")
  	if (missing (title)) title <- "Title"
  	if (missing (area)) area <- TRUE
@@ -19,7 +19,6 @@ function (x,e0,order,colours,title,area,xmin,xmax,...)
  	
        
   # Graph the state probabilities
-   require (ggplot2)
    numstates.case = numstates # to plot occup: numstates+1 (censoring)
    namrates <- "Age-cohort rates"
    namst <- c(namstates,"Total")
@@ -28,9 +27,11 @@ function (x,e0,order,colours,title,area,xmin,xmax,...)
      }
    namst[numstates+1] <- paste ("Total"," (e0=",round(sum(e0[,1]),2),")",sep="")
    title_sub <- paste("Life table (",namrates,")",sep="")
- require (reshape)
- z <- melt(S[,,1])  # function of reshape package
+ #require (reshape)
+ SSS <- S[,,1]
+ z <- reshape::melt.array(SSS)  # function of reshape package
  age <- as.numeric(rownames(S[,,1]))
+ count <- NULL
  zz <- data.frame(age=rep(age,numstates.case),state=z[,2],count=z[,3],cov=z[,1])
 
  

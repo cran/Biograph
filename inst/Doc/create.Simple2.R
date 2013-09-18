@@ -51,6 +51,7 @@ maxns <- max (nchar(path))
 
 RS <- data.frame (ID=id,born=birth,start=as.Date(entry,"%d/%m/%Y"),end=as.Date(interview,"%d/%m/%Y"),cov=cov,path=as.character(path),dates[,1:(maxns-1)],stringsAsFactors=FALSE)
 attr(RS,"format.date") <- "%Y-%m-%d"
+attr(RS,"format.born") <- "%Y-%m-%d"
 attr(RS,"param") <- Parameters (RS)
 class (RS) <- c("Biograph","data.frame")
 zz8 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/simple 2/"

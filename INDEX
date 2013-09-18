@@ -1,0 +1,63 @@
+Biograph object  				See How to create a Biograph object? and "Biograph. Multistate analysis of life histories with R" by Frans Willekens (2013)
+age_as_Date                                     Converts age to object of class 'Date' (utility)
+age_as_year                                      Converts age to decimal year (utility)
+Agetrans						Computes ages at transition from transition dates
+Biograph.Lexis				Converts Biograph object to Lexis object
+Biograph.long					Converts Biograph object to long format
+Biograph.msm					Converts Biograph object to msm format
+Biograph.mstate				Converts Biograph object to mstate format
+Biograph.mvna				Converts Biograph object to mvna format
+ChangeObservationWindow.e		Changes observation window to period between two transitions
+ChangeObservationWindow.t		Changes observation window to period between two points in time
+check.par						Checks major characteristics of Biograph object (utility)
+cmc_as_age                                       Converts dates in Century Month Code (CMC) to age (utility)
+cmc_as_Date					Converts dates in Century Month Code (CMC) to object of class 'Date' (utility)
+cmc_as_year					Converts dates in Century Month Code (CMC) to dates in decimal year (calendar year and fraction of year) (utility)
+Cumrates						Computes cumulative hazard rates (Nelson-Aalen estimator and occurrence-exposure rates)				
+Date_as_age                                      Converts dates (class 'Date') to age (utility)
+Date_as_cmc                                     Converts dates (class 'Date') to CMC (utility)
+Date_as_year					Converts dates (class 'Date') to decimal years (calendar years and fraction of year) (utility)
+date_b						Converts dates in Biograph object to dates in a desired format (utility)
+date_convert					A generic function that converts dates in one format to another format (utility)
+GLHS						The German Life History Survey (GLHS) data
+GLHS.IllnessDeath				Illness-death model of job transitions
+GLHS.trans					Obtains transition matrix of illness-death model
+Lexis.lines					Draws Lexis diagram with lifelines for selected subjects (using ggplot2 package)
+Lexis.points					Plots observations in Lexis diagram (scatter plot) (using ggplot2 package)
+Lexislines.episodes				Draws Lexis diagram with lifelines for selected subjects (using EPI package)
+LexisOccExp					Displays event counts, exposure times and transition rates in Lexis diagram (using EPI package)
+Lexispoints					Plots observations in Lexis diagram (scatter plot) (using EPI package)
+locpath						Determines location of state sequence in Biograph object (utility)
+MSLT.e                                           Computes multistage life table: exposure function (MSLT.e)
+MSLT.S						Computes multistage life table: multistage survival function (MSLT.S) 
+NLOG98						The Netherlands Family and Fertility Survey 1989 (NLOG98) data
+Occup						Determines state occupancies and sojourn times by age for each subject under observation and groups of subjects
+OverviewEpisodes				Displays summary information on episodes
+OverviewTransitions			Displays summary information on transitions
+Parameters					Derives several indicators from the data, e.g. sample size, state space, absorbing states, transition matrix. 
+plot.cumrates					Plots cumulative hazard rates
+plot.MSLT.S					Plots the multistage survival function
+plot.occup.S					Plots state occupancies by age for the sample population (subjects under observation)
+pos.char						Determines the position of a character in a string variable (utility)
+pos.charstr					Determines the position of a character string in a string variable (utility)
+Rates.ac						Computes occurrence-exposure rates (age-cohort rates)
+RateTable						Produces a table with necessary information to compute occurrence-exposure rates
+Remove.intrastate				Removes intrastate transitions from Biograph object (utility)
+rrdat                                                German Life History Survey subsample (raw data)
+SamplePath					Obtains the life path for a selection of subjects under observation
+Sequences.ind.0				Determines for each subject under observation event dates sorted in ascending order and generates state sequence (This function is used to produce a Biograph object)
+Sequences.ind					Determines for each subject under observation the state trajectory from onset to end of observation
+Sequences					Determines the state sequences in the data
+state_age						Determines for given individuals state occupied at given ages
+state_time						Determines for given individuals state occupation times by single years of age (in years)
+StateSpace					Gets the state space from the data. This function allows the user to change the sequence of states in the state space
+string.blank.omit				Removes blanks in character string, including leading and trailing white spaces (utility)
+stringf						Converts a character string to a character vector (utility)
+Trans						Computes the number of transitions by origin and destination (total and by age)
+TransitionAB					Computes for a selected transition (by origin and destination) the number of occurrences by age. This function is basis for age profile of transition
+transitions					Generates several useful measures of transitions by origin and destination (utility)
+year_as_age					Determines ages from event years and birth years (utility)
+year_as_cmc					Converts decimal years to Century Month Code (CMC)  (utility)
+year_as_Date					Converts decimal years to dates in Gregorian calendar  (utility)
+YearTrans					Computes decimal years of transition from transition dates
+

@@ -105,6 +105,7 @@ og <- unique (c(og,c(12,15,19,5442)))
 og2 <- NLOG98[NLOG98$ID%in%og,]
 NLOG98 <- og2
 attr(NLOG98,"format.date") <- "CMC"
+attr(NLOG98,"format.born") <- "CMC"
 attr(NLOG98,"param") <- Parameters (NLOG98)
 save (NLOG98,file=paste (zz9,"NLOG98.RData",sep=""))
 

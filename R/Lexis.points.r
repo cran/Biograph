@@ -1,14 +1,12 @@
 Lexis.points <-
 function (Bdata,transition,title,cov,group,legend.pos,pdf)
-{  	require (ggplot2)
-	require (plyr)
-  z<- check.par (Bdata) 
+{  	z<- check.par (Bdata) 
   if (missing(cov)) cov=NULL
   if (missing(title)) title <- "Title missing" 
   if (missing(legend.pos)) legend <- "topleft"
   if (missing(group)) group=NULL
  # year <- data.frame(YearTrans(Bdata))
-  Bdata2 <- date_b(Bdata=Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year",covs=NULL)  
+  Bdata2 <- date_b(Bdata=Bdata,selectday=1,format.out="year",covs=NULL)  
   z <- TransitionAB(Bdata=Bdata2,transition=transition,keep=FALSE)
   Bdata2 <- Bdata2[Bdata2$ID%in%z$id,] # select subjects that experienced the transition
   

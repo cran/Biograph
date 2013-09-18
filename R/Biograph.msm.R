@@ -2,6 +2,7 @@ Biograph.msm <-
 function(Bdata) 
 {# remove records where start > end
   if (is.null(attr(Bdata,"param"))) print ("Biograph.msm: Parameters missing. Run Parameters . . . . ",quote=FALSE)
+# require (reshape)
 z <- check.par(Bdata)
 namstates <-  attr(Bdata,"param")$namstates
 ncovariates  <- locpath(Bdata) - 7

@@ -20,5 +20,6 @@
 \examples{
     data(GLHS)
     b <- date_convert(d='01/01/2011',format.in='\%m/\%d/\%Y',selectday=1,format.out='day-month-year')  
-    bb<- date_convert(d=GLHS$marriage,format.in='CMC',selectday=1,format.out='day-mon-year',born=GLHS$born)
+    dd <- GLHS$marriage
+    bb<- date_convert(d=dd,format.in='CMC',selectday=1,format.out='day-mon-year',born=GLHS$born)
     }

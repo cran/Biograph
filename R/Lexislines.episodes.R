@@ -3,7 +3,7 @@ function (Bdata,Dlong,subjectsID,title)
 { # From lifelines.r
   # subjectsID <- Bdata$ID
   #  subjectsID <- c(1,19,20,208)
-  require (Epi)
+ # require (Epi)
   # Convert dates in years
   if (missing(subjectsID)) subjectsID <- sample(Bdata$ID,5,replace=FALSE)
   if (missing(title)) title <- "Title missing"

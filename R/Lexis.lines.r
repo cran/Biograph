@@ -2,22 +2,26 @@ Lexis.lines <-
 function (Bdata,Dlong,subjectsID,title)
   # NOTE: Dlong = Dlong$Depisode
   # Bdata =GLHS.yr
- {  require (ggplot2)
- 	  # Convert dates in years
+ {   # Convert dates in years
   if (missing(subjectsID)) subjectsID <- sample(Bdata$ID,5,replace=FALSE)
   if (missing(title)) title <- "Title missing"
   namstates <- attr(Bdata,"param")$namstates
   z<- check.par (Bdata)
+  format.in <- attr(Bdata,"param")$format.date
+  format.born <- attr(Bdata,"param")$format.born
   # attr(Bdata,"format.date") should be 'year'
-  if (attr(Bdata,"format.date")!="year")  Bdata <- date_b(Bdata,format.in=attr(Bdata,"format.date"),selectday=1,format.out="year")
-  format.in = attr(Bdata,"format.date")
-   if (missing(Dlong) | attr(Dlong,"format.date")!="year") 
+  # if date or birth is CMC, than change it in years
+  # Convert the dates into years (also date of birth)
+  if (format.in!="year")  Bdata <- date_b (Bdata,selectday=1,format.out="year")
+   format.in <- attr(Bdata,"param")$format.date
+  format.born <- attr(Bdata,"param")$format.born
+   if (missing(Dlong)| attr(Dlong,"format.date")!="year") 
        # get long format of Bdata (to get Dlong with same date format as Bdata)
        { print ("Lexis.lines: Getting data in long file format. Patience please.",quote=FALSE)
        	 D <- Biograph.long(Bdata)
        	 Dlong2 <- D$Depisode
        	 attr(Dlong2,"format.date") <- attr(Bdata,"format.date")
-       	 attr(Dlong2,"trans") <- attr(Bdata,"trans")
+       	 attr(Dlong2,"param") <- attr(Bdata,"param")
        	 print ("Data in long format produced. Lexis continues.") } else Dlong2 <- Dlong # on input, Dlong is Dlong#Depisode
    if (attr(Bdata,"format.date")!=attr(Dlong2,"format.date")) stop (paste("Date format in Dlong is not year. It is: ",attr(Dlong2,"format.date"),sep="") )  	 
   if (!is.data.frame(Dlong2)) {stop ("Dlong$Depisode is not a data frame. Please check") }
@@ -28,7 +32,7 @@ function (Bdata,Dlong,subjectsID,title)
    Dlong2$TstartY <- y
    y <- date_convert (Dlong2$Tstop,format.in=format.in,format.out="year")
    Dlong2$TstopY <- y
-   y <-date_convert (Dlong2$born,format.in=format.in,format.out="year") 
+   y <-date_convert (Dlong2$born,format.in=format.born,format.out="year",format.born=format.born) 
    bt <- y
    Dlong2$Tstartage <- Dlong2$TstartY - Dlong2$born
    Dlong2$Tstopage <- Dlong2$TstopY - Dlong2$born

@@ -16,8 +16,8 @@ function (Bdata)
   tmat <- param$tmat
   } else {Bdata2 <- Bdata} 
   covnames <- colnames(Bdata)[5:(locpath(Bdata)-3)]
-  attr(Bdata2,"param") <- param
-  attr (Bdata2,"trans") <- tmat
+  attr(Bdata2,"param") <- attr(Bdata,"param")
+ # attr (Bdata2,"trans") <- tmat
   # 2. Produce long format  ===================
   z<- Biograph.long (Bdata2)
   Dlong  <- z$Depisode                                                        

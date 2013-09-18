@@ -62,6 +62,7 @@ namcov <- c("year","agecl","proph","match")
 colnames(EBMT) <- c("ID","born","start","end",namcov,"path",namtrans)
 locpat <- locpath(EBMT)
 attr(EBMT,"format.date") <- "day"
+attr(EBMT,"format.born") <- "day"
 param <- Parameters(EBMT)
 attr(EBMT,"param") <- param
  zz8 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/EBMT/"

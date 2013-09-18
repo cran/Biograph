@@ -25,7 +25,11 @@ ordering of the state occupancies or state probabilities to be stacked.}
 \author{Frans Willekens}
 \examples{
     data(GLHS)
-    Bdata.a <- date_b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))
+    Bdata.a <- date_b (GLHS,format.out="age",covs=c("marriage","LMentry"))
     occup <- Occup(Bdata.a)
-    z<- plot (x=occup$state_occup,namstates.desired=c("N","J","Censored"),colours=c("red","green","lightgrey"),title="States occupancies. GLHS",area=TRUE,xmin=10,xmax=55) 
+    dd <- occup$state_occup
+    t <- "States occupancies. GLHS"
+    cc <- c("red","green","lightgrey")
+    xx <- c("N","J","Censored")
+    z<- plot (x=dd,namstates.desired=xx,colours=cc,title=t,area=TRUE,xmin=10,xmax=55) 
      }

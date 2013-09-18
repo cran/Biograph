@@ -13,7 +13,8 @@ ChangeObservationWindow.e(Bdata, entrystate, exitstate)
 \value{Biograph object with information on new observation window and transitions during the new observation window.}
 \author{Frans Willekens}
 \examples{
- #  The following example defines observation window as period between labour force entry and survey date. 
+ #  The following example defines observation window 
+ # as period between labour force entry and survey date. 
  data(GLHS)
  entrystate <- "J"
  exitstate <- NA

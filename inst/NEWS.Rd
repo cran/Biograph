@@ -1,17 +1,25 @@
 \name{NEWS}
 \title{NEWS file for the Biograph package}
+\section{Changes in version 2.0.4 compared to version 2.0.3}{
+	\itemize{
+	 \item NAMESPACE importFrom() is used to import functions from designated packaged
+	 \item The Biograph object has an additional attribute: format.born (format of date of birth). The format may differ from the format of dates of other transitions. 
+	 \item function Parameters: variable newnamstates added to control the sequence of states in the state space
+	 \item function Parameters: the attribute 'format.born' added to the Biograph object. The attribute is added 
+	 \item function date_b: the argument format.in removed. The value is taken from the attribute param of the Biograph object instead. Format.born replaces format.date in case of birth. 
+	 \item function Remove.intrastate: the function produced attr(par), a redundant attribute of the Biograph object. 
+	 \item function age_as_year: a condition added: if (format.born=="CMC"|format.born=="cmc") b<- cmc_as_Date (born,selectday=1,format.out="%Y-%m-%d")
+	 \item function Lexis.lines: attr (Dlong1,”trans”) replaced by attr(Dlong2,"param") <- attr(Bdata,"param")
+	 \item function Lexis.lines: format.born replaces format.date in y <-date_convert (Dlong2$born,format.in=format.born,format.out="year") 
+	 }
+}
 \section{Changes in version 2.0.3 compared to version 2.0.2}{
 	\itemize{
-	 \item function Parameters: Bug in iagelow and iagehigh corrected (due to variable 'born')
-	 
+	 \item function Parameters: Bug in iagelow and iagehigh corrected (due to variable 'born')	 
 	 \item function Parameters: ncovariates: number of covariates is locpat-5 instead of locpat-7. And : covariates <- colnames(Bdata)[5:(locpat-1)] (1 was 3)
-
      \item function Samplepath: variables Start and end removed (redundant)
-
-     \item function Remove.intrastate: Bdata2 is dd (and 'removed') instead of dd$D (and 'removed$D'). Further: removed$par is removed and replaced by attr(removed,"param"). This has effect on calling of na function of mvna package (see Biograph manual)
-     
-     \item function plot.MSLT.S : argument S$S instead of S
-     	 
+     \item function Remove.intrastate: Bdata2 is dd (and 'removed') instead of dd$D (and 'removed$D'). Further: removed$par is removed and replaced by attr(removed,"param"). This has effect on calling of na function of mvna package (see Biograph manual)     
+     \item function plot.MSLT.S : argument S$S instead of S     	 
      \item function Biograph.long: zloc = 9 instead of 10
 	}
 }

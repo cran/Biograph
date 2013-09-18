@@ -27,6 +27,6 @@ Cumrates(irate, Bdata)
 \note{The function takes time to execute. It calls Parameters, date_convert, Remove.intrastate, statesequence.ind, Occup, Trans, RateTable, Rates.ac, Biograph.mvna and the mvna and predict functions of the mvna package.}
 \examples{
     data(GLHS)
-    Bdata.a <- date_b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))
+    Bdata.a <- date_b (GLHS,format.out="age",covs=c("marriage","LMentry"))
     cumrates <- Cumrates (irate = 3,Bdata=Bdata.a)
   }
