@@ -1,11 +1,13 @@
 plot.cumrates <-
-function (x,ptrans,...)
+function (x,ptrans,title,...)
 { # ptrans is a vector of character variables denoting the transitions selected, e.g. "NJ" 
    if (!inherits(x, "cumrates"))
         stop("'x' must be a 'cumrates' object")
   cumrates <- x
   if (missing(ptrans)) { print ("ptrans is missing"); return()}
-	
+  if (missing (title) ) title <- ""
+  if (is.null(title)) title <= "" 	
+
   removed <- cumrates$D
   irate <- cumrates$irate
   cumh <- cumrates$predicted
@@ -24,7 +26,6 @@ if (length(ptrans)>0)   # no plot if ptrans = NULL
   ymax <- 0  
   nlegend <- length(ptrans)
   for (i in 1:attr(removed,"param")$ntrans)  ymax <- max(c(ymax,cumh[[i]]$na))
-   title <- "Cumulative transition rates by age"
    namtransitions <- attr (removed,"param")$transitions$ODN
 	if (irate %in% c(1,3))
   {  iz <- plotrates[1]  # first element of vector of transitions to be plotted

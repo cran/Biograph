@@ -7,7 +7,7 @@ function (Bdata,transition,keep)
 	if ((substring(transition,2,2)%in%namstates | substring(transition,2,2)=="*") ==FALSE) stop ("TransitionAB: at least one state not in state space. Try running StateSpace before this function")
 	if (missing(keep)) keep<-FALSE # do not remove the subjects that do not experience the transition
     format.in = attr(Bdata,"format.date")
-    format.born <- attr(Bdata,"param")$format.born
+    format.born <- attr(Bdata,"format.born")
 	z<- check.par (Bdata)
 	locpat <- locpath(Bdata)
 	# Determine whether transition is from origin to destination state 
@@ -47,11 +47,13 @@ function (Bdata,transition,keep)
   dates <- as.numeric(dates)
 
   if (is.null(format.in)) stop("Biograph object: date format not specified. Check attributes of Biograph object. ")
-  if (format.in=="age") {ages=dates;byear=as.numeric(Bdata$born)} else {
-  y <- date_convert (dates,format.in=format.in,selectday=1,format.out="year",born=Bdata$born)
+  if (format.in=="age") {ages=dates
+  	                     byear=as.numeric(Bdata$born)
+  	                     years=rep(NA,nrow(Bdata))} else {
+  y <- date_convert (dates,format.in=format.in,selectday=1,format.out="year",born=Bdata$born,format.born=format.born)
   years <- y
-  y<- date_convert(as.numeric(Bdata$born),format.in=format.born,format.out="year")
-  byear <- trunc(y)
+  y<- date_convert(as.numeric(Bdata$born),format.in=format.born,format.out="year",format.born=format.born)
+  byear <- y
   ages <- years-byear  }
     
    cases <- c("From any origin to given destination","From given origin to given destination")

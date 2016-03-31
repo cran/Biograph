@@ -27,15 +27,15 @@ if (attr(Bdata,"format.date")=="CMC"|attr(Bdata,"format.date")=="cmc")
           iagehigh <- max (Bdata$end-Bdata$born)
           iagelow <- iagelow/12
           iagehigh <- iagehigh/12}  
-if (attr(Bdata,"format.date")=="year"|attr(Bdata,"format.date")=="YEAR") 
+if (attr(Bdata,"format.date")=="year"|attr(Bdata,"format.date")=="YEAR" |attr(Bdata,"format.date")=="Year" ) 
     	{  zx <- Bdata$start-Bdata$born
     	   iagelow <- as.numeric(min(zx,na.rm=TRUE))
     	   zy <- Bdata$end-Bdata$born 
            iagehigh <- as.numeric(max(zy,na.rm=TRUE))  }
 if (substr(attr(Bdata,"format.date"),1,1)=="%") 
-    	{  zx <- as.Date(Bdata$start)-as.Date(Bdata$born)
+    	{  zx <- as.Date(Bdata$start,format=attr(Bdata,"format.date"))-as.Date(Bdata$born,format=attr(Bdata,"format.born"))
     	   iagelow <- as.numeric(min(zx,na.rm=TRUE))/365.24
-    	   zy <- as.Date(Bdata$end)-as.Date(Bdata$born)
+    	   zy <- as.Date(Bdata$end,format=attr(Bdata,"format.date"))-as.Date(Bdata$born,format=attr(Bdata,"format.born"))
            iagehigh <- as.numeric(max(zy,na.rm=TRUE))/365.25  }
 if (attr(Bdata,"format.date")=="day"|attr(Bdata,"format.date")=="DAY")     
         {  iagelow <- 0
@@ -57,7 +57,7 @@ maxtrans <- max(nchar(Bdata$path)) - 1
 
 # ---------  Flow table of transitions  -----------
  print ("Exploring types of transitions")
- zt <- transitions (Bdata)  
+ zt <- transitions (Bdata,newnamstates=namstates)  
 
 #assign("format.in",format.in,envir=.GlobalEnv)
 #assign("iagelow",iagelow,envir=.GlobalEnv)

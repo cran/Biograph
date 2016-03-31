@@ -34,5 +34,5 @@
     mslt <- MSLT.e (S,radix)
     
 # Plot the multistate survival function (object of class 'MSLT.S' )
-    z<- plot (x=S$S,mslt$e0,title="Multistate survival function",area=TRUE,order=c("N","J"))
+    z<- plot (x=S$S,e0=mslt$e0,title="Multistate survival function",area=TRUE,order=c("N","J"))
 }

@@ -17,6 +17,7 @@ nage <- attr(Bdata,"param")$nage
 
 seq.ind <- Sequences.ind (Bdata$path,attr(Bdata,"param")$namstates) 
 format.in <- attr(Bdata,"format.date")
+format.born <- attr(Bdata,"format.born")
 #print (paste ("Trans ",attr(Bdata,"format.date"),seq=""))
 #print (format.in)
   z<- check.par(Bdata)
@@ -33,10 +34,10 @@ format.in <- attr(Bdata,"format.date")
 #  ntimeunit <- ifelse (attr(Bdata,"format.date")=="CMC",12,1)
   for (i in 1:nsample) {
 #    agecens <- trunc((Bdata$end[i]-Bdata$born[i])/ntimeunit)-iagelow + 1
-   if (format.in=="age")
+if (format.in=="age")
      {  agecens <- Bdata$end[i]-iagelow+1  } else
-     {  yb <- date_convert (Bdata$born[i],format.in=format.in,format.out="year")
-        y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year")
+        {  yb <- date_convert (Bdata$born[i],format.in=format.in,format.out="year",born=Bdata$born,format.born=format.born)
+        y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year",born=Bdata$born,format.born=format.born)
         agecens <- trunc(y-yb)-iagelow+1  }
  
      ns <- nchar (Bdata$path[i])

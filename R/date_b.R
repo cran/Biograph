@@ -9,9 +9,9 @@ function (Bdata,selectday,format.out,covs)
 #         {print ("Biograph message: Time unit is already year. Conversion skipped and no new object created.",quote=FALSE); return ()}}  
    if (missing(selectday)) selectday <- 1 
    if (missing(covs)) covs=NULL
-    format.in <- attr (Bdata,"param")$format.date
-   format.born <- attr (Bdata,"param")$format.born
- if (is.null(format.born)) stop ("Error in date_b: add format of birth date as attribute to the data")
+    format.in <- attr (Bdata,"format.date")
+   format.born <- attr (Bdata,"format.born")
+ if (is.null(format.born)) stop ("Error in date_b: add format of birth date as attribute to the data (Parameter file)")
    born <- Bdata$born
    Bdata$start <- date_convert(Bdata$start,format.in,selectday,format.out,born=born,format.born=format.born)
    Bdata$end   <- date_convert(Bdata$end,format.in,selectday,format.out,born=born,format.born=format.born)

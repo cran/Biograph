@@ -5,7 +5,7 @@ function (x,e0,order,colours,title,area,xmin,xmax,...)
         stop("'x' must be a 'MSLT.S' object")
     if (length (dim(x))==2) S <- array(x,dim=c(nrow(x),ncol(x),1),dimnames=list(Age=dimnames(x)[[1]],State=dimnames(x)[[2]],Origin="1")) else S <- x
  	if (missing(e0)) stop("Life expectancy (e0) is missing.")
- 	if (missing (title)) title <- "Title"
+ 	if (missing (title)) title <- ""
  	if (missing (area)) area <- TRUE
  	if (missing (order)) order <- NULL
  	if (missing(xmin)) xmin <- min(as.numeric(unlist(unname(dimnames(x)[1]))))
@@ -28,14 +28,14 @@ function (x,e0,order,colours,title,area,xmin,xmax,...)
    namst[numstates+1] <- paste ("Total"," (e0=",round(sum(e0[,1]),2),")",sep="")
    title_sub <- paste("Life table (",namrates,")",sep="")
  #require (reshape)
- SSS <- S[,,1]
+ SSS <- x[,,1]
  z <- reshape::melt.array(SSS)  # function of reshape package
- age <- as.numeric(rownames(S[,,1]))
+ age <- as.numeric(rownames(x[,,1]))
  count <- NULL
- zz <- data.frame(age=rep(age,numstates.case),state=z[,2],count=z[,3],cov=z[,1])
+ zz <- data.frame(age=rep(age,numstates.case),state=z[,2],state_probability=z[,3],cov=z[,1])
 
  
-# Changing the Default Order of Legend Labels and Stacking of Data
+# Changing the Default Order of Legend Labels and Stacking of data
 #levels(zz$state)
 #zz$state <- factor(zz$state, levels = rev(levels(zz$state)))
 if (!is.null(order)) zz$state <- factor(zz$state,levels=order,labels=namst[1:numstates][match(order,namstates)])
@@ -43,7 +43,8 @@ levels (zz$state)
 #zz$state <- factor(zz$state,levels=order)
 
 state <- NULL
-h5 <- ggplot (zz,aes(age,count,fill=state)) +xlim(xmin,xmax)
+state_probability <- NULL
+h5 <- ggplot (data=zz,aes(x=age,y=state_probability,fill=state)) +xlim(xmin,xmax)
 # ========  to get bar: replace geom_area by geom_bar (also below)  =======
 #colours3 <- c("red","blue","lightgrey") #  numstates.case (censoring)
 #colours6 <- c("red","blue","yellow","brown","green","lightgrey") #  numstates.case (censoring)
@@ -77,9 +78,9 @@ p7 <- p5 + scale_fill_manual(values=colours[1:length(namst8)],name="Life\nExpect
 #pdf("MSLT.NLOG98.pdf")
 print(p7)
 #dev.off()
-  return(list(S=S,
+  return(list(S=x,
               plot=p7))
-#  StackGraph(S[,1:numstates,1],xlabel="Age",ylabel="State probability",xlegend="topright",
+#  StackGraph(x[,1:numstates,1],xlabel="Age",ylabel="State probability",xlegend="topright",
 #  ylegend="topright",title,title_sub,namst)
 #  abline(h=0.5,lty=2,colour="darkgrey")
  

@@ -53,8 +53,8 @@ RS <- data.frame (ID=id,born=birth,start=as.Date(entry,"%d/%m/%Y"),end=as.Date(i
 attr(RS,"format.date") <- "%Y-%m-%d"
 attr(RS,"format.born") <- "%Y-%m-%d"
 attr(RS,"param") <- Parameters (RS)
-class (RS) <- c("Biograph","data.frame")
-zz8 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/simple 2/"
+#class (RS) <- c("Biograph","data.frame")
+zz8 <- "/Users/frans/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/simple 2/"
 setwd(zz8)
 save (RS,file=paste(zz8,"simple2.RData",sep=""))
 # ==============  Biograph object created  ====================

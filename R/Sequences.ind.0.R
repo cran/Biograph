@@ -10,7 +10,7 @@ function (d,namstates,absorb)
 
 	if (!is.null(absorb)) {if(FALSE %in% (absorb %in% namstates)) absorb <- NULL
                            nn <- which (colnames(d) %in% absorb)
-                           d[,nn] <-d[,nn] + 0.1
+                           d[,nn] <-d[,nn] + sign(d[,nn]) * 0.1
                            for (i in 1:nsample)
                              {  for (jk in 1:length (nn))
                              	{  if (!is.na(d[i,nn[jk]])) d[i,] <- ifelse (d[i,]>d[i,nn[jk]],NA,d[i,])  }

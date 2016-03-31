@@ -6,6 +6,7 @@ function (Bdata)
   numstates <- length(namstates)
    tmat <- attr(Bdata,"param")$tmat
    if (is.null(attr(Bdata,"param"))) print ("Biograph.mstate: Parameters missing. Run Parameters . . . . ",quote=FALSE)
+ covnames <- colnames(Bdata)[5:(locpath(Bdata)-3)]
  # 1. Remove intrastate transitions  ========
   z<- !is.na(diag(attr(Bdata,"param")$tmat))
   if (TRUE %in%z) # at least one diagonal element is not missing
@@ -14,9 +15,8 @@ function (Bdata)
   Bdata2 <- dd
   param <- Parameters(Bdata2)
   tmat <- param$tmat
-  } else {Bdata2 <- Bdata} 
-  covnames <- colnames(Bdata)[5:(locpath(Bdata)-3)]
-  attr(Bdata2,"param") <- attr(Bdata,"param")
+  } else {Bdata2 <- Bdata 
+          attr(Bdata2,"param") <- attr(Bdata,"param")  }
  # attr (Bdata2,"trans") <- tmat
   # 2. Produce long format  ===================
   z<- Biograph.long (Bdata2)

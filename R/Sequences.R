@@ -21,7 +21,7 @@ agetrans <- AgeTrans(Bdata)
 ages <- agetrans$ages
 ageentry <- agetrans$ageentry
 agecens <- agetrans$agecens
-ncase <- sort(table(Bdata$path),decreasing=TRUE)  # number of states in this path
+ncase <- c(sort(table(Bdata$path),decreasing=TRUE))  # number of states in this path
 case <- names(ncase)  # same as: case <- unique(Bdata$path)
 case_ind <- match(Bdata$path,case)
 ns_case <- nchar(case)

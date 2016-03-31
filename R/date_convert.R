@@ -4,10 +4,23 @@ function (d,format.in,selectday,format.out,born,format.born)
 # Converts date in any format to date of class Date (R-base)
 # format input data can be: CMC, year, day, age (in years), %d%b%Y 
 {  if (missing(format.in)) {stop ('No date format specified for input data. Add attr(inputfile,"format.date") to input data.') } 
-   if (missing(format.born)) format.born = format.in
+   if (missing(born)) born=rep(0,length(d))
+   if (missing(format.born)) 
+      { format.born <- "test"
+      	warning ("date_convert: format.born is missing. No problem if not needed.")
+      }
+   if (missing(selectday)) selectday <- 1
+
+   if (format.in==format.out)
+      { # print ("date_convert: format.out = format.in. ")
+       if (format.in=="age"|format.in=="Age")  
+        { if (length(which(d<0)) >0 | length(which(d > 150))) warning ("date_convert: Please check ages (input data). Some ages are < 0 or > 150") }
+       return(date=d)
+      }
+   #if (missing(format.born)) stop ("date_convert: format.born is missing")
    if (!is.character(format.in)) stop ("date_convert: input format is not character string.")
    if (format.in=="days"|format.in=="Day"|format.in=="Days") format.in="day"
-   if (format.in=="years"|format.in=="Year"| format.in=="Years") format.in=="year"
+   if (format.in=="years"|format.in=="Year"| format.in=="Years") format.in="year"
    if (format.in=="ages") format.in="age"
    if (format.in=="cmc") format.in="CMC"
    if (missing(format.out)) format.out <- "%d%b%Y"  # was "%d%b%y"
@@ -19,33 +32,31 @@ function (d,format.in,selectday,format.out,born,format.born)
     		             {# print ("date_convert: The vector you supplied has no values.") 
         		         date <- rep(NA,length(d))
         		         return (date)}
-   if (missing(born)) born=rep(0,length(d))
-   if (missing(format.born)) format.born <- format.in
-   if (missing(selectday)) selectday <- 1
    if (format.out=="day-mon-year") format.out <- "%d%b%Y" # read in date info in format 'ddmmmyyyy'
    if (format.out=="day-month-year") format.out <- "%d%B%Y" 
    if (format.born=="day-month-year") format.born <- "%d%B%Y" 
    format.standard <- "%Y-%m-%d"   # ISOdate
-   if (format.in==format.out)
-      { # print ("date_convert: format.out = format.in. ")
-       return(date=d)
-      }
    if (format.out=="age" & format.in!="age" & missing(born)) stop("date_convert: format.in is not age, format.out = age, but born is missing")
      
  
 # age to year
    if (format.in=="age" & format.out=="year")
-     {  g <- age_as_year (x=d,born=born,format.born=format.born)
+     {  if (length(which(d<0)) >0 | length(which(d > 150))) warning ("date_convert: Please check ages (input data). Some ages are < 0 or > 150")
+     	if (format.born=="test") stop ("date_convert: format.born is missing")
+     	g <- age_as_year (x=d,born=born,format.born=format.born)
      	return (year=g)
      }
 # age to Date
    if (format.in=="age" & format.out==format.out)
-     {  g <- age_as_Date (x=d,born=born,format.born=format.born,format.out=format.out)
+     {   if (length(which(d<0)) >0 | length(which(d > 150))) warning ("date_convert: Please check ages (input data). Some ages are < 0 or > 150")
+       if (format.born=="test") stop ("date_convert: format.born is missing")
+       g <- age_as_Date (x=d,born=born,format.born=format.born,format.out=format.out)
      	return (date=g)
      }
 # CMC to age
    if (format.in=="CMC" & format.out=="age")
-     { g <- cmc_as_age (x=d,born=born,format.born=format.in)
+     { if (format.born=="test") stop ("date_convert: format.born is missing")
+       g <- cmc_as_age (x=d,born=born,format.born=format.in)
        return(date=g$age)     	
      }
 # CMC (origin=1900) to years
@@ -60,7 +71,9 @@ function (d,format.in,selectday,format.out,born,format.born)
    }  
 # Date to age
    if ((format.in=="Date" | substr(format.in,1,1)=="%") & format.out=="age")
-     { g <- Date_as_age (x=d,format.in=format.in,born=born)
+     { # d should be character; doesn't need to be Date class
+       # if (class(d)!="Date") stop (paste ("date_convert: format.in ",format.in, " inconsistent with dates format of data") )
+       g <- Date_as_age (x=d,format.in=format.in,born=born)
        return(date=g)     	
      }
 # Date to cmc
@@ -76,7 +89,8 @@ function (d,format.in,selectday,format.out,born,format.born)
      }
 #  year to age
    if (format.in=="year"&format.out=="age") 
-     {  g <- year_as_age(x=d,born=born,format.born=format.born)
+     {  if (format.born=="test") stop ("date_convert: format.born is missing")
+     	g <- year_as_age(x=d,born=born,format.born=format.born)
      	return (date=g)
      }
 #  year to cmc

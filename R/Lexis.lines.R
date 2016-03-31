@@ -28,9 +28,10 @@ function (Bdata,Dlong,subjectsID,title)
   
   if (!is.null(attr(Bdata,"format.date"))) 
    {format.in <- attr(Bdata,"format.date")} else  {print ("Lexisines.episodes: format.date is missing (attribute of data)")}
-   y <- date_convert (Dlong2$Tstart,format.in=format.in,format.out="year")
+   format.born <- attr(Bdata,"format.born")
+   y <- date_convert (Dlong2$Tstart,format.in=format.in,format.out="year",format.born=format.born)
    Dlong2$TstartY <- y
-   y <- date_convert (Dlong2$Tstop,format.in=format.in,format.out="year")
+   y <- date_convert (Dlong2$Tstop,format.in=format.in,format.out="year",format.born=format.born)
    Dlong2$TstopY <- y
    y <-date_convert (Dlong2$born,format.in=format.born,format.out="year",format.born=format.born) 
    bt <- y
@@ -66,8 +67,8 @@ for (i in selectionID)    #  1:nsample)
    z2$Tstarta <- z2$Tstopa
 
   	dat4 <- rbind (z1,z2)
-  	dat4$locIDx <-  date_convert (Bdata$end[i],format.in=format.in,format.out="year") 
-  	dat4$locIDy <- date_convert (Bdata$end[i],format.in=format.in,format.out="age",born=Bdata$born[i]) 
+  	dat4$locIDx <-  date_convert (Bdata$end[i],format.in=format.in,format.out="year",format.born=format.born) 
+  	dat4$locIDy <- date_convert (Bdata$end[i],format.in=format.in,format.out="age",born=Bdata$born[i],format.born=format.born) 
   	#(Bdata$end[i]-Bdata$born[i])
   	if (jj == 1)
   	  { data <- dat4} else

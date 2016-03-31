@@ -13,11 +13,12 @@ function (Bdata,Dlong) # ,Dlong,subjectsID,title)
   if (!is.data.frame(Dlong2)) {stop ("Dlong$Depisode is not a data frame. Please check") }
   namstates <- attr(Bdata,"param")$namstates
    format.in <- attr(Bdata,"format.date")
-   y <- date_convert (Dlong2$Tstart,format.in=format.in,format.out="year")
+   format.born <- attr(Bdata,"format.born")
+   y <- date_convert (Dlong2$Tstart,format.in=format.in,format.out="year",format.born=format.born)
    Dlong2$TstartY <- y
-   y <- date_convert (Dlong2$Tstop,format.in=format.in,format.out="year")
+   y <- date_convert (Dlong2$Tstop,format.in=format.in,format.out="year",format.born=format.born)
    Dlong2$TstopY <- y
-   y <-date_convert (Dlong2$born,format.in=format.in,format.out="year") 
+   y <-date_convert (Dlong2$born,format.in=format.in,format.out="year",format.born=format.born) 
    bt <- y
    Dlong2$Tstartage <- Dlong2$TstartY - bt
    Dlong2$Tstopage <- Dlong2$TstopY - bt

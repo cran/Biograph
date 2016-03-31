@@ -1,10 +1,18 @@
 transitions <-
-function (Bdata)
+function (Bdata,newnamstates)
 # Called in Parameters and Remove.intrastate
+# namstates needed if the function is called from Parameters to 
+# create the param attribute of the Biograph object (attr(Bdata,"param))
+
 {
 # --------- Determine OR and DE and generate flow table ------------------------------------
-if (missing(Bdata)) stop("Data missing.")
-namstates <- StateSpace(Bdata)$namstates
+if (missing(Bdata)) stop("Function 'transitions': Data missing.")
+if (missing(newnamstates)) namstates <- StateSpace (Bdata)$namstates else
+       namstates <- newnamstates
+# namstates <- newnamstates
+#if (exists("namstates")==FALSE | is.null(namstates)) namstates <- newnamstates
+
+#stop ("Function 'transitions': namstates missing. First run StateSpace function. ")
 numstates <- length (namstates)
 nsample <- nrow(Bdata)
 ns <- nchar(Bdata$path)

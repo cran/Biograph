@@ -13,8 +13,8 @@ Two time scales are considered: individual time (age) and calendar time.  }
 \tabular{ll}{
 Package: \tab Biograph\cr
 Type: \tab Package\cr
-Version: \tab 2.0.3\cr
-Date: \tab 2013-05-01\cr
+Version: \tab 2.0.6\cr
+Date: \tab 2016-03-31\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -49,7 +49,7 @@ Lexislines.episodes : draws lifelines for selected subjects
  }
 \author{Frans Willekens <willekens@demogr.mpg.de>}
 \references{
-Willekens, F. (2013) Biograph. Multistate analysis of life histories with R. Springer (forthcoming)}
+Willekens, F. (2014) Biograph. Multistate analysis of life histories with R. Springer}
 \keyword{ package }
 \keyword{ datasets }
 \keyword{ survival }

@@ -18,10 +18,12 @@ z4 <- Sequences (OG[OG$cohort=="1960+" &OG$kerk=="no religion",])
 OG.c1 <- subset(OG,OG$cohort=="<1960")
 attr(OG.c1,"param") <- attr(OG,"param")
 attr(OG.c1,"format.date") <- attr(OG,"format.date")
+attr(OG.c1,"format.born") <- attr(OG,"format.date")
 z.c1 <- TransitionAB(OG.c1, "*M") 
 OG.c2 <- subset(OG,OG$cohort=="1960+")
 attr(OG.c2,"param") <- attr(OG,"param")
 attr(OG.c2,"format.date") <- attr(OG,"format.date")
+attr(OG.c2,"format.born") <- attr(OG,"format.date")
 z.c2 <- TransitionAB(OG.c2, "*M")
 
 # Individual life paths
@@ -31,7 +33,7 @@ samplepaths[[1]]
 subjectsID <- c(8,96,980,1056,1496,2883)
 title1 ="Living arrangements. OG98" 
 print ("Converting dates to decimal years for Lexis diagram.")
-OG.yr <- date_b(Bdata=OG,format.in=attr(OG,"format.date"),selectday=1,format.out="year")  
+OG.yr <- date_b(Bdata=OG,selectday=1,format.out="year")  
 Dlong2 <- Biograph.long (OG.yr)
 require (Epi)
 z<- Lexislines.episodes (Bdata=OG.yr,Dlong=Dlong2$Depisode,subjectsID=subjectsID,title=title1)
@@ -110,7 +112,7 @@ S <- MSLT.S(rates$M) #MULTISTATE SURVIVAL FUNCTION based on o/e rates
 radix <- c(100000,0,0,0,0)
 e <- MSLT.e(S,radix)
 z<- plot (x=S$S,e$e0,title="Multistate survival function. NLOG98",area=TRUE,order=attr(OG,"param")$namstates)
-}
+
 # ---------------------  S  --------------------
 S <- S$S[,,1] # at birth: all live at parental home
 # life expectancy: e$e0

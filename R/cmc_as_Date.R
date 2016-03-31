@@ -9,10 +9,15 @@ function (x,selectday,format.out)
  	if (missing(selectday)) selectday <- 1
  	if (missing(format.out)) format.out  <- "%Y-%m-%d"
  	cmc <- x
- 	cmc[cmc<=0] <- NA
- 	year <- 1900 + trunc((cmc-1)/12)
-    month <- cmc-(year-1900)*12
+ 	#cmc[cmc<=0] <- NA
+ 	# base <- 1900
+ 	base <- 1000
+ 	cmc <- 900*12+x
+ 	year <- base + trunc((cmc-1)/12)
+    month <- cmc-(year-base)*12
     day <- rep(selectday,length(cmc))
+    year
+    month
     z<- ifelse (is.na(cmc),NA,paste(year,"-",month,"-",day,sep=""))
     dd <- as.Date(z,format="%Y-%m-%d")  
     date <- format (dd,format.out)

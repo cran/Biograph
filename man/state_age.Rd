@@ -13,7 +13,7 @@
   \item{state}{State occupied at given age by each individual in the study.}
   \item{state.n}{State occupied at given age: all individuals (table).}
 }
-\author{Frans Willekens}
+\author{Frans Willekens and Sabine Zinn}
 \seealso{Occup}
 \examples{
   data(GLHS)

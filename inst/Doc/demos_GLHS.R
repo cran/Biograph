@@ -18,7 +18,7 @@ occup$state_occup
 # occup$sjt_age_1 
     # This is an array with 201 rows (ID), 54 columns (Age) and 4 layers (2 states, "censored" and "Total")
 # Express the event dates in age instead of CMC
-GLHS.a <- date_b (GLHS,format.in="CMC",format.out="age",covs=c("marriage","LMentry"))
+GLHS.a <- date_b (GLHS,format.out="age",covs=c("marriage","LMentry"))
 # Plot the state occupancies by age
 occup.a <- Occup(GLHS.a)
 z<- plot.occup.S (x=occup.a$state_occup,namstates.desired=c("N","J","Censored"),colours=c("red","green","lightgrey"),title="States occupancies. GLHS",area=TRUE,xmin=10,xmax=55) 
@@ -153,7 +153,7 @@ zE <- Lexispoints (GLHS,"NJ","Calendar time and age at labour market entry","edu
 
 # Linelines with on x-axis calendar year instead of CMC
    # First convert CMC to calendar years
-GLHS.yr <- date_b (GLHS,format.in="CMC",format.out="year",covs=c("marriage","LMentry"))
+GLHS.yr <- date_b (GLHS,format.out="year",covs=c("marriage","LMentry"))
 Dlong.yr <- Biograph.long (GLHS.yr)
 tit5 <- "Employment careers for a selection of subjects. GLHS"
 subjects <- c(1,78,120,208)
@@ -189,7 +189,8 @@ expand = 0.5, col = "green",ticktype = "detailed")
 
 # Plot state distribution by age using package TraMineR
 occup <- Occup(GLHS) 
-require (TraMineR) 
+install.packages("TraMineR")
+library (TraMineR)
 DTraMineR <- seqconc (occup$st_age_1,sep="-")
 namstates <- attr(GLHS,"param")$namstates
 namst <- c(namstates,"C")

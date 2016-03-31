@@ -1,5 +1,20 @@
 \name{NEWS}
 \title{NEWS file for the Biograph package}
+\section{Changes in version 2.0.6 compared to version 2.0.5}{
+	\itemize{
+	 \item {Version 2.0.5 was not released}
+	    }
+}
+\section{Changes in version 2.0.5 compared to version 2.0.4}{
+	\itemize{
+	 \item function Linelines.episodes Updated to accommodate different time measurements (cmc, calendar time, age, etc.)
+	 \item function TransitionAB  format.born <- attr(Bdata,"format.born") and arguments of function date_convert 
+     \item function date_b format.born <- attr (Bdata,"param")$format.born replaced by format.born <- attr (Bdata,"format.born")$format.born
+     \item function OverviewTransitions  format.born added
+     \item function transitions ormat.born <- attr (Bdata,"param")$format.born replaced by format.born <- attr (Bdata,"format.born")
+	 \item function Biograph.long  Updated: zx <- reshape and code Bdata2$start2 <- Bdata2$start removed
+		 }
+}
 \section{Changes in version 2.0.4 compared to version 2.0.3}{
 	\itemize{
 	 \item NAMESPACE importFrom() is used to import functions from designated packaged

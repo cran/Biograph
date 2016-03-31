@@ -15,11 +15,11 @@ function (Bdata)
  #     tmat <- ex_Bdata$tmat
  #    }
   print (". . . . .  Creating long format  . . . . . .",quote=FALSE)
-  Bdata2$start2 <- Bdata2$start
-  locpat <- locpath(Bdata2)
+   locpat <- locpath(Bdata2)
   print (". . . . .  running reshape  . . . . . ",quote=FALSE)
   # require (reshape)
-  zx <- reshape (Bdata2,idvar="ID",varying=list(c(3,(locpat+1):(ncol(Bdata2)),4)),
+  nn99 <- locpat + max(nchar(Bdata2$path))-1
+  zx <- reshape (Bdata2,idvar="ID",varying=list(c(3,(locpat+1):nn99,4)),
      v.names="date",direction="long",drop=NULL)
   print (" . . . . Sort data in long format  . . . . ",quote=FALSE)
   zx2 <- zx[!is.na(zx$date),]
@@ -66,7 +66,7 @@ function (Bdata)
   code88 <- ifelse(format.in=="CMC",12,1)
   D$birthdate <- D$born
   if (class(D$born)=="Date") D$birthyear <- Date_as_year (D$born) else 
-     {{ if (attr(Bdata,"format.date")=="CMC"|attr(Bdata,"format.date")=="cmc") D$birthyear <- date_convert (D$born,format.in="CMC",format.out="year") else
+     {{ if (attr(Bdata,"format.date")=="CMC"|attr(Bdata,"format.date")=="cmc") D$birthyear <- date_convert (D$born,format.in="CMC",format.out="year",format.born=attr(Bdata,"format.born")) else
      	  { if (attr(Bdata,"format.date")=="year"|attr(Bdata,"format.date")=="age"|attr(Bdata,"format.date")=="numeric")  D$birthyear <- D$born else D$birthyear <- D$born}
      }}	  
   if (attr(Bdata,"format.date") == "age") D$born <- rep(0,nrow(D)) 
@@ -84,7 +84,9 @@ function (Bdata)
   attr(Depisode, "param") <- attr(Bdata,"param") 
   attr(D, "format.date") <- attr(Bdata,"format.date")   
   attr(Depisode, "format.date") <- attr(Bdata,"format.date") 
-
+  attr(D, "format.born") <- attr(Bdata,"format.born")   
+  attr(Depisode, "format.born") <- attr(Bdata,"format.born") 
+  
   return (list (Devent = D,
                 Depisode = Depisode))
 }

@@ -32,8 +32,9 @@ colnames(bio)[8:9] <- namtrans[1:2]
 attr(bio,"format.date") <- "%Y-%m-%d"
 attr(bio,"format.born") <- "%Y-%m-%d"
 attr(bio,"param") <- Parameters (bio)
+
 # Path to folder where bio should be stored
-zzz <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/Simple 1"
+zzz <- "/Users/frans/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/Simple 1"
 setwd(zzz)
 save (bio,file="simple1a.RData")
 

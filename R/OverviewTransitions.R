@@ -16,6 +16,7 @@ function (Bdata,seq.ind,agetrans) {
   iagelow <- attr(Bdata,"param")$iagelow
   iagehigh <- attr(Bdata,"param")$iagehigh
   nage <- attr(Bdata,"param")$nage
+  format.born <- attr(Bdata,"format.born")
    if (missing(seq.ind)) 
        { print ("Calling function seq.ind",quote=FALSE)
        	seq.ind <- Sequences.ind (Bdata$path,namstates) }
@@ -36,8 +37,8 @@ function (Bdata,seq.ind,agetrans) {
   if (attr(Bdata,"format.date") != "days" & max(agecens) > 150) warning("OverviewTransitions: age at censoring exceeds 150. Please check.")
    
   for (i in 1:nsample) {
-  	yb <- date_convert (Bdata$born[i],format.in=format.in,format.out="year",born=Bdata$born[i])
-    y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year",,born=Bdata$born[i])
+  	yb <- date_convert (Bdata$born[i],format.in=format.born,format.out="year",born=Bdata$born[i],format.born=format.born)
+    y <- date_convert (d=Bdata$end[i],format.in=format.in,format.out="year",born=Bdata$born[i],format.born=format.born)
     agecens <- ifelse (ns[i]==1,trunc(y-yb)-iagelow+1,ifelse(y==ages[i,(ns[i]-1)],NA,trunc(y-yb)-iagelow+1))
     
     if (ns[i] > 1) 

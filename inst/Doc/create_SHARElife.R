@@ -2,12 +2,15 @@ rm(list=ls())
 library(foreign)
 # ---------------   Read data  ----------------
 # ------------  PLEASE CHANGE THE PATHS -----------------
-d.st <- data.frame(read.dta ("/Users/franswillekens/Documents/DATA/SHARE/Wave3Stata/sharew3_rel1_st.dta",convert.dates=TRUE,convert.underscore=TRUE))
-d.rp <- data.frame(read.dta ("/Users/franswillekens/Documents/DATA/SHARE/Wave3Stata/sharew3_rel1_rp.dta",convert.dates=TRUE,convert.underscore=TRUE))
-d.ac <- data.frame(read.dta ("/Users/franswillekens/Documents/DATA/SHARE/Wave3Stata/sharew3_rel1_ac.dta",convert.dates=TRUE,convert.underscore=TRUE))
-d.re <- data.frame(read.dta ("/Users/franswillekens/Documents/DATA/SHARE/Wave3Stata/sharew3_rel1_re.dta",convert.dates=TRUE,convert.underscore=TRUE)) # retro employment + educ
-d.rc <- data.frame(read.dta ("/Users/franswillekens/Documents/DATA/SHARE/Wave3Stata/sharew3_rel1_rc.dta",convert.dates=TRUE,convert.underscore=TRUE)) # retro children
+path <- "/Users/frans/Documents/R/DEA/IIASA/Surveys/SHARE-Survey of Health, Ageing and Retirement in Europe/Wave 3 Release 1.0.0/Wave3Stata/"
+d.st <- data.frame(read.dta (paste (path,"sharew3_rel1_st.dta",sep=""),convert.dates=TRUE,convert.underscore=TRUE))
+d.rp <- data.frame(read.dta (paste (path,"sharew3_rel1_rp.dta",sep=""),convert.dates=TRUE,convert.underscore=TRUE))
+d.ac <- data.frame(read.dta (paste (path,"sharew3_rel1_ac.dta",sep=""),convert.dates=TRUE,convert.underscore=TRUE))
+d.re <- data.frame(read.dta (paste (path,"sharew3_rel1_re.dta",sep=""),convert.dates=TRUE,convert.underscore=TRUE)) # retro employment + educ
+d.rc <- data.frame(read.dta (paste (path,"sharew3_rel1_rc.dta",sep=""),convert.dates=TRUE,convert.underscore=TRUE)) # retro children
 
+path2 <- "/Users/frans/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/SHARE/"
+# load (file=paste (path2,"SHARE.RData",sep=""))
 # ---------------   Dates of birth and interview  -----------
 nsample <- nrow(d.st)
 IDc <- d.st$mergeid
@@ -20,21 +23,7 @@ bb <- round(Yborn+(Mb-1)/12,3)  # CMC
 end <- 2008.5                   #date of interview
 
 # --------------   Dates of transitions   ------------------
-# Year of onset of n-th relationship
-p.1.mstart <- d.rp$sl.rp004c.1 # when relationship started
-p.2.mstart <- d.rp$sl.rp004c.2 # when relationship started
-p.3.mstart <- d.rp$sl.rp004c.3 # when relationship started
-p.4.mstart <- d.rp$sl.rp004c.4 # when relationship started
-p.5.mstart <- d.rp$sl.rp004c.5 # when relationship started
-p.6.mstart <- d.rp$sl.rp004c.6 # when relationship started
-p.1.mstart[p.1.mstart<0] <- NA
-p.2.mstart[p.2.mstart<0] <- NA
-p.3.mstart[p.3.mstart<0] <- NA
-p.4.mstart[p.4.mstart<0] <- NA
-p.5.mstart[p.5.mstart<0] <- NA
-p.6.mstart[p.6.mstart<0] <- NA
-
-# Year of n-th marriage
+# MARRIAGE: Year of n-th marriage
 nmarriages <- d.rp$sl.rp002e. # how often married
 d.rp$sl.rp002e.[d.rp$sl.rp002e.==1955] <- 1 # is NL-615022-02
 p.1.marriedY <- d.rp$sl.rp008.1 # year married
@@ -51,7 +40,7 @@ p.4.marriedY[p.4.marriedY<0] <- NA
 p.5.marriedY[p.5.marriedY<0] <- NA
 p.6.marriedY[p.6.marriedY<0] <- NA
 
-# year started living with partner who was later married (9997= never)
+# COHABITATION: year started living with partner who was later married (9997= never)
 #    = cohabitation related to a marriage
 d.rp$sl.rp004b.1[d.rp$mergeid=="FR-457171-01"] <- 1971 # was 9171 record 14020:  d.rp[!is.na(p.1.comY) & p.1.comY==9171,]
 p.1.comY <- d.rp$sl.rp004b.1  
@@ -66,23 +55,7 @@ p.3.comY[p.3.comY<0 | p.3.comY ==9997] <- NA
 p.4.comY[p.4.comY<0 | p.4.comY ==9997] <- NA 
 p.5.comY[p.5.comY<0 | p.5.comY ==9997] <- NA 
 p.6.comY[p.6.comY<0 | p.6.comY ==9997] <- NA 
-p.1.comnow <- d.rp$sl.rp009.1
-p.2.comnow <- d.rp$sl.rp009.2
-p.3.comnow <- d.rp$sl.rp009.3
-p.4.comnow <- d.rp$sl.rp009.4
-p.5.comnow <- d.rp$sl.rp009.5
-p.6.comnow <- d.rp$sl.rp009.6
-p.1.comnow[p.1.comnow=="refusal"|p.1.comnow=="don't know"] <- NA
-p.2.comnow[p.2.comnow=="refusal"|p.2.comnow=="don't know"] <- NA
-p.3.comnow[p.3.comnow=="refusal"|p.3.comnow=="don't know"] <- NA
-p.4.comnow[p.4.comnow=="refusal"|p.4.comnow=="don't know"] <- NA
-p.5.comnow[p.5.comnow=="refusal"|p.5.comnow=="don't know"] <- NA
-p.6.comnow[p.6.comnow=="refusal"|p.6.comnow=="don't know"] <- NA
-p.1.comnow.why <- d.rp$sl.rp010.1 # reason of end relationship
-p.2.comnow.why <- d.rp$sl.rp010.2
-p.3.comnow.why <- d.rp$sl.rp010.3
-p.4.comnow.why <- d.rp$sl.rp010.4
-# cohabitation ended
+# COHABITATION: cohabitation ended
 p.1.comendY <- d.rp$sl.rp012.1  # year in which cohabitation ended
 p.2.comendY <- d.rp$sl.rp012.2
 p.3.comendY <- d.rp$sl.rp012.3
@@ -91,7 +64,7 @@ p.1.comendY[p.1.comendY<0] <- NA
 p.2.comendY[p.2.comendY<0] <- NA
 p.3.comendY[p.3.comendY<0] <- NA
 p.4.comendY[p.4.comendY<0] <- NA
-# Divorce
+# MARRIAGE: Divorce
 p.1.divorced <- d.rp$sl.rp013.1 # divorced Yes No
 p.2.divorced <- d.rp$sl.rp013.2 # divorced Yes No
 p.3.divorced <- d.rp$sl.rp013.3 # divorced Yes No
@@ -105,7 +78,7 @@ p.2.divorcedY[p.2.divorcedY<0] <- NA
 p.3.divorcedY[p.3.divorcedY<0] <- NA
 p.4.divorcedY[p.4.divorcedY<0] <- NA
 
-# ------  cohabitation NOT related to a marriage -----
+# COHABITATION: cohabitation NOT related to a marriage 
 #   Q: In which year did you start cohabiting (first cohabitation)?
 # Note: other cohabitations: RP015a_
 # if index >10
@@ -128,24 +101,7 @@ p.15.cohabY[p.15.cohabY<0] <- NA
 p.16.cohabY[p.16.cohabY<0] <- NA
 p.17.cohabY[p.17.cohabY<0] <- NA
 p.18.cohabY[p.18.cohabY<0] <- NA
- # when relationship started?
-p.11.cohabsY <- d.rp$sl.rp004c.11
-p.12.cohabsY <- d.rp$sl.rp004c.12
-p.13.cohabsY <- d.rp$sl.rp004c.13
-p.14.cohabsY <- d.rp$sl.rp004c.14
-p.15.cohabsY <- d.rp$sl.rp004c.15
-p.16.cohabsY <- d.rp$sl.rp004c.16
-p.17.cohabsY <- d.rp$sl.rp004c.17
-p.18.cohabsY <- d.rp$sl.rp004c.18
-p.11.cohabsY[p.11.cohabsY<0] <- NA
-p.12.cohabsY[p.12.cohabsY<0] <- NA
-p.13.cohabsY[p.13.cohabsY<0] <- NA
-p.14.cohabsY[p.14.cohabsY<0] <- NA
-p.15.cohabsY[p.15.cohabsY<0] <- NA
-p.16.cohabsY[p.16.cohabsY<0] <- NA
-p.17.cohabsY[p.17.cohabsY<0] <- NA
-p.18.cohabsY[p.18.cohabsY<0] <- NA
- # year in which cohabitation ended
+# COHABITATION: year in which cohabitation ended
 p.11.comendY <- d.rp$sl.rp012.11 
 p.12.comendY <- d.rp$sl.rp012.12
 p.13.comendY <- d.rp$sl.rp012.13
@@ -162,27 +118,18 @@ p.15.comendY[p.15.comendY<0] <- NA
 p.16.comendY[p.16.comendY<0] <- NA
 p.17.comendY[p.17.comendY<0] <- NA
 p.18.comendY[p.18.comendY<0] <- NA
-# LAT relation: RP016
-LAT.1.start <- d.rp$sl.rp017.
-LAT.1.end <- d.rp$sl.rp020
 
-#Leaving parental home: start living independently
+#  LEAVEHOME: Leaving parental home: start living independently
 leavehome <- d.ac$sl.ac003. #9997 = nooit
 leavehome[leavehome<0] <- NA
 leavehome[leavehome==9997 | leavehome==2975] <- NA
 
 leavehome <- ifelse (!is.na(p.1.marriedY) & leavehome==p.1.marriedY,NA,leavehome)
-p.1.mstart <- ifelse (!is.na(p.1.marriedY) & p.1.mstart==p.1.marriedY,NA,p.1.mstart)
 p.1.comY <-   ifelse (!is.na(p.1.marriedY) & p.1.comY==  p.1.marriedY,NA,p.1.comY)
-p.2.mstart <- ifelse (!is.na(p.2.marriedY) & p.2.mstart==p.2.marriedY,NA,p.2.mstart)
 p.2.comY <-   ifelse (!is.na(p.2.marriedY) & p.2.comY==  p.2.marriedY,NA,p.2.comY)
-p.3.mstart <- ifelse (!is.na(p.3.marriedY) & p.3.mstart==p.3.marriedY,NA,p.3.mstart)
 p.3.comY <-   ifelse (!is.na(p.3.marriedY) & p.3.comY==  p.3.marriedY,NA,p.3.comY)
-p.4.mstart <- ifelse (!is.na(p.4.marriedY) & p.4.mstart==p.4.marriedY,NA,p.4.mstart)
 p.4.comY <-   ifelse (!is.na(p.4.marriedY) & p.4.comY==  p.4.marriedY,NA,p.4.comY)
-p.5.mstart <- ifelse (!is.na(p.5.marriedY) & p.5.mstart==p.5.marriedY,NA,p.5.mstart)
 p.5.comY <-   ifelse (!is.na(p.5.marriedY) & p.5.comY==  p.5.marriedY,NA,p.5.comY)
-p.6.mstart <- ifelse (!is.na(p.6.marriedY) & p.6.mstart==p.6.marriedY,NA,p.6.mstart)
 p.6.comY <-   ifelse (!is.na(p.6.marriedY) & p.6.comY==  p.6.marriedY,NA,p.6.comY)
 p.1.comendY <- ifelse (!is.na(p.1.divorcedY) & p.1.comendY==p.1.divorcedY,NA,p.1.comendY)
 p.2.comendY <- ifelse (!is.na(p.2.divorcedY) &p.2.comendY==p.2.divorcedY,NA,p.2.comendY)
@@ -190,31 +137,38 @@ p.3.comendY <- ifelse (!is.na(p.3.divorcedY) &p.3.comendY==p.3.divorcedY,NA,p.3.
 p.4.comendY <- ifelse (!is.na(p.4.divorcedY) &p.4.comendY==p.4.divorcedY,NA,p.4.comendY)
 
 # Create an array of transition dates
-kk <- cbind(leavehome,
-#p.1.mstart,p.2.mstart,p.3.mstart,p.4.mstart,p.5.mstart,p.6.mstart,
+kkk <- data.frame(leavehome,
 p.1.marriedY,p.2.marriedY,p.3.marriedY,p.4.marriedY,p.5.marriedY,p.6.marriedY,
 p.1.comY,p.2.comY,p.3.comY,p.4.comY,p.5.comY,p.6.comY,
 p.1.comendY,p.2.comendY,p.3.comendY,p.4.comendY,
 p.1.divorcedY,p.2.divorcedY,p.3.divorcedY,p.4.divorcedY,
 p.11.cohabY,p.12.cohabY,p.13.cohabY,p.14.cohabY,p.15.cohabY,p.16.cohabY,p.17.cohabY,p.18.cohabY,
-#p.11.cohabsY,p.12.cohabsY,p.13.cohabsY,p.14.cohabsY,p.#15.cohabsY,p.16.cohabsY,p.17.cohabsY,p.18.cohabsY,
-p.11.comendY,p.12.comendY,p.13.comendY,p.14.comendY,p.15.comendY,p.16.comendY,p.17.comendY,p.18.comendY)
+p.11.comendY,p.12.comendY,p.13.comendY,p.14.comendY,p.15.comendY,p.16.comendY,p.17.comendY,p.18.comendY,stringsAsFactors =FALSE)
 # variable names in SHARELIFE data files: colnames(kk)
-names.full <- colnames(kk) 
+names.full <- colnames(kkk) 
+kkk$leavehome <- ifelse (kkk$leavehome==kkk$p.1.marriedY|kkk$leavehome==kkk$p.1.comY|kkk$leavehome==kkk$p.11.cohabY,NA,kkk$leavehome)
+
 # Replace SHARELIFE variable names by state labels to be used in Biograph (single character)
-#  State labels in case of 6 states
-names6 <- c("A","M","M","M","M","M","M","C","C","C","C","C","C","A","A","A","A","A","A","A","A","c","c","c","c","c","c","c","c","a","a","a","a","a","a","a","a")
 #   State labels in case of 4 states
 names4 <- c("A","M","M","M","M","M","M","C","C","C","C","C","C","A","A","A","A","A","A","A","A","C","C","C","C","C","C","C","C","A","A","A","A","A","A","A","A")
-zk <- kk
+zk <- as.matrix(kkk,nrow=nrow(kkk),ncol=ncol(kkk))
 colnames(zk) <- names4
+rownames (zk) <- d.st$mergeid
 # zk contains the dates of transitions (unsorted)
+zkk <- zk[c(7,8,14,26,28),]
+t(zkk)  # Table for book
+subjects <- rownames(zk)[c(7,8,14,26,28)]
+
 # ------------  transitions in chronological order  ----------
 print ("Transitions are arranged in chronological order. This may take minutes.")
+require (Biograph)
 f<- Sequences.ind.0(zk,namstates=c("H","A","C","M"))
 # f$d contains the dates of transition (sorted) 
 # f$sequences and f$path contain the state sequences
 path <- as.character(f$path)
+rownames (f$d) <- rownames (zk)
+t(f$d[c(7,8,14,26,28),1:10])
+path[c(7,8,14,26,28)]
 
 # ------------  covariates  -------------------
 sex <- d.st$sl.st011.
@@ -245,9 +199,10 @@ attr(SHARE,"format.born") <- "year"
 require (Biograph)
 param <- Parameters(SHARE)
 attr(SHARE,"param") <- param
+print (t(SHARE[SHARE$IDc%in%subjects[-1],]),quote=FALSE)
 # 210 cases without date of birth. These are removed.
 table(trunc(SHARE$born),useNA="always")
-zzd <-  "/Users/franswillekens/Documents/R/0 0 MAC/Package/TEST.Biograph/SHARE/"
+zzd <-  "/Users/frans/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/SHARE/"
 setwd(zzd)
 save (SHARE,file="SHARE.RData")
 # ===========   BIOGRAPH OBJECT COMPLETE   ==============

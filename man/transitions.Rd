@@ -5,10 +5,11 @@
 \description{
 Generates table of transitions by origin and destination. }
 \usage{
-transitions(Bdata)
+transitions(Bdata,newnamstates)
 }
 \arguments{
   \item{Bdata}{Biograph object}
+  \item{newnamstates}{New names of the states}
 }
 \value{
   \item{nsample}{Sample size}

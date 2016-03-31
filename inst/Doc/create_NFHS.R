@@ -4,12 +4,12 @@ rm(list=ls())
 library (foreign)
 library (Biograph)
 # ------------------  Read data  -------------------
-zz1 <- "/Users/franswillekens/Documents/R/India/NFHS/NFHS-3/Women/"
-AP3 <- paste(zz1,"AP.sav",sep="")
-d06 <- data.frame(read.spss (AP3,use.value.labels=FALSE)) 
-zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/NFHS"
-setwd(zz9)
-save (d06,file="d06.RData")
+zz1 <- "/Users/frans/Documents/R/India/NFHS/NFHS-3/Women/"
+zz2 <- "/Users/frans/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/NFHS/"
+AP3 <- paste(zz2,"AP.sav",sep="")
+# zz2 <- "/Users/franswillekens/Documents/R/India/NFHS2_1/"
+# ka12 <- paste(zz2,"Ka2006.sav",sep="")
+d06 <- data.frame(read.spss (AP3,use.value.labels=F)) 
 # v011	date of birth (all dates in CMC)
 # v008	date of interview 
 # v509	date of first marriage
@@ -24,10 +24,10 @@ CEB <- d06$v201 # Number of children ever born
 #d.st <- read.dta (paste(zz4,"IAIR52FL.dta",sep=""),convert.dates=TRUE,convert.underscore=TRUE)
 # DATA FRAME
 
+
 # -----------------  Arrange births by birth order  --------
 # Birth sequence (first child first). In the raw data, the
-# youngest child (last birth) is listed first. Using data on birth order, the variable 
-# cmc_k06 is created, where the oldest is listed first.
+# youngest child (last birth) is listed first. Using data on birth order, the variable cmc_k06 is created, where the oldest is listed first.
 cmc_child <- array(NA,dim=c(nrow(d06),20))
 colnames (cmc_child) <- c(paste("ch",1:20,sep=""))
 cmc_child <- cbind(d06$b3.01,d06$b3.02,d06$b3.03,d06$b3.04,d06$b3.05,
@@ -73,6 +73,7 @@ cmc[,nn]<- cmc_ster    #  d06$v317 #cmc at sterilization
 dimnames(cmc) <- list(ID=ID,Transition=c("M",letters[1:max(CEB)],"S"))
 cmc <- data.frame(cmc)
 # ------------  transitions in chronological order  ----------
+require (Biograph)
 f<- Sequences.ind.0 (cmc,namstates)
 path <- as.character(f$path)
 # ------------  covariates  -------------------
@@ -91,12 +92,10 @@ namcov <- c("COH","EDU","WEAL","U_R","CEB")
 colnames(D.AP) <- c("ID","born","start","end",namcov,"path",namtrans)
 locpat <- locpath(D.AP)
 AP <- cbind(D.AP[,1:locpat],round(D.AP[,(locpat+1):ncol(D.AP)],2)) 
-attr(AP,"format.date") <- "year"
-attr(AP,"format.born") <- "year"
+attr(AP,"format.date") <- "CMC"
+attr(AP,"format.born") <- "CMC"
 param <- Parameters(AP)
 attr(AP,"param") <- param
-zz9 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/NFHS"
-setwd(zz9)
 save(AP,file="AP.RData")
 
 

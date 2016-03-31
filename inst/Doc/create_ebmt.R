@@ -65,7 +65,7 @@ attr(EBMT,"format.date") <- "day"
 attr(EBMT,"format.born") <- "day"
 param <- Parameters(EBMT)
 attr(EBMT,"param") <- param
- zz8 <- "/Users/franswillekens/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/EBMT/"
+ zz8 <- "/Users/frans/Documents/R/0 0 MAC/Package/Biograph.TEST/Chapters/AnnexA/EBMT/"
 setwd(zz8)
 save (EBMT,file="EBMT.RData")
 

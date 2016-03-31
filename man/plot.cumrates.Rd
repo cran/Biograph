@@ -4,11 +4,12 @@
 \description{Plots cumulative transition rates by origin, destination, and age estimated by \code{\link{Cumrates}. The required input data are provided by the Cumrates function. }
 }
 \usage{
-\method{plot}{cumrates}(x,ptrans,...)
+\method{plot}{cumrates}(x,ptrans,title,...)
 }
 \arguments{
   \item{x}{An object of class \code{cumrates}, produced by the \code{Cumrates} function. }
   \item{ptrans}{Selection of transitions to be plotted}
+  \item{title}{Title}
    \item{\dots}{Further arguments to plot}
 }
 \details{

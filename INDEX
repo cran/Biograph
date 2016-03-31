@@ -1,4 +1,4 @@
-Biograph object  				See How to create a Biograph object? and "Biograph. Multistate analysis of life histories with R" by Frans Willekens (2013)
+Biograph object  				See How to create a Biograph object? and "Multistate analysis of life histories with R" by Frans Willekens (2014)
 age_as_Date                                     Converts age to object of class 'Date' (utility)
 age_as_year                                      Converts age to decimal year (utility)
 Agetrans						Computes ages at transition from transition dates

@@ -29,6 +29,7 @@ function (Bdata)
  #  Dmvna$to <- unlist (to)
   if (is.null(attr(Bdata,"format.date"))) stop ('Function Parameters: date format (attribute format.in) missing from Biograph object (data). Please add, e.g.: <attr(GLHS,"format.date") <- "CMC">')
   format.in <- attr(Bdata,"format.date") 
+  format.born <- attr(Bdata,"format.born")
  # print ("Biograph.mvna ")
  # print (attr(Bdata,"format.date")) # is 'age' if called from Cumrates
  # print (c(format.in,Dmvna$Tstart[1:20])) # format.in ="age"
@@ -37,9 +38,9 @@ function (Bdata)
        Dmvna$exit <- Dmvna$Tstop
    	
    }  else
-   {  ystart <- date_convert (Dmvna$Tstart,format.in=format.in,format.out="year")
-      ystop <- date_convert (Dmvna$Tstop,format.in=format.in,format.out="year")
-      yborn <- date_convert (Dmvna$born,format.in=format.in,format.out="year")
+   {  ystart <- date_convert (Dmvna$Tstart,format.in=format.in,format.out="year",format.born=format.born)
+      ystop <- date_convert (Dmvna$Tstop,format.in=format.in,format.out="year",format.born=format.born)
+      yborn <- date_convert (Dmvna$born,format.in=format.in,format.out="year",format.born=format.born)
       Dmvna$entry <- ystart  -yborn  # = Dmvna$Tstarta
       Dmvna$exit <- ystop  -yborn    # = Dmvna$Tstopa
     }

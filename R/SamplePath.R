@@ -60,11 +60,12 @@ function (Bdata,subjectsID)
     cmc_dur[nss1] <- NA
       if (!is.null(attr(Bdata,"format.date"))) 
    {format.in <- attr(Bdata,"format.date")} else  stop('p.SamplePath: format.date not specified (see attr(Bdata,"format.date"))')
-    y <- date_convert (Bdata$born[i],format.in=format.in,format.out="year") 
+   format.born <- attr(Bdata,"format.born")
+    y <- date_convert (Bdata$born[i],format.in=format.in,format.out="year",format.born=format.born) 
     born2 <- y 
-    y <- date_convert (Bdata$start[i],format.in=format.in,format.out="year")
+    y <- date_convert (Bdata$start[i],format.in=format.in,format.out="year",format.born=format.born)
     age_start <- y-born2
-    y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year")
+    y <- date_convert (Bdata$end[i],format.in=format.in,format.out="year",format.born=format.born)
     age_cens <- y-born2
  #   ntimeunit <- ifelse (attr(Bdata,"format.date")=="month",12,ifelse (attr(Bdata,"format.date")=="year",1,1))
  #   age_start <- (Bdata$start[i]-Bdata$born[i])/ntimeunit

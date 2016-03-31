@@ -4,7 +4,7 @@ function (x,namstates.desired,colours,title,area,xmin,xmax,...)
     if (!inherits(x, "occup.S"))
         stop("'x' must be a 'occup.S' object")
 namstates <- unlist(unname(dimnames(x)[2]))
-namstates <- namstates[1:(length(namstates)-2)]
+namstates <- namstates[1:(length(namstates)-1)]
 numstates <- length (namstates)
 namage <- unlist(unname(dimnames(x)[1]))
 occup.S <- x
@@ -40,12 +40,12 @@ h5 <- ggplot (zz,aes(age,count,fill=state)) +xlim(xmin,xmax)
 colours.fill=colours
 colours.outline <- rep("green",length(namstates2))
 if (area==TRUE)
-p2 <- h5+geom_area(aes(fill=state,colour=state),binwidth=1,stat="identity")+scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill) else
-p2 <- h5+geom_bar(aes(fill=state,colour=state),binwidth=1,stat="identity")+scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill)
+p2 <- h5+geom_area(aes(fill=state,colour=state),stat="identity")+scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill) else
+p2 <- h5+geom_histogram(binwidth=1)+scale_colour_manual(values=colours.outline)+scale_fill_manual(values=colours.fill)
 
 p3<- p2+ ggtitle(title)
 ddx <- seq((xmin+10),(xmax+10),by=10)
-ymax <- max(occup.S[,(numstates+1)])
+ymax <- max(occup.S[,(numstates+1)])  
 ddy <- seq(0,ymax,by=trunc(ymax/10))
 p4 <- p3+theme(plot.title=element_text(size=11))+theme(plot.background=element_rect(fill="lightskyblue1",colour=NA),
   panel.background=element_rect("black"),

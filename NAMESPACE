@@ -7,8 +7,9 @@ import(ggplot2)
 import(mstate)
 importFrom ("Epi",Lexis,Lexis.diagram,splitLexis,timeBand,status,dur,plot.Lexis)
 importFrom ("lubridate",dmy,new_interval,as.period,as.duration,as.interval)
-importFrom ("reshape",melt)    
 importFrom ("plyr",round_any)  
+importFrom("grDevices", "dev.off", "palette", "rainbow") 
+importFrom("graphics", "abline", "axis", "box", "legend", "lines","par", "plot", "points", "text")importFrom("stats", "aggregate", "na.omit", "predict", "reshape")
 
 export(
 age_as_year,

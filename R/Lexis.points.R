@@ -49,7 +49,7 @@ ncolours <- ncategories.cov
 # namecov2 <- colnames(Bdata2[poscov[4]])
 lex2 <- ggplot(lex,aes(x=date,y=age,colour=covd)) + ggtitle(title) # colour p. 48
 lex3 <- lex2+geom_point(aes(colour=covd),size=1.2)+scale_colour_manual(values=colours)+coord_equal() 
-lex4 <- lex3+layer(geom="point")+
+lex4 <- lex3+layer(geom="point",stat = "identity", position = "identity", params = list(na.rm = FALSE))+
     theme(legend.direction = "vertical",legend.position = legend.pos,legend.background = element_rect(colour = 'purple', fill = 'pink'))+
     theme(plot.background=element_rect(fill="lightskyblue1",colour=NA),
   panel.background=element_rect("black"),
